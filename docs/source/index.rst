@@ -119,3 +119,31 @@ W. Hess, D. Kohler, H. Rapp, and D. Andor,
 IEEE, 2016. pp. 1271–1278.
 
 .. _Real-Time Loop Closure in 2D LIDAR SLAM: https://research.google.com/pubs/pub45466.html
+============================
+Cartographer ROS Integration
+============================
+
+`Cartographer`_ is a system that provides real-time simultaneous localization
+and mapping (`SLAM`_) in 2D and 3D across multiple platforms and sensor
+configurations. This project provides Cartographer's ROS integration.
+
+.. image:: demo_2d.gif
+
+.. toctree::
+   :maxdepth: 2
+
+   compilation
+   demos
+   your_bag
+   algo_walkthrough
+   tuning
+   assets_writer
+   going_further
+   getting_involved
+   configuration
+   ros_api
+   data
+   faq
+
+.. _Cartographer: https://github.com/cartographer-project/cartographer
+.. _SLAM: https://en.wikipedia.org/wiki/Simultaneous_localization_and_mapping

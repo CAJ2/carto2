@@ -46,6 +46,7 @@ from datetime import datetime
 extensions = [
     'sphinx.ext.todo',
     'sphinx.ext.mathjax',
+    'sphinx.ext.intersphinx',
 ]
 
 # Add any paths that contain templates here, relative to this directory.
@@ -68,7 +69,6 @@ copyright = u'{year} The Cartographer Authors'.format(year=datetime.now().year)
 # |version| and |release|, also used in various other places throughout the
 # built documents.
 #
-
 # The short X.Y version.
 #version = ''
 # The full version, including alpha/beta/rc tags.
@@ -273,3 +273,8 @@ texinfo_documents = [
 
 # If true, do not generate a @detailmenu in the "Top" node's menu.
 #texinfo_no_detailmenu = False
+
+intersphinx_mapping = {
+    'cartographer': ('https://google-cartographer.readthedocs.io/en/latest/',
+                     None)
+}

@@ -12,13 +12,17 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-set(OUTPUT_DIR "${PROJECT_BINARY_DIR}/docs/html")
+cmake_minimum_required (VERSION 2.8.7)
 
-add_custom_target(build_doc ALL
-    ${SPHINX_EXECUTABLE} -b html
-    ${CMAKE_CURRENT_SOURCE_DIR}/source
-    ${CMAKE_CURRENT_BINARY_DIR}/html
-    COMMENT "Building documentation."
-)
+project(cartographer_docs)
 
-# TODO(hrapp): Install documentation?
+find_package(Sphinx)
+if(SPHINX_FOUND)
+  set(OUTPUT_DIR "${PROJECT_BINARY_DIR}/docs/html")
+  add_custom_target(build_doc_ros ALL
+      ${SPHINX_EXECUTABLE} -b html
+      ${CMAKE_CURRENT_SOURCE_DIR}/source
+      ${CMAKE_CURRENT_BINARY_DIR}/html
+      COMMENT "Building documentation."
+  )
+endif()

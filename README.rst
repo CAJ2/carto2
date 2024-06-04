@@ -15,6 +15,9 @@
 ============
 Cartographer
 ============
+============================
+Cartographer ROS Integration
+============================
 
 |build| |docs| |license|
 
@@ -26,6 +29,7 @@ and mapping (`SLAM`_) in 2D and 3D across multiple platforms and sensor
 configurations.
 
 |video|
+configurations. This project provides Cartographer's ROS integration.
 
 .. _Cartographer: https://github.com/cartographer-project/cartographer
 .. _SLAM: https://en.wikipedia.org/wiki/Simultaneous_localization_and_mapping
@@ -37,6 +41,10 @@ Getting started
 * You can ask a question by `creating an issue`_.
 
 .. _our Read the Docs site: https://google-cartographer.readthedocs.io
+* Learn to use Cartographer with ROS at `our Read the Docs site`_.
+* You can ask a question by `creating an issue`_.
+
+.. _our Read the Docs site: https://google-cartographer-ros.readthedocs.io
 .. _creating an issue: https://github.com/cartographer-project/cartographer_ros/issues/new?labels=question
 
 Contributing
@@ -99,3 +107,20 @@ Slides of these Cartographer Open House meetings are listed below.
     :alt: Cartographer 3D SLAM Demo
     :scale: 100%
     :target: https://youtu.be/DM0dpHLhtX0
+You can find information about contributing to Cartographer's ROS integration
+at `our Contribution page`_.
+
+.. _our Contribution page: https://github.com/cartographer-project/cartographer_ros/blob/master/CONTRIBUTING.md
+
+.. |build| image:: https://travis-ci.org/cartographer-project/cartographer_ros.svg?branch=master
+    :alt: Build Status
+    :scale: 100%
+    :target: https://travis-ci.org/cartographer-project/cartographer_ros
+.. |docs| image:: https://readthedocs.org/projects/google-cartographer-ros/badge/?version=latest
+    :alt: Documentation Status
+    :scale: 100%
+    :target: https://google-cartographer-ros.readthedocs.io/en/latest/?badge=latest
+.. |license| image:: https://img.shields.io/badge/License-Apache%202.0-blue.svg
+     :alt: Apache 2 license.
+     :scale: 100%
+     :target: https://github.com/cartographer-project/cartographer_ros/blob/master/LICENSE

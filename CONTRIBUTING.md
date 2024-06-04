@@ -47,5 +47,6 @@ concern.
 
 - Add unit tests and documentation (these do not count toward your 200 lines).
 - Run `ninja test` or `catkin_make_isolated --install --use-ninja --pkg cartographer --make-args test` as appropriate.
+- Run tests as appropriate, e.g. `docker build . -t cartographer:noetic -f Dockerfile.noetic`.
 - Keep rebasing (or merging) of master branch to a minimum. It triggers Travis
   runs for every update which blocks merging of other changes.
