@@ -27,6 +27,18 @@ if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
   add_compile_options(-Wall -Wextra)
 endif()
 
+find_package(absl REQUIRED)
+find_package(Eigen3 REQUIRED)
+find_package(catkin REQUIRED COMPONENTS ${PACKAGE_DEPENDENCIES})
+
+catkin_package(
+  CATKIN_DEPENDS
+    message_runtime
+    ${PACKAGE_DEPENDENCIES}
+  INCLUDE_DIRS "."
+)
+
+file(GLOB_RECURSE ALL_SRCS "cartographer_rviz/*.cc" "cartographer_rviz/*.h")
 set(CMAKE_AUTOMOC ON)
 
 find_package(cartographer REQUIRED)

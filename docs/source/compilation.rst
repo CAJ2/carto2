@@ -71,19 +71,19 @@ The command 'sudo rosdep init' will print an error if you have already executed 
     rosdep update
     rosdep install --from-paths src --ignore-src --rosdistro=${ROS_DISTRO} -y
 
-    # Only on Ubuntu 16 / ROS Kinetic: src/cartographer/scripts/install_proto3.sh 
+    # Only on Ubuntu 16 / ROS Kinetic: src/cartographer/scripts/install_proto3.sh
 
 Cartographer uses the `abseil-cpp`_ library that needs to be manually installed using this script:
 
 .. code-block:: bash
 
-    src/cartographer/scripts/install_abseil.sh 
+    src/cartographer/scripts/install_abseil.sh
 
 Due to conflicting versions you might need to uninstall the ROS abseil-cpp using
 
 .. code-block:: bash
 
-   sudo apt-get remove ros-${ROS_DISTRO}-abseil-cpp 
+   sudo apt-get remove ros-${ROS_DISTRO}-abseil-cpp
 
 Build and install.
 
