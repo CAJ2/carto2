@@ -62,12 +62,6 @@ else()
   find_library(CAIRO_LIBRARIES cairo)
 endif()
 
-# Only build the documentation if we can find Sphinx.
-find_package(Sphinx)
-if(SPHINX_FOUND)
-  add_subdirectory("docs")
-endif()
-
 # Install catkin package.xml
 install(FILES package.xml DESTINATION share/cartographer)
 
@@ -266,7 +260,7 @@ target_include_directories(${PROJECT_NAME} SYSTEM PUBLIC
   ${PROTOBUF_INCLUDE_DIR})
 # TODO(hrapp): This should not explicitly list pthread and use
 # PROTOBUF_LIBRARIES, but that failed on first try.
-target_link_libraries(${PROJECT_NAME} PUBLIC ${PROTOBUF_LIBRARY} 
+target_link_libraries(${PROJECT_NAME} PUBLIC ${PROTOBUF_LIBRARY}
   absl::algorithm
   absl::base
   absl::debugging
@@ -278,7 +272,7 @@ target_link_libraries(${PROJECT_NAME} PUBLIC ${PROTOBUF_LIBRARY}
   absl::strings
   absl::synchronization
   absl::time
-  absl::utility 
+  absl::utility
 )
 if (NOT WIN32)
   target_link_libraries(${PROJECT_NAME} PUBLIC pthread)

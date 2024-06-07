@@ -12,7 +12,6 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-<<<<<<<< HEAD:scripts/install_cartographer_bazel.sh
 set -o errexit
 set -o verbose
 

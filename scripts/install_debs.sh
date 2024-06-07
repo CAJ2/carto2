@@ -29,7 +29,7 @@ fi
 
 . /opt/ros/${ROS_DISTRO}/setup.sh
 
-cd catkin_ws
+cd ros_ws
 
 # Install rosdep dependencies.
 rosdep update

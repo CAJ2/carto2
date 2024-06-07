@@ -21,12 +21,4 @@ set -o errexit
 set -o verbose
 set -o pipefail
 
-if [ "$#" -ne 1 ]; then
-  echo "Please provide an access token to $0" 1>&2
-  exit 1
-fi
-token=$1
-
-CARTOGRAPHER_SHA=$(curl -s -H 'Authorization: token ${token}' https://api.github.com/repos/cartographer-project/cartographer/git/refs/heads/master | jq -j '.object.sha')
-
-docker build ${TRAVIS_BUILD_DIR} -t cartographer_ros:${ROS_RELEASE} -f Dockerfile.${ROS_RELEASE} --build-arg CARTOGRAPHER_SHA=${CARTOGRAPHER_SHA}
+docker build ${TRAVIS_BUILD_DIR} -t cartographer_ros:${ROS_RELEASE} -f Dockerfile.${ROS_RELEASE}

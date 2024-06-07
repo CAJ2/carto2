@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 # Copyright 2016 The Cartographer Authors
 #
@@ -19,5 +19,6 @@ set -o verbose
 
 . /opt/ros/${ROS_DISTRO}/setup.sh
 
-cd catkin_ws
-catkin_test_results $@
+# Create a new workspace in 'ros_ws'.
+mkdir -p ros_ws/src
+cd ros_ws/src
