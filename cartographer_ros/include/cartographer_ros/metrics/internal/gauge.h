@@ -71,7 +71,7 @@ class Gauge : public ::cartographer::metrics::Gauge {
 
   absl::Mutex mutex_;
   const std::map<std::string, std::string> labels_;
-  double value_ GUARDED_BY(mutex_);
+  double value_ ABSL_GUARDED_BY(mutex_);
 };
 
 }  // namespace metrics

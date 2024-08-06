@@ -168,7 +168,7 @@ class Node {
   bool ValidateTrajectoryOptions(const TrajectoryOptions& options);
   bool ValidateTopicNames(const TrajectoryOptions& options);
   cartographer_ros_msgs::msg::StatusResponse FinishTrajectoryUnderLock(
-      int trajectory_id) EXCLUSIVE_LOCKS_REQUIRED(mutex_);
+      int trajectory_id) ABSL_EXCLUSIVE_LOCKS_REQUIRED(mutex_);
   void MaybeWarnAboutTopicMismatch();
 
   // Helper function for service handlers that need to check trajectory states.
@@ -183,7 +183,7 @@ class Node {
 
   absl::Mutex mutex_;
   std::unique_ptr<cartographer_ros::metrics::FamilyFactory> metrics_registry_;
-  std::shared_ptr<MapBuilderBridge> map_builder_bridge_ GUARDED_BY(mutex_);
+  std::shared_ptr<MapBuilderBridge> map_builder_bridge_ ABSL_GUARDED_BY(mutex_);
 
   rclcpp::Node::SharedPtr node_;
   ::rclcpp::Publisher<::cartographer_ros_msgs::msg::SubmapList>::SharedPtr submap_list_publisher_;
