@@ -19,13 +19,7 @@ set -o verbose
 
 # Install CMake, Ninja, stow.
 sudo apt-get update
-sudo apt-get install -y lsb-release cmake ninja-build stow
-
-# Install GMock library and header files for newer distributions.
-if [[ "$(lsb_release -sc)" = "focal" || "$(lsb_release -sc)" = "buster" ]]
-then
-  sudo apt-get install -y libgmock-dev
-fi
+sudo apt-get install -y lsb-release cmake ninja-build stow libgmock-dev
 
 . /opt/ros/${ROS_DISTRO}/setup.sh
 
