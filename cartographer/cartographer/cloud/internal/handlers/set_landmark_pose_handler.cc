@@ -18,8 +18,8 @@
 
 #include "async_grpc/rpc_handler.h"
 #include "cartographer/cloud/internal/map_builder_context_interface.h"
-#include "cartographer/cloud/proto/map_builder_service.pb.h"
 #include "cartographer/transform/transform.h"
+#include "cartographer_proto/cloud/map_builder_service.pb.h"
 #include "google/protobuf/empty.pb.h"
 
 namespace cartographer {
@@ -27,7 +27,7 @@ namespace cloud {
 namespace handlers {
 
 void SetLandmarkPoseHandler::OnRequest(
-    const proto::SetLandmarkPoseRequest& request) {
+    const cartographer_proto::cloud::SetLandmarkPoseRequest& request) {
   GetContext<MapBuilderContextInterface>()
       ->map_builder()
       .pose_graph()

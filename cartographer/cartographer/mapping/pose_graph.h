@@ -27,9 +27,6 @@
 #include "cartographer/mapping/id.h"
 #include "cartographer/mapping/pose_graph_interface.h"
 #include "cartographer/mapping/pose_graph_trimmer.h"
-#include "cartographer/mapping/proto/pose_graph.pb.h"
-#include "cartographer/mapping/proto/pose_graph_options.pb.h"
-#include "cartographer/mapping/proto/serialization.pb.h"
 #include "cartographer/mapping/submaps.h"
 #include "cartographer/mapping/trajectory_node.h"
 #include "cartographer/sensor/fixed_frame_pose_data.h"
@@ -37,11 +34,14 @@
 #include "cartographer/sensor/landmark_data.h"
 #include "cartographer/sensor/map_by_time.h"
 #include "cartographer/sensor/odometry_data.h"
+#include "cartographer_proto/mapping/pose_graph.pb.h"
+#include "cartographer_proto/mapping/pose_graph_options.pb.h"
+#include "cartographer_proto/mapping/serialization.pb.h"
 
 namespace cartographer {
 namespace mapping {
 
-proto::PoseGraphOptions CreatePoseGraphOptions(
+cartographer_proto::mapping::PoseGraphOptions CreatePoseGraphOptions(
     common::LuaParameterDictionary* const parameter_dictionary);
 
 class PoseGraph : public PoseGraphInterface {
@@ -83,17 +83,19 @@ class PoseGraph : public PoseGraphInterface {
 
   // Adds a 'submap' from a proto with the given 'global_pose' to the
   // appropriate trajectory.
-  virtual void AddSubmapFromProto(const transform::Rigid3d& global_pose,
-                                  const proto::Submap& submap) = 0;
+  virtual void AddSubmapFromProto(
+      const transform::Rigid3d& global_pose,
+      const cartographer_proto::mapping::Submap& submap) = 0;
 
   // Adds a 'node' from a proto with the given 'global_pose' to the
   // appropriate trajectory.
-  virtual void AddNodeFromProto(const transform::Rigid3d& global_pose,
-                                const proto::Node& node) = 0;
+  virtual void AddNodeFromProto(
+      const transform::Rigid3d& global_pose,
+      const cartographer_proto::mapping::Node& node) = 0;
 
   // Sets the trajectory data from a proto.
   virtual void SetTrajectoryDataFromProto(
-      const mapping::proto::TrajectoryData& data) = 0;
+      const cartographer_proto::mapping::TrajectoryData& data) = 0;
 
   // Adds information that 'node_id' was inserted into 'submap_id'. The submap
   // has to be deserialized first.
@@ -112,7 +114,8 @@ class PoseGraph : public PoseGraphInterface {
   // Gets the current trajectory clusters.
   virtual std::vector<std::vector<int>> GetConnectedTrajectories() const = 0;
 
-  proto::PoseGraph ToProto(bool include_unfinished_submaps) const override;
+  cartographer_proto::mapping::PoseGraph ToProto(
+      bool include_unfinished_submaps) const override;
 
   // Returns the IMU data.
   virtual sensor::MapByTime<sensor::ImuData> GetImuData() const = 0;
@@ -138,9 +141,10 @@ class PoseGraph : public PoseGraphInterface {
 
 std::vector<PoseGraph::Constraint> FromProto(
     const ::google::protobuf::RepeatedPtrField<
-        ::cartographer::mapping::proto::PoseGraph::Constraint>&
+        ::cartographer_proto::mapping::PoseGraph::Constraint>&
         constraint_protos);
-proto::PoseGraph::Constraint ToProto(const PoseGraph::Constraint& constraint);
+cartographer_proto::mapping::PoseGraph::Constraint ToProto(
+    const PoseGraph::Constraint& constraint);
 
 }  // namespace mapping
 }  // namespace cartographer

@@ -30,8 +30,9 @@ ProbabilityGrid::ProbabilityGrid(const MapLimits& limits,
              conversion_tables),
       conversion_tables_(conversion_tables) {}
 
-ProbabilityGrid::ProbabilityGrid(const proto::Grid2D& proto,
-                                 ValueConversionTables* conversion_tables)
+ProbabilityGrid::ProbabilityGrid(
+    const cartographer_proto::mapping::Grid2D& proto,
+    ValueConversionTables* conversion_tables)
     : Grid2D(proto, conversion_tables), conversion_tables_(conversion_tables) {
   CHECK(proto.has_probability_grid_2d());
 }
@@ -81,8 +82,8 @@ float ProbabilityGrid::GetProbability(const Eigen::Array2i& cell_index) const {
       correspondence_cost_cells()[ToFlatIndex(cell_index)]));
 }
 
-proto::Grid2D ProbabilityGrid::ToProto() const {
-  proto::Grid2D result;
+cartographer_proto::mapping::Grid2D ProbabilityGrid::ToProto() const {
+  cartographer_proto::mapping::Grid2D result;
   result = Grid2D::ToProto();
   result.mutable_probability_grid_2d();
   return result;
@@ -107,7 +108,8 @@ std::unique_ptr<Grid2D> ProbabilityGrid::ComputeCroppedGrid() const {
 }
 
 bool ProbabilityGrid::DrawToSubmapTexture(
-    proto::SubmapQuery::Response::SubmapTexture* const texture,
+    cartographer_proto::mapping::SubmapQuery::Response::SubmapTexture* const
+        texture,
     transform::Rigid3d local_pose) const {
   Eigen::Array2i offset;
   CellLimits cell_limits;

@@ -45,7 +45,7 @@ using SetLandmarkPoseHandlerTest =
 
 TEST_F(SetLandmarkPoseHandlerTest, SetLandmarkPose) {
   constexpr double kEps = 1e-10;
-  proto::SetLandmarkPoseRequest request;
+  cartographer_proto::cloud::SetLandmarkPoseRequest request;
   EXPECT_TRUE(
       google::protobuf::TextFormat::ParseFromString(kMessage, &request));
   EXPECT_CALL(

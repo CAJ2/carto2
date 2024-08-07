@@ -17,20 +17,21 @@
 #ifndef CARTOGRAPHER_CLOUD_INTERNAL_MAPPING_SERIALIZATION_H
 #define CARTOGRAPHER_CLOUD_INTERNAL_MAPPING_SERIALIZATION_H
 
-#include "cartographer/cloud/proto/map_builder_service.pb.h"
 #include "cartographer/mapping/pose_graph_interface.h"
+#include "cartographer_proto/cloud/map_builder_service.pb.h"
 
 namespace cartographer {
 namespace cloud {
 
-proto::TrajectoryState ToProto(
+cartographer_proto::cloud::TrajectoryState ToProto(
     const mapping::PoseGraphInterface::TrajectoryState& trajectory_state);
 mapping::PoseGraphInterface::TrajectoryState FromProto(
-    const proto::TrajectoryState& proto);
+    const cartographer_proto::cloud::TrajectoryState& proto);
 
-proto::TrajectoryRemapping ToProto(
+cartographer_proto::cloud::TrajectoryRemapping ToProto(
     const std::map<int, int>& trajectory_remapping);
-std::map<int, int> FromProto(const proto::TrajectoryRemapping& proto);
+std::map<int, int> FromProto(
+    const cartographer_proto::cloud::TrajectoryRemapping& proto);
 
 }  // namespace cloud
 }  // namespace cartographer

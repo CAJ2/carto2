@@ -19,24 +19,28 @@ namespace cartographer {
 namespace mapping {
 namespace {
 
-float MinCorrespondenceCostFromProto(const proto::Grid2D& proto) {
+float MinCorrespondenceCostFromProto(
+    const cartographer_proto::mapping::Grid2D& proto) {
   if (proto.min_correspondence_cost() == 0.f &&
       proto.max_correspondence_cost() == 0.f) {
-    LOG(WARNING) << "proto::Grid2D: min_correspondence_cost "
-                    "is initialized with 0 indicating an older version of the "
-                    "protobuf format. Loading default values.";
+    LOG(WARNING)
+        << "cartographer_proto::mapping::Grid2D: min_correspondence_cost "
+           "is initialized with 0 indicating an older version of the "
+           "protobuf format. Loading default values.";
     return kMinCorrespondenceCost;
   } else {
     return proto.min_correspondence_cost();
   }
 }
 
-float MaxCorrespondenceCostFromProto(const proto::Grid2D& proto) {
+float MaxCorrespondenceCostFromProto(
+    const cartographer_proto::mapping::Grid2D& proto) {
   if (proto.min_correspondence_cost() == 0.f &&
       proto.max_correspondence_cost() == 0.f) {
-    LOG(WARNING) << "proto::Grid2D: max_correspondence_cost "
-                    "is initialized with 0 indicating an older version of the "
-                    "protobuf format. Loading default values.";
+    LOG(WARNING)
+        << "cartographer_proto::mapping::Grid2D: max_correspondence_cost "
+           "is initialized with 0 indicating an older version of the "
+           "protobuf format. Loading default values.";
     return kMaxCorrespondenceCost;
   } else {
     return proto.max_correspondence_cost();
@@ -44,13 +48,14 @@ float MaxCorrespondenceCostFromProto(const proto::Grid2D& proto) {
 }
 }  // namespace
 
-proto::GridOptions2D CreateGridOptions2D(
+cartographer_proto::mapping::GridOptions2D CreateGridOptions2D(
     common::LuaParameterDictionary* const parameter_dictionary) {
-  proto::GridOptions2D options;
+  cartographer_proto::mapping::GridOptions2D options;
   const std::string grid_type_string =
       parameter_dictionary->GetString("grid_type");
-  proto::GridOptions2D_GridType grid_type;
-  CHECK(proto::GridOptions2D_GridType_Parse(grid_type_string, &grid_type))
+  cartographer_proto::mapping::GridOptions2D_GridType grid_type;
+  CHECK(cartographer_proto::mapping::GridOptions2D_GridType_Parse(
+      grid_type_string, &grid_type))
       << "Unknown GridOptions2D_GridType kind: " << grid_type_string;
   options.set_grid_type(grid_type);
   options.set_resolution(parameter_dictionary->GetDouble("resolution"));
@@ -72,7 +77,7 @@ Grid2D::Grid2D(const MapLimits& limits, float min_correspondence_cost,
   CHECK_LT(min_correspondence_cost_, max_correspondence_cost_);
 }
 
-Grid2D::Grid2D(const proto::Grid2D& proto,
+Grid2D::Grid2D(const cartographer_proto::mapping::Grid2D& proto,
                ValueConversionTables* conversion_tables)
     : limits_(proto.limits()),
       correspondence_cost_cells_(),
@@ -163,8 +168,8 @@ void Grid2D::GrowLimits(const Eigen::Vector2f& point,
   }
 }
 
-proto::Grid2D Grid2D::ToProto() const {
-  proto::Grid2D result;
+cartographer_proto::mapping::Grid2D Grid2D::ToProto() const {
+  cartographer_proto::mapping::Grid2D result;
   *result.mutable_limits() = mapping::ToProto(limits_);
   *result.mutable_cells() = {correspondence_cost_cells_.begin(),
                              correspondence_cost_cells_.end()};

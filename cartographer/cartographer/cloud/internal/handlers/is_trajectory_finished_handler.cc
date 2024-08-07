@@ -19,15 +19,16 @@
 #include "absl/memory/memory.h"
 #include "async_grpc/rpc_handler.h"
 #include "cartographer/cloud/internal/map_builder_context_interface.h"
-#include "cartographer/cloud/proto/map_builder_service.pb.h"
+#include "cartographer_proto/cloud/map_builder_service.pb.h"
 
 namespace cartographer {
 namespace cloud {
 namespace handlers {
 
 void IsTrajectoryFinishedHandler::OnRequest(
-    const proto::IsTrajectoryFinishedRequest& request) {
-  auto response = absl::make_unique<proto::IsTrajectoryFinishedResponse>();
+    const cartographer_proto::cloud::IsTrajectoryFinishedRequest& request) {
+  auto response = absl::make_unique<
+      cartographer_proto::cloud::IsTrajectoryFinishedResponse>();
   response->set_is_finished(
       GetContext<MapBuilderContextInterface>()
           ->map_builder()

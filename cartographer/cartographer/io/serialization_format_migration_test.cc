@@ -21,11 +21,11 @@
 
 #include "cartographer/io/internal/in_memory_proto_stream.h"
 #include "cartographer/mapping/internal/testing/test_helpers.h"
-#include "cartographer/mapping/proto/pose_graph.pb.h"
-#include "cartographer/mapping/proto/serialization.pb.h"
-#include "cartographer/mapping/proto/trajectory_builder_options.pb.h"
 #include "cartographer/mapping/trajectory_node.h"
 #include "cartographer/transform/transform.h"
+#include "cartographer_proto/mapping/pose_graph.pb.h"
+#include "cartographer_proto/mapping/serialization.pb.h"
+#include "cartographer_proto/mapping/trajectory_builder_options.pb.h"
 #include "gmock/gmock.h"
 #include "google/protobuf/text_format.h"
 #include "gtest/gtest.h"
@@ -57,9 +57,10 @@ class SubmapHistogramMigrationTest : public ::testing::Test {
   }
 
   void CreatePoseGraphWithNodeToSubmapConstraint() {
-    mapping::proto::PoseGraph::Constraint* constraint =
+    cartographer_proto::mapping::PoseGraph::Constraint* constraint =
         pose_graph_.add_constraint();
-    constraint->set_tag(mapping::proto::PoseGraph::Constraint::INTRA_SUBMAP);
+    constraint->set_tag(
+        cartographer_proto::mapping::PoseGraph::Constraint::INTRA_SUBMAP);
     *constraint->mutable_node_id() = node_.node_id();
     *constraint->mutable_submap_id() = submap_.submap_id();
     *constraint->mutable_relative_pose() =
@@ -67,20 +68,21 @@ class SubmapHistogramMigrationTest : public ::testing::Test {
   }
 
  protected:
-  mapping::proto::PoseGraph pose_graph_;
-  mapping::proto::Submap submap_;
-  mapping::proto::Node node_;
+  cartographer_proto::mapping::PoseGraph pose_graph_;
+  cartographer_proto::mapping::Submap submap_;
+  cartographer_proto::mapping::Node node_;
 };
 
 TEST_F(SubmapHistogramMigrationTest,
        SubmapHistogramGenerationFromTrajectoryNodes) {
-  mapping::MapById<mapping::SubmapId, mapping::proto::Submap>
+  mapping::MapById<mapping::SubmapId, cartographer_proto::mapping::Submap>
       submap_id_to_submap;
   mapping::SubmapId submap_id(submap_.submap_id().trajectory_id(),
                               submap_.submap_id().submap_index());
   submap_id_to_submap.Insert(submap_id, submap_);
 
-  mapping::MapById<mapping::NodeId, mapping::proto::Node> node_id_to_node;
+  mapping::MapById<mapping::NodeId, cartographer_proto::mapping::Node>
+      node_id_to_node;
   mapping::NodeId node_id(node_.node_id().trajectory_id(),
                           node_.node_id().node_index());
   node_id_to_node.Insert(node_id, node_);
@@ -90,14 +92,15 @@ TEST_F(SubmapHistogramMigrationTest,
                                             node_id_to_node, pose_graph_);
 
   EXPECT_EQ(submap_id_to_submap_migrated.size(), submap_id_to_submap.size());
-  const mapping::proto::Submap& migrated_submap =
+  const cartographer_proto::mapping::Submap& migrated_submap =
       submap_id_to_submap_migrated.at(submap_id);
 
   EXPECT_FALSE(migrated_submap.has_submap_2d());
   EXPECT_TRUE(migrated_submap.has_submap_3d());
-  const mapping::proto::Submap3D& migrated_submap_3d =
+  const cartographer_proto::mapping::Submap3D& migrated_submap_3d =
       migrated_submap.submap_3d();
-  const mapping::proto::TrajectoryNodeData& node_data = node_.node_data();
+  const cartographer_proto::mapping::TrajectoryNodeData& node_data =
+      node_.node_data();
   EXPECT_EQ(migrated_submap_3d.rotational_scan_matcher_histogram_size(),
             node_data.rotational_scan_matcher_histogram_size());
   for (int i = 0; i < node_data.rotational_scan_matcher_histogram_size(); ++i) {

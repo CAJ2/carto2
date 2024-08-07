@@ -27,11 +27,11 @@
 #include "cartographer/common/port.h"
 #include "cartographer/common/time.h"
 #include "cartographer/mapping/pose_graph_interface.h"
-#include "cartographer/mapping/proto/submap_visualization.pb.h"
 #include "cartographer/metrics/register.h"
 #include "cartographer/sensor/point_cloud.h"
 #include "cartographer/transform/rigid_transform.h"
 #include "cartographer/transform/transform.h"
+#include "cartographer_proto/mapping/submap_visualization.pb.h"
 #include "cartographer_ros/metrics/family_factory.h"
 #include "cartographer_ros/msg_conversion.h"
 #include "cartographer_ros/sensor_bridge.h"
@@ -607,7 +607,7 @@ bool Node::handleStartTrajectory(
       return true;
     }
 
-    ::cartographer::mapping::proto::InitialTrajectoryPose
+    ::cartographer_proto::mapping::InitialTrajectoryPose
         initial_trajectory_pose;
     initial_trajectory_pose.set_to_trajectory_id(
         request->relative_to_trajectory_id);

@@ -18,7 +18,7 @@ namespace io {
 
 HybridGridPointsProcessor::HybridGridPointsProcessor(
     const double voxel_size,
-    const mapping::proto::RangeDataInserterOptions3D&
+    const cartographer_proto::mapping::RangeDataInserterOptions3D&
         range_data_inserter_options,
     std::unique_ptr<FileWriter> file_writer, PointsProcessor* const next)
     : next_(next),
@@ -46,7 +46,8 @@ void HybridGridPointsProcessor::Process(std::unique_ptr<PointsBatch> batch) {
 }
 
 PointsProcessor::FlushResult HybridGridPointsProcessor::Flush() {
-  const mapping::proto::HybridGrid hybrid_grid_proto = hybrid_grid_.ToProto();
+  const cartographer_proto::mapping::HybridGrid hybrid_grid_proto =
+      hybrid_grid_.ToProto();
   std::string serialized;
   hybrid_grid_proto.SerializeToString(&serialized);
   file_writer_->Write(serialized.data(), serialized.size());

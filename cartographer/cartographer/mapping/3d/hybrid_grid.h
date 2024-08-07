@@ -28,8 +28,8 @@
 #include "cartographer/common/math.h"
 #include "cartographer/common/port.h"
 #include "cartographer/mapping/probability_values.h"
-#include "cartographer/mapping/proto/hybrid_grid.pb.h"
 #include "cartographer/transform/transform.h"
+#include "cartographer_proto/mapping/hybrid_grid.pb.h"
 #include "glog/logging.h"
 
 namespace cartographer {
@@ -470,7 +470,7 @@ class HybridGrid : public HybridGridBase<uint16> {
   explicit HybridGrid(const float resolution)
       : HybridGridBase<uint16>(resolution) {}
 
-  explicit HybridGrid(const proto::HybridGrid& proto)
+  explicit HybridGrid(const cartographer_proto::mapping::HybridGrid& proto)
       : HybridGrid(proto.resolution()) {
     CHECK_EQ(proto.values_size(), proto.x_indices_size());
     CHECK_EQ(proto.values_size(), proto.y_indices_size());
@@ -525,10 +525,10 @@ class HybridGrid : public HybridGridBase<uint16> {
   // Returns true if the probability at the specified 'index' is known.
   bool IsKnown(const Eigen::Array3i& index) const { return value(index) != 0; }
 
-  proto::HybridGrid ToProto() const {
+  cartographer_proto::mapping::HybridGrid ToProto() const {
     CHECK(update_indices_.empty()) << "Serializing a grid during an update is "
                                       "not supported. Finish the update first.";
-    proto::HybridGrid result;
+    cartographer_proto::mapping::HybridGrid result;
     result.set_resolution(resolution());
     for (const auto it : *this) {
       result.add_x_indices(it.first.x());

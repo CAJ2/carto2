@@ -18,8 +18,8 @@
 #define CARTOGRAPHER_TRANSFORM_TIMESTAMPED_TRANSFORM_H_
 
 #include "cartographer/common/time.h"
-#include "cartographer/transform/proto/timestamped_transform.pb.h"
 #include "cartographer/transform/rigid_transform.h"
+#include "cartographer_proto/transform/timestamped_transform.pb.h"
 
 namespace cartographer {
 namespace transform {
@@ -29,8 +29,10 @@ struct TimestampedTransform {
   transform::Rigid3d transform;
 };
 
-TimestampedTransform FromProto(const proto::TimestampedTransform& proto);
-proto::TimestampedTransform ToProto(const TimestampedTransform& transform);
+TimestampedTransform FromProto(
+    const cartographer_proto::transform::TimestampedTransform& proto);
+cartographer_proto::transform::TimestampedTransform ToProto(
+    const TimestampedTransform& transform);
 
 TimestampedTransform Interpolate(const TimestampedTransform& start,
                                  const TimestampedTransform& end,

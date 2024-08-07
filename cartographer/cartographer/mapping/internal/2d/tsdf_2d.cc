@@ -32,7 +32,7 @@ TSDF2D::TSDF2D(const MapLimits& limits, float truncation_distance,
           limits.cell_limits().num_x_cells * limits.cell_limits().num_y_cells,
           value_converter_->getUnknownWeightValue()) {}
 
-TSDF2D::TSDF2D(const proto::Grid2D& proto,
+TSDF2D::TSDF2D(const cartographer_proto::mapping::Grid2D& proto,
                ValueConversionTables* conversion_tables)
     : Grid2D(proto, conversion_tables), conversion_tables_(conversion_tables) {
   CHECK(proto.has_tsdf_2d());
@@ -104,8 +104,8 @@ void TSDF2D::GrowLimits(const Eigen::Vector2f& point) {
                       value_converter_->getUnknownWeightValue()});
 }
 
-proto::Grid2D TSDF2D::ToProto() const {
-  proto::Grid2D result;
+cartographer_proto::mapping::Grid2D TSDF2D::ToProto() const {
+  cartographer_proto::mapping::Grid2D result;
   result = Grid2D::ToProto();
   *result.mutable_tsdf_2d()->mutable_weight_cells() = {weight_cells_.begin(),
                                                        weight_cells_.end()};
@@ -135,7 +135,8 @@ std::unique_ptr<Grid2D> TSDF2D::ComputeCroppedGrid() const {
 }
 
 bool TSDF2D::DrawToSubmapTexture(
-    proto::SubmapQuery::Response::SubmapTexture* const texture,
+    cartographer_proto::mapping::SubmapQuery::Response::SubmapTexture* const
+        texture,
     transform::Rigid3d local_pose) const {
   Eigen::Array2i offset;
   CellLimits cell_limits;

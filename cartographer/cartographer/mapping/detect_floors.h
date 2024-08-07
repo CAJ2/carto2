@@ -18,7 +18,7 @@
 #define CARTOGRAPHER_MAPPING_DETECT_FLOORS_H_
 
 #include "cartographer/common/time.h"
-#include "cartographer/mapping/proto/trajectory.pb.h"
+#include "cartographer_proto/mapping/trajectory.pb.h"
 
 namespace cartographer {
 namespace mapping {
@@ -42,7 +42,8 @@ struct Floor {
 // floors of a building. This requires that floors are *mostly* on the same
 // z-height and that level changes happen *relatively* abrubtly, e.g. by taking
 // the stairs.
-std::vector<Floor> DetectFloors(const proto::Trajectory& trajectory);
+std::vector<Floor> DetectFloors(
+    const cartographer_proto::mapping::Trajectory& trajectory);
 
 }  // namespace mapping
 }  // namespace cartographer

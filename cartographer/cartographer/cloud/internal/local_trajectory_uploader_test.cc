@@ -35,11 +35,11 @@ TEST(LocalTrajectoryUploaderTest, HandlesInvalidUplink) {
   auto uploader = CreateLocalTrajectoryUploader("invalid-uplink-address:50051",
                                                 /*batch_size=*/1, false, false);
   uploader->Start();
-  mapping::proto::TrajectoryBuilderOptions options;
+  cartographer_proto::cloud::mapping::TrajectoryBuilderOptions options;
   auto status = uploader->AddTrajectory(
       kClientId, kLocalTrajectoryId, {kRangeSensorId, kImuSensorId}, options);
   EXPECT_FALSE(status.ok());
-  auto sensor_data = absl::make_unique<proto::SensorData>();
+  auto sensor_data = absl::make_unique<cartographer_proto::cloud::SensorData>();
   sensor_data->mutable_sensor_metadata()->set_client_id(kClientId);
   sensor_data->mutable_sensor_metadata()->set_sensor_id(kImuSensorId.id);
   sensor_data->mutable_sensor_metadata()->set_trajectory_id(kLocalTrajectoryId);

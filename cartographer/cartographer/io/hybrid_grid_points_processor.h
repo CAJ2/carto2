@@ -11,7 +11,7 @@
 #include "cartographer/io/points_processor.h"
 #include "cartographer/mapping/3d/hybrid_grid.h"
 #include "cartographer/mapping/3d/range_data_inserter_3d.h"
-#include "cartographer/mapping/proto/range_data_inserter_options_3d.pb.h"
+#include "cartographer_proto/mapping/range_data_inserter_options_3d.pb.h"
 
 namespace cartographer {
 namespace io {
@@ -23,11 +23,11 @@ class HybridGridPointsProcessor : public PointsProcessor {
  public:
   constexpr static const char* kConfigurationFileActionName =
       "write_hybrid_grid";
-  HybridGridPointsProcessor(double voxel_size,
-                            const mapping::proto::RangeDataInserterOptions3D&
-                                range_data_inserter_options,
-                            std::unique_ptr<FileWriter> file_writer,
-                            PointsProcessor* next);
+  HybridGridPointsProcessor(
+      double voxel_size,
+      const cartographer_proto::mapping::RangeDataInserterOptions3D&
+          range_data_inserter_options,
+      std::unique_ptr<FileWriter> file_writer, PointsProcessor* next);
   HybridGridPointsProcessor(const HybridGridPointsProcessor&) = delete;
   HybridGridPointsProcessor& operator=(const HybridGridPointsProcessor&) =
       delete;

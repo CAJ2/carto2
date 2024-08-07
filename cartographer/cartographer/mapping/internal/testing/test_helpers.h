@@ -20,8 +20,8 @@
 #include <memory>
 
 #include "cartographer/common/lua_parameter_dictionary.h"
-#include "cartographer/mapping/proto/serialization.pb.h"
 #include "cartographer/sensor/timed_point_cloud_data.h"
+#include "cartographer_proto/mapping/serialization.pb.h"
 
 namespace cartographer {
 namespace mapping {
@@ -39,30 +39,35 @@ GenerateFakeRangeMeasurements(const Eigen::Vector3f& translation,
                               double duration, double time_step,
                               const transform::Rigid3f& local_to_global);
 
-proto::Submap CreateFakeSubmap3D(int trajectory_id = 1, int submap_index = 1,
-                                 bool finished = true);
+cartographer_proto::mapping::Submap CreateFakeSubmap3D(int trajectory_id = 1,
+                                                       int submap_index = 1,
+                                                       bool finished = true);
 
-proto::Node CreateFakeNode(int trajectory_id = 1, int node_index = 1);
+cartographer_proto::mapping::Node CreateFakeNode(int trajectory_id = 1,
+                                                 int node_index = 1);
 
-proto::PoseGraph::Constraint CreateFakeConstraint(const proto::Node& node,
-                                                  const proto::Submap& submap);
+cartographer_proto::mapping::PoseGraph::Constraint CreateFakeConstraint(
+    const cartographer_proto::mapping::Node& node,
+    const cartographer_proto::mapping::Submap& submap);
 
-proto::Trajectory* CreateTrajectoryIfNeeded(int trajectory_id,
-                                            proto::PoseGraph* pose_graph);
-proto::PoseGraph::LandmarkPose CreateFakeLandmark(
+cartographer_proto::mapping::Trajectory* CreateTrajectoryIfNeeded(
+    int trajectory_id, cartographer_proto::mapping::PoseGraph* pose_graph);
+cartographer_proto::mapping::PoseGraph::LandmarkPose CreateFakeLandmark(
     const std::string& landmark_id, const transform::Rigid3d& global_pose);
 
-void AddToProtoGraph(const proto::Node& node_data,
-                     proto::PoseGraph* pose_graph);
+void AddToProtoGraph(const cartographer_proto::mapping::Node& node_data,
+                     cartographer_proto::mapping::PoseGraph* pose_graph);
 
-void AddToProtoGraph(const proto::Submap& submap_data,
-                     proto::PoseGraph* pose_graph);
+void AddToProtoGraph(const cartographer_proto::mapping::Submap& submap_data,
+                     cartographer_proto::mapping::PoseGraph* pose_graph);
 
-void AddToProtoGraph(const proto::PoseGraph::Constraint& constraint,
-                     proto::PoseGraph* pose_graph);
+void AddToProtoGraph(
+    const cartographer_proto::mapping::PoseGraph::Constraint& constraint,
+    cartographer_proto::mapping::PoseGraph* pose_graph);
 
-void AddToProtoGraph(const proto::PoseGraph::LandmarkPose& landmark_node,
-                     proto::PoseGraph* pose_graph);
+void AddToProtoGraph(
+    const cartographer_proto::mapping::PoseGraph::LandmarkPose& landmark_node,
+    cartographer_proto::mapping::PoseGraph* pose_graph);
 
 }  // namespace testing
 }  // namespace mapping

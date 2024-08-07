@@ -33,7 +33,7 @@ TEST(MapLimitsTest, ToProto) {
 }
 
 TEST(MapLimitsTest, ProtoConstructor) {
-  proto::MapLimits limits;
+  cartographer_proto::mapping::MapLimits limits;
   limits.set_resolution(1.);
   limits.mutable_max()->set_x(2.);
   limits.mutable_max()->set_y(3.);

@@ -19,7 +19,7 @@
 #include <algorithm>
 
 #include "absl/container/flat_hash_set.h"
-#include "cartographer/mapping/proto/connected_components.pb.h"
+#include "cartographer_proto/mapping/connected_components.pb.h"
 #include "glog/logging.h"
 
 namespace cartographer {
@@ -112,9 +112,9 @@ int ConnectedComponents::ConnectionCount(const int trajectory_id_a,
   return it != connection_map_.end() ? it->second : 0;
 }
 
-proto::ConnectedComponents ToProto(
+cartographer_proto::mapping::ConnectedComponents ToProto(
     std::vector<std::vector<int>> connected_components) {
-  proto::ConnectedComponents proto;
+  cartographer_proto::mapping::ConnectedComponents proto;
   for (auto& connected_component : connected_components) {
     std::sort(connected_component.begin(), connected_component.end());
   }

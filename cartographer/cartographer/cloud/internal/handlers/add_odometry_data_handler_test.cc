@@ -52,7 +52,7 @@ using AddOdometryDataHandlerTest =
     testing::HandlerTest<AddOdometryDataSignature, AddOdometryDataHandler>;
 
 TEST_F(AddOdometryDataHandlerTest, NoLocalSlamUploader) {
-  proto::AddOdometryDataRequest request;
+  cartographer_proto::cloud::AddOdometryDataRequest request;
   EXPECT_TRUE(
       google::protobuf::TextFormat::ParseFromString(kMessage, &request));
   SetNoLocalTrajectoryUploader();
@@ -71,7 +71,7 @@ TEST_F(AddOdometryDataHandlerTest, NoLocalSlamUploader) {
 }
 
 TEST_F(AddOdometryDataHandlerTest, WithMockLocalSlamUploader) {
-  proto::AddOdometryDataRequest request;
+  cartographer_proto::cloud::AddOdometryDataRequest request;
   EXPECT_TRUE(
       google::protobuf::TextFormat::ParseFromString(kMessage, &request));
   SetMockLocalTrajectoryUploader();
@@ -84,7 +84,7 @@ TEST_F(AddOdometryDataHandlerTest, WithMockLocalSlamUploader) {
               DoEnqueueSensorData(
                   Eq(request.sensor_metadata().trajectory_id()),
                   Pointee(Truly(testing::BuildDataPredicateEquals(request)))));
-  proto::SensorData sensor_data;
+  cartographer_proto::cloud::SensorData sensor_data;
   *sensor_data.mutable_sensor_metadata() = request.sensor_metadata();
   *sensor_data.mutable_odometry_data() = request.odometry_data();
   EXPECT_CALL(*mock_local_trajectory_uploader_,

@@ -26,10 +26,10 @@ namespace mapping {
 
 class LocalSlamResult2D : public LocalSlamResultData {
  public:
-  LocalSlamResult2D(
-      const std::string& sensor_id,
-      const mapping::proto::LocalSlamResultData local_slam_result_data,
-      SubmapController<mapping::Submap2D>* submap_controller)
+  LocalSlamResult2D(const std::string& sensor_id,
+                    const cartographer_proto::mapping::LocalSlamResultData
+                        local_slam_result_data,
+                    SubmapController<mapping::Submap2D>* submap_controller)
       : LocalSlamResultData(sensor_id, common::FromUniversal(
                                            local_slam_result_data.timestamp())),
         sensor_id_(sensor_id),
@@ -42,7 +42,8 @@ class LocalSlamResult2D : public LocalSlamResultData {
 
  private:
   const std::string sensor_id_;
-  const mapping::proto::LocalSlamResultData local_slam_result_data_;
+  const cartographer_proto::mapping::LocalSlamResultData
+      local_slam_result_data_;
   SubmapController<mapping::Submap2D>* submap_controller_;
 };
 

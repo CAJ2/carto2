@@ -20,7 +20,7 @@
 
 #include "async_grpc/rpc_handler.h"
 #include "cartographer/cloud/internal/map_builder_context_interface.h"
-#include "cartographer/cloud/proto/map_builder_service.pb.h"
+#include "cartographer_proto/cloud/map_builder_service.pb.h"
 
 namespace cartographer {
 namespace cloud {
@@ -28,7 +28,8 @@ namespace handlers {
 
 DEFINE_HANDLER_SIGNATURE(
     ReceiveGlobalSlamOptimizationsSignature, google::protobuf::Empty,
-    async_grpc::Stream<proto::ReceiveGlobalSlamOptimizationsResponse>,
+    async_grpc::Stream<
+        cartographer_proto::cloud::ReceiveGlobalSlamOptimizationsResponse>,
     "/cartographer.cloud.proto.MapBuilderService/"
     "ReceiveGlobalSlamOptimizations")
 

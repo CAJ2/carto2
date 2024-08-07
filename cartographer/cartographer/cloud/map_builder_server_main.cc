@@ -47,9 +47,9 @@ void Run(const std::string& configuration_directory,
   LOG(INFO) << "Exposing metrics at http://localhost:9100/metrics";
 #endif
 
-  proto::MapBuilderServerOptions map_builder_server_options =
-      LoadMapBuilderServerOptions(configuration_directory,
-                                  configuration_basename);
+  cartographer_proto::cloud::MapBuilderServerOptions
+      map_builder_server_options = LoadMapBuilderServerOptions(
+          configuration_directory, configuration_basename);
   auto map_builder = mapping::CreateMapBuilder(
       map_builder_server_options.map_builder_options());
   std::unique_ptr<MapBuilderServerInterface> map_builder_server =

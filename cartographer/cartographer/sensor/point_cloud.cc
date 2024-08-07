@@ -16,8 +16,8 @@
 
 #include "cartographer/sensor/point_cloud.h"
 
-#include "cartographer/sensor/proto/sensor.pb.h"
 #include "cartographer/transform/transform.h"
+#include "cartographer_proto/sensor/sensor.pb.h"
 
 namespace cartographer {
 namespace sensor {

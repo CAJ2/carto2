@@ -116,7 +116,7 @@ TEST(PrecomputationGridTest, TinyProbabilityGrid) {
   }
 }
 
-proto::FastCorrelativeScanMatcherOptions2D
+cartographer_proto::mapping::scan_matching::FastCorrelativeScanMatcherOptions2D
 CreateFastCorrelativeScanMatcherTestOptions2D(
     const int branch_and_bound_depth) {
   auto parameter_dictionary =
@@ -129,7 +129,7 @@ CreateFastCorrelativeScanMatcherTestOptions2D(
   return CreateFastCorrelativeScanMatcherOptions2D(parameter_dictionary.get());
 }
 
-mapping::proto::ProbabilityGridRangeDataInserterOptions2D
+cartographer_proto::mapping::ProbabilityGridRangeDataInserterOptions2D
 CreateRangeDataInserterTestOptions2D() {
   auto parameter_dictionary = common::MakeDictionary(R"text(
       return {

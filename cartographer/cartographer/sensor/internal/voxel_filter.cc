@@ -36,7 +36,7 @@ PointCloud FilterByMaxRange(const PointCloud& point_cloud,
 }
 
 PointCloud AdaptivelyVoxelFiltered(
-    const proto::AdaptiveVoxelFilterOptions& options,
+    const cartographer_proto::sensor::AdaptiveVoxelFilterOptions& options,
     const PointCloud& point_cloud) {
   if (point_cloud.size() <= options.min_num_points()) {
     // 'point_cloud' is already sparse enough.
@@ -179,9 +179,10 @@ std::vector<sensor::TimedPointCloudOriginData::RangeMeasurement> VoxelFilter(
       });
 }
 
-proto::AdaptiveVoxelFilterOptions CreateAdaptiveVoxelFilterOptions(
+cartographer_proto::sensor::AdaptiveVoxelFilterOptions
+CreateAdaptiveVoxelFilterOptions(
     common::LuaParameterDictionary* const parameter_dictionary) {
-  proto::AdaptiveVoxelFilterOptions options;
+  cartographer_proto::sensor::AdaptiveVoxelFilterOptions options;
   options.set_max_length(parameter_dictionary->GetDouble("max_length"));
   options.set_min_num_points(
       parameter_dictionary->GetNonNegativeInt("min_num_points"));
@@ -191,7 +192,7 @@ proto::AdaptiveVoxelFilterOptions CreateAdaptiveVoxelFilterOptions(
 
 PointCloud AdaptiveVoxelFilter(
     const PointCloud& point_cloud,
-    const proto::AdaptiveVoxelFilterOptions& options) {
+    const cartographer_proto::sensor::AdaptiveVoxelFilterOptions& options) {
   return AdaptivelyVoxelFiltered(
       options, FilterByMaxRange(point_cloud, options.max_range()));
 }

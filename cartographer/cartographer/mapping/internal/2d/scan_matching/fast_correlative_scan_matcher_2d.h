@@ -32,14 +32,14 @@
 #include "cartographer/common/port.h"
 #include "cartographer/mapping/2d/grid_2d.h"
 #include "cartographer/mapping/internal/2d/scan_matching/correlative_scan_matcher_2d.h"
-#include "cartographer/mapping/proto/scan_matching/fast_correlative_scan_matcher_options_2d.pb.h"
 #include "cartographer/sensor/point_cloud.h"
+#include "cartographer_proto/mapping/scan_matching/fast_correlative_scan_matcher_options_2d.pb.h"
 
 namespace cartographer {
 namespace mapping {
 namespace scan_matching {
 
-proto::FastCorrelativeScanMatcherOptions2D
+cartographer_proto::mapping::scan_matching::FastCorrelativeScanMatcherOptions2D
 CreateFastCorrelativeScanMatcherOptions2D(
     common::LuaParameterDictionary* parameter_dictionary);
 
@@ -94,9 +94,9 @@ class PrecomputationGrid2D {
 
 class PrecomputationGridStack2D {
  public:
-  PrecomputationGridStack2D(
-      const Grid2D& grid,
-      const proto::FastCorrelativeScanMatcherOptions2D& options);
+  PrecomputationGridStack2D(const Grid2D& grid,
+                            const cartographer_proto::mapping::scan_matching::
+                                FastCorrelativeScanMatcherOptions2D& options);
 
   const PrecomputationGrid2D& Get(int index) {
     return precomputation_grids_[index];
@@ -112,8 +112,8 @@ class PrecomputationGridStack2D {
 class FastCorrelativeScanMatcher2D {
  public:
   FastCorrelativeScanMatcher2D(
-      const Grid2D& grid,
-      const proto::FastCorrelativeScanMatcherOptions2D& options);
+      const Grid2D& grid, const cartographer_proto::mapping::scan_matching::
+                              FastCorrelativeScanMatcherOptions2D& options);
   ~FastCorrelativeScanMatcher2D();
 
   FastCorrelativeScanMatcher2D(const FastCorrelativeScanMatcher2D&) = delete;
@@ -158,7 +158,8 @@ class FastCorrelativeScanMatcher2D {
                              const std::vector<Candidate2D>& candidates,
                              int candidate_depth, float min_score) const;
 
-  const proto::FastCorrelativeScanMatcherOptions2D options_;
+  const cartographer_proto::mapping::scan_matching::
+      FastCorrelativeScanMatcherOptions2D options_;
   MapLimits limits_;
   std::unique_ptr<PrecomputationGridStack2D> precomputation_grid_stack_;
 };

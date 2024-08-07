@@ -64,9 +64,10 @@ class FastCorrelativeScanMatcher3DTest : public ::testing::Test {
                Eigen::AngleAxisf(theta, Eigen::Vector3f::UnitZ()));
   }
 
-  static proto::FastCorrelativeScanMatcherOptions3D
-  CreateFastCorrelativeScanMatcher3DTestOptions3D(
-      const int branch_and_bound_depth) {
+  static cartographer_proto::mapping::scan_matching::
+      FastCorrelativeScanMatcherOptions3D
+      CreateFastCorrelativeScanMatcher3DTestOptions3D(
+          const int branch_and_bound_depth) {
     auto parameter_dictionary = common::MakeDictionary(
         "return {"
         "branch_and_bound_depth = " +
@@ -87,7 +88,7 @@ class FastCorrelativeScanMatcher3DTest : public ::testing::Test {
         parameter_dictionary.get());
   }
 
-  static mapping::proto::RangeDataInserterOptions3D
+  static cartographer_proto::mapping::RangeDataInserterOptions3D
   CreateRangeDataInserterTestOptions3D() {
     auto parameter_dictionary = common::MakeDictionary(
         "return { "
@@ -100,7 +101,8 @@ class FastCorrelativeScanMatcher3DTest : public ::testing::Test {
   }
 
   std::unique_ptr<FastCorrelativeScanMatcher3D> GetFastCorrelativeScanMatcher(
-      const proto::FastCorrelativeScanMatcherOptions3D& options,
+      const cartographer_proto::mapping::scan_matching::
+          FastCorrelativeScanMatcherOptions3D& options,
       const transform::Rigid3f& pose) {
     hybrid_grid_ = absl::make_unique<HybridGrid>(0.05f);
     range_data_inserter_.Insert(
@@ -134,7 +136,8 @@ class FastCorrelativeScanMatcher3DTest : public ::testing::Test {
   std::uniform_real_distribution<float> distribution_ =
       std::uniform_real_distribution<float>(-1.f, 1.f);
   RangeDataInserter3D range_data_inserter_;
-  const proto::FastCorrelativeScanMatcherOptions3D options_;
+  const cartographer_proto::mapping::scan_matching::
+      FastCorrelativeScanMatcherOptions3D options_;
   sensor::PointCloud point_cloud_;
   std::unique_ptr<HybridGrid> hybrid_grid_;
   const Eigen::VectorXf rotational_scan_matcher_histogram_ =

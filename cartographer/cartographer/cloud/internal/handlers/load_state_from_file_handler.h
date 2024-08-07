@@ -18,21 +18,23 @@
 #define CARTOGRAPHER_CLOUD_INTERNAL_HANDLERS_LOAD_STATE_FROM_FILE_HANDLER_H
 
 #include "async_grpc/rpc_handler.h"
-#include "cartographer/cloud/proto/map_builder_service.pb.h"
+#include "cartographer_proto/cloud/map_builder_service.pb.h"
 
 namespace cartographer {
 namespace cloud {
 namespace handlers {
 
 DEFINE_HANDLER_SIGNATURE(
-    LoadStateFromFileSignature, proto::LoadStateFromFileRequest,
-    proto::LoadStateFromFileResponse,
+    LoadStateFromFileSignature,
+    cartographer_proto::cloud::LoadStateFromFileRequest,
+    cartographer_proto::cloud::LoadStateFromFileResponse,
     "/cartographer.cloud.proto.MapBuilderService/LoadStateFromFile")
 
 class LoadStateFromFileHandler
     : public async_grpc::RpcHandler<LoadStateFromFileSignature> {
  public:
-  void OnRequest(const proto::LoadStateFromFileRequest& request) override;
+  void OnRequest(const cartographer_proto::cloud::LoadStateFromFileRequest&
+                     request) override;
 };
 
 }  // namespace handlers

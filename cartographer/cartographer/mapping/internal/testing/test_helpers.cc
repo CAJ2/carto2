@@ -80,9 +80,10 @@ GenerateFakeRangeMeasurements(const Eigen::Vector3f& translation,
   return measurements;
 }
 
-proto::Submap CreateFakeSubmap3D(int trajectory_id, int submap_index,
-                                 bool finished) {
-  proto::Submap proto;
+cartographer_proto::mapping::Submap CreateFakeSubmap3D(int trajectory_id,
+                                                       int submap_index,
+                                                       bool finished) {
+  cartographer_proto::mapping::Submap proto;
   proto.mutable_submap_id()->set_trajectory_id(trajectory_id);
   proto.mutable_submap_id()->set_submap_index(submap_index);
   proto.mutable_submap_3d()->set_num_range_data(1);
@@ -92,8 +93,9 @@ proto::Submap CreateFakeSubmap3D(int trajectory_id, int submap_index,
   return proto;
 }
 
-proto::Node CreateFakeNode(int trajectory_id, int node_index) {
-  proto::Node proto;
+cartographer_proto::mapping::Node CreateFakeNode(int trajectory_id,
+                                                 int node_index) {
+  cartographer_proto::mapping::Node proto;
   proto.mutable_node_id()->set_trajectory_id(trajectory_id);
   proto.mutable_node_id()->set_node_index(node_index);
   proto.mutable_node_data()->set_timestamp(42);
@@ -102,9 +104,10 @@ proto::Node CreateFakeNode(int trajectory_id, int node_index) {
   return proto;
 }
 
-proto::PoseGraph::Constraint CreateFakeConstraint(const proto::Node& node,
-                                                  const proto::Submap& submap) {
-  proto::PoseGraph::Constraint proto;
+cartographer_proto::mapping::PoseGraph::Constraint CreateFakeConstraint(
+    const cartographer_proto::mapping::Node& node,
+    const cartographer_proto::mapping::Submap& submap) {
+  cartographer_proto::mapping::PoseGraph::Constraint proto;
   proto.mutable_submap_id()->set_submap_index(
       submap.submap_id().submap_index());
   proto.mutable_submap_id()->set_trajectory_id(
@@ -117,33 +120,36 @@ proto::PoseGraph::Constraint CreateFakeConstraint(const proto::Node& node,
   *proto.mutable_relative_pose() = transform::ToProto(pose);
   proto.set_translation_weight(0.2f);
   proto.set_rotation_weight(0.1f);
-  proto.set_tag(proto::PoseGraph::Constraint::INTER_SUBMAP);
+  proto.set_tag(
+      cartographer_proto::mapping::PoseGraph::Constraint::INTER_SUBMAP);
   return proto;
 }
 
-proto::Trajectory* CreateTrajectoryIfNeeded(int trajectory_id,
-                                            proto::PoseGraph* pose_graph) {
+cartographer_proto::mapping::Trajectory* CreateTrajectoryIfNeeded(
+    int trajectory_id, cartographer_proto::mapping::PoseGraph* pose_graph) {
   for (int i = 0; i < pose_graph->trajectory_size(); ++i) {
-    proto::Trajectory* trajectory = pose_graph->mutable_trajectory(i);
+    cartographer_proto::mapping::Trajectory* trajectory =
+        pose_graph->mutable_trajectory(i);
     if (trajectory->trajectory_id() == trajectory_id) {
       return trajectory;
     }
   }
-  proto::Trajectory* trajectory = pose_graph->add_trajectory();
+  cartographer_proto::mapping::Trajectory* trajectory =
+      pose_graph->add_trajectory();
   trajectory->set_trajectory_id(trajectory_id);
   return trajectory;
 }
 
-proto::PoseGraph::LandmarkPose CreateFakeLandmark(
+cartographer_proto::mapping::PoseGraph::LandmarkPose CreateFakeLandmark(
     const std::string& landmark_id, const transform::Rigid3d& global_pose) {
-  proto::PoseGraph::LandmarkPose landmark;
+  cartographer_proto::mapping::PoseGraph::LandmarkPose landmark;
   landmark.set_landmark_id(landmark_id);
   *landmark.mutable_global_pose() = transform::ToProto(global_pose);
   return landmark;
 }
 
-void AddToProtoGraph(const proto::Node& node_data,
-                     proto::PoseGraph* pose_graph) {
+void AddToProtoGraph(const cartographer_proto::mapping::Node& node_data,
+                     cartographer_proto::mapping::PoseGraph* pose_graph) {
   auto* trajectory =
       CreateTrajectoryIfNeeded(node_data.node_id().trajectory_id(), pose_graph);
   auto* node = trajectory->add_node();
@@ -152,8 +158,8 @@ void AddToProtoGraph(const proto::Node& node_data,
   *node->mutable_pose() = node_data.node_data().local_pose();
 }
 
-void AddToProtoGraph(const proto::Submap& submap_data,
-                     proto::PoseGraph* pose_graph) {
+void AddToProtoGraph(const cartographer_proto::mapping::Submap& submap_data,
+                     cartographer_proto::mapping::PoseGraph* pose_graph) {
   auto* trajectory = CreateTrajectoryIfNeeded(
       submap_data.submap_id().trajectory_id(), pose_graph);
   auto* submap = trajectory->add_submap();
@@ -165,13 +171,15 @@ void AddToProtoGraph(const proto::Submap& submap_data,
   }
 }
 
-void AddToProtoGraph(const proto::PoseGraph::Constraint& constraint,
-                     proto::PoseGraph* pose_graph) {
+void AddToProtoGraph(
+    const cartographer_proto::mapping::PoseGraph::Constraint& constraint,
+    cartographer_proto::mapping::PoseGraph* pose_graph) {
   *pose_graph->add_constraint() = constraint;
 }
 
-void AddToProtoGraph(const proto::PoseGraph::LandmarkPose& landmark,
-                     proto::PoseGraph* pose_graph) {
+void AddToProtoGraph(
+    const cartographer_proto::mapping::PoseGraph::LandmarkPose& landmark,
+    cartographer_proto::mapping::PoseGraph* pose_graph) {
   *pose_graph->add_landmark_poses() = landmark;
 }
 

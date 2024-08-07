@@ -17,8 +17,8 @@
 #ifndef CARTOGRAPHER_CLOUD_INTERNAL_TESTING_TEST_HELPERS_H
 #define CARTOGRAPHER_CLOUD_INTERNAL_TESTING_TEST_HELPERS_H
 
-#include "cartographer/cloud/proto/map_builder_service.pb.h"
 #include "cartographer/sensor/internal/dispatchable.h"
+#include "cartographer_proto/cloud/map_builder_service.pb.h"
 #include "google/protobuf/util/message_differencer.h"
 
 namespace cartographer {
@@ -33,20 +33,25 @@ template <typename T>
 DataPredicateType BuildDataPredicateEquals(const T &proto);
 
 template <>
-DataPredicateType BuildDataPredicateEquals<proto::AddImuDataRequest>(
-    const proto::AddImuDataRequest &proto);
+DataPredicateType
+BuildDataPredicateEquals<cartographer_proto::cloud::AddImuDataRequest>(
+    const cartographer_proto::cloud::AddImuDataRequest& proto);
 template <>
-DataPredicateType BuildDataPredicateEquals<proto::AddFixedFramePoseDataRequest>(
-    const proto::AddFixedFramePoseDataRequest &proto);
+DataPredicateType BuildDataPredicateEquals<
+    cartographer_proto::cloud::AddFixedFramePoseDataRequest>(
+    const cartographer_proto::cloud::AddFixedFramePoseDataRequest& proto);
 template <>
-DataPredicateType BuildDataPredicateEquals<proto::AddOdometryDataRequest>(
-    const proto::AddOdometryDataRequest &proto);
+DataPredicateType
+BuildDataPredicateEquals<cartographer_proto::cloud::AddOdometryDataRequest>(
+    const cartographer_proto::cloud::AddOdometryDataRequest& proto);
 template <>
-DataPredicateType BuildDataPredicateEquals<proto::AddLandmarkDataRequest>(
-    const proto::AddLandmarkDataRequest &proto);
+DataPredicateType
+BuildDataPredicateEquals<cartographer_proto::cloud::AddLandmarkDataRequest>(
+    const cartographer_proto::cloud::AddLandmarkDataRequest& proto);
 template <>
-DataPredicateType BuildDataPredicateEquals<proto::AddRangefinderDataRequest>(
-    const proto::AddRangefinderDataRequest &proto);
+DataPredicateType
+BuildDataPredicateEquals<cartographer_proto::cloud::AddRangefinderDataRequest>(
+    const cartographer_proto::cloud::AddRangefinderDataRequest& proto);
 
 ProtoPredicateType BuildProtoPredicateEquals(
     const google::protobuf::Message *proto);

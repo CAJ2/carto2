@@ -27,7 +27,6 @@
 #include "cartographer/mapping/internal/motion_filter.h"
 #include "cartographer/mapping/internal/range_data_collator.h"
 #include "cartographer/mapping/pose_extrapolator_interface.h"
-#include "cartographer/mapping/proto/local_trajectory_builder_options_3d.pb.h"
 #include "cartographer/metrics/family_factory.h"
 #include "cartographer/sensor/imu_data.h"
 #include "cartographer/sensor/internal/voxel_filter.h"
@@ -35,6 +34,7 @@
 #include "cartographer/sensor/range_data.h"
 #include "cartographer/sensor/timed_point_cloud_data.h"
 #include "cartographer/transform/rigid_transform.h"
+#include "cartographer_proto/mapping/local_trajectory_builder_options_3d.pb.h"
 
 namespace cartographer {
 namespace mapping {
@@ -56,7 +56,8 @@ class LocalTrajectoryBuilder3D {
   };
 
   explicit LocalTrajectoryBuilder3D(
-      const mapping::proto::LocalTrajectoryBuilderOptions3D& options,
+      const cartographer_proto::mapping::LocalTrajectoryBuilderOptions3D&
+          options,
       const std::vector<std::string>& expected_range_sensor_ids);
   ~LocalTrajectoryBuilder3D();
 
@@ -98,7 +99,7 @@ class LocalTrajectoryBuilder3D {
       const sensor::PointCloud& low_resolution_point_cloud_in_tracking,
       const sensor::PointCloud& high_resolution_point_cloud_in_tracking);
 
-  const mapping::proto::LocalTrajectoryBuilderOptions3D options_;
+  const cartographer_proto::mapping::LocalTrajectoryBuilderOptions3D options_;
   mapping::ActiveSubmaps3D active_submaps_;
 
   mapping::MotionFilter motion_filter_;

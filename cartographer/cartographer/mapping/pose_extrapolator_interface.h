@@ -21,16 +21,17 @@
 #include <tuple>
 
 #include "cartographer/common/time.h"
-#include "cartographer/mapping/proto/pose_extrapolator_options.pb.h"
 #include "cartographer/sensor/imu_data.h"
 #include "cartographer/sensor/odometry_data.h"
 #include "cartographer/transform/rigid_transform.h"
 #include "cartographer/transform/timestamped_transform.h"
+#include "cartographer_proto/mapping/pose_extrapolator_options.pb.h"
 
 namespace cartographer {
 namespace mapping {
 
-proto::PoseExtrapolatorOptions CreatePoseExtrapolatorOptions(
+cartographer_proto::mapping::PoseExtrapolatorOptions
+CreatePoseExtrapolatorOptions(
     common::LuaParameterDictionary* const parameter_dictionary);
 
 class PoseExtrapolatorInterface {
@@ -51,7 +52,7 @@ class PoseExtrapolatorInterface {
 
   // TODO: Remove dependency cycle.
   static std::unique_ptr<PoseExtrapolatorInterface> CreateWithImuData(
-      const proto::PoseExtrapolatorOptions& options,
+      const cartographer_proto::mapping::PoseExtrapolatorOptions& options,
       const std::vector<sensor::ImuData>& imu_data,
       const std::vector<transform::TimestampedTransform>& initial_poses);
 

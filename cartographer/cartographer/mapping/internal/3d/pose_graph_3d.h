@@ -62,7 +62,7 @@ namespace mapping {
 class PoseGraph3D : public PoseGraph {
  public:
   PoseGraph3D(
-      const proto::PoseGraphOptions& options,
+      const cartographer_proto::mapping::PoseGraphOptions& options,
       std::unique_ptr<optimization::OptimizationProblem3D> optimization_problem,
       common::ThreadPool* thread_pool);
   ~PoseGraph3D() override;
@@ -101,11 +101,13 @@ class PoseGraph3D : public PoseGraph {
   void FreezeTrajectory(int trajectory_id) override;
   bool IsTrajectoryFrozen(int trajectory_id) const override
       ABSL_EXCLUSIVE_LOCKS_REQUIRED(mutex_);
-  void AddSubmapFromProto(const transform::Rigid3d& global_submap_pose,
-                          const proto::Submap& submap) override;
+  void AddSubmapFromProto(
+      const transform::Rigid3d& global_submap_pose,
+      const cartographer_proto::mapping::Submap& submap) override;
   void AddNodeFromProto(const transform::Rigid3d& global_pose,
-                        const proto::Node& node) override;
-  void SetTrajectoryDataFromProto(const proto::TrajectoryData& data) override;
+                        const cartographer_proto::mapping::Node& node) override;
+  void SetTrajectoryDataFromProto(
+      const cartographer_proto::mapping::TrajectoryData& data) override;
   void AddNodeToSubmap(const NodeId& node_id,
                        const SubmapId& submap_id) override;
   void AddSerializedConstraints(
@@ -240,7 +242,7 @@ class PoseGraph3D : public PoseGraph {
   void UpdateTrajectoryConnectivity(const Constraint& constraint)
       ABSL_EXCLUSIVE_LOCKS_REQUIRED(mutex_);
 
-  const proto::PoseGraphOptions options_;
+  const cartographer_proto::mapping::PoseGraphOptions options_;
   GlobalSlamOptimizationCallback global_slam_optimization_callback_;
   mutable absl::Mutex mutex_;
   absl::Mutex work_queue_mutex_;

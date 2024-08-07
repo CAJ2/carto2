@@ -19,16 +19,17 @@
 
 #include <string>
 
-#include "cartographer/cloud/proto/map_builder_server_options.pb.h"
 #include "cartographer/common/lua_parameter_dictionary.h"
+#include "cartographer_proto/cloud/map_builder_server_options.pb.h"
 
 namespace cartographer {
 namespace cloud {
 
-proto::MapBuilderServerOptions CreateMapBuilderServerOptions(
+cartographer_proto::cloud::MapBuilderServerOptions
+CreateMapBuilderServerOptions(
     common::LuaParameterDictionary* lua_parameter_dictionary);
 
-proto::MapBuilderServerOptions LoadMapBuilderServerOptions(
+cartographer_proto::cloud::MapBuilderServerOptions LoadMapBuilderServerOptions(
     const std::string& configuration_directory,
     const std::string& configuration_basename);
 

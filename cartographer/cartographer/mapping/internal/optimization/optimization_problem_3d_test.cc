@@ -36,7 +36,8 @@ class OptimizationProblem3DTest : public ::testing::Test {
   OptimizationProblem3DTest()
       : optimization_problem_(CreateOptions()), rng_(45387) {}
 
-  optimization::proto::OptimizationProblemOptions CreateOptions() {
+  cartographer_proto::mapping::optimization::OptimizationProblemOptions
+  CreateOptions() {
     auto parameter_dictionary = common::MakeDictionary(R"text(
         return {
           acceleration_weight = 2e-5,

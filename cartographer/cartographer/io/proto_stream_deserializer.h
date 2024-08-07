@@ -18,15 +18,15 @@
 #define CARTOGRAPHER_IO_PROTO_STREAM_DESERIALIZER_H_
 
 #include "cartographer/io/proto_stream_interface.h"
-#include "cartographer/mapping/proto/pose_graph.pb.h"
-#include "cartographer/mapping/proto/serialization.pb.h"
-#include "cartographer/mapping/proto/trajectory_builder_options.pb.h"
+#include "cartographer_proto/mapping/pose_graph.pb.h"
+#include "cartographer_proto/mapping/serialization.pb.h"
+#include "cartographer_proto/mapping/trajectory_builder_options.pb.h"
 
 namespace cartographer {
 namespace io {
 
 // Helper function for deserializing the PoseGraph from a proto stream file.
-mapping::proto::PoseGraph DeserializePoseGraphFromFile(
+cartographer_proto::mapping::PoseGraph DeserializePoseGraphFromFile(
     const std::string& file_name);
 
 // Helper for deserializing a previously serialized mapping state from a
@@ -39,16 +39,16 @@ class ProtoStreamDeserializer {
   ProtoStreamDeserializer& operator=(const ProtoStreamDeserializer&) = delete;
   ProtoStreamDeserializer(ProtoStreamDeserializer&&) = delete;
 
-  mapping::proto::SerializationHeader& header() { return header_; }
+  cartographer_proto::mapping::SerializationHeader& header() { return header_; }
 
-  mapping::proto::PoseGraph& pose_graph() {
+  cartographer_proto::mapping::PoseGraph& pose_graph() {
     return *pose_graph_.mutable_pose_graph();
   }
-  const mapping::proto::PoseGraph& pose_graph() const {
+  const cartographer_proto::mapping::PoseGraph& pose_graph() const {
     return pose_graph_.pose_graph();
   }
 
-  const mapping::proto::AllTrajectoryBuilderOptions&
+  const cartographer_proto::mapping::AllTrajectoryBuilderOptions&
   all_trajectory_builder_options() {
     return all_trajectory_builder_options_.all_trajectory_builder_options();
   }
@@ -56,14 +56,15 @@ class ProtoStreamDeserializer {
   // Reads the next `SerializedData` message of the ProtoStream into `data`.
   // Returns `true` if the message was successfully read or `false` in case
   // there are no-more messages or an error occurred.
-  bool ReadNextSerializedData(mapping::proto::SerializedData* data);
+  bool ReadNextSerializedData(
+      cartographer_proto::mapping::SerializedData* data);
 
  private:
   ProtoStreamReaderInterface* reader_;
 
-  mapping::proto::SerializationHeader header_;
-  mapping::proto::SerializedData pose_graph_;
-  mapping::proto::SerializedData all_trajectory_builder_options_;
+  cartographer_proto::mapping::SerializationHeader header_;
+  cartographer_proto::mapping::SerializedData pose_graph_;
+  cartographer_proto::mapping::SerializedData all_trajectory_builder_options_;
 };
 
 }  // namespace io

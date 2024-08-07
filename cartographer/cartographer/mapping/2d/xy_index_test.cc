@@ -30,7 +30,7 @@ TEST(XYIndexTest, CellLimitsToProto) {
 }
 
 TEST(XYIndexTest, CellLimitsProtoConstructor) {
-  proto::CellLimits limits;
+  cartographer_proto::mapping::CellLimits limits;
   limits.set_num_x_cells(1);
   limits.set_num_y_cells(2);
 

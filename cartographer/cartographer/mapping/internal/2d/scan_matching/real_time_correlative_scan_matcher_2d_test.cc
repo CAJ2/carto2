@@ -36,8 +36,9 @@ namespace mapping {
 namespace scan_matching {
 namespace {
 
-proto::RealTimeCorrelativeScanMatcherOptions
-CreateRealTimeCorrelativeScanMatcherTestOptions2D() {
+cartographer_proto::mapping::scan_matching::
+    RealTimeCorrelativeScanMatcherOptions
+    CreateRealTimeCorrelativeScanMatcherTestOptions2D() {
   auto parameter_dictionary = common::MakeDictionary(
       "return {"
       "linear_search_window = 0.6, "

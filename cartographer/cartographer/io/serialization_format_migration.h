@@ -19,7 +19,7 @@
 
 #include "cartographer/io/proto_stream_interface.h"
 #include "cartographer/mapping/id.h"
-#include "cartographer/mapping/proto/serialization.pb.h"
+#include "cartographer_proto/mapping/serialization.pb.h"
 
 namespace cartographer {
 namespace io {
@@ -32,12 +32,14 @@ void MigrateStreamVersion1ToVersion2(
     cartographer::io::ProtoStreamWriterInterface* const output,
     bool include_unfinished_submaps);
 
-mapping::MapById<mapping::SubmapId, mapping::proto::Submap>
+mapping::MapById<mapping::SubmapId, cartographer_proto::mapping::Submap>
 MigrateSubmapFormatVersion1ToVersion2(
-    const mapping::MapById<mapping::SubmapId, mapping::proto::Submap>&
+    const mapping::MapById<mapping::SubmapId,
+                           cartographer_proto::mapping::Submap>&
         submap_id_to_submaps,
-    mapping::MapById<mapping::NodeId, mapping::proto::Node>& node_id_to_nodes,
-    const mapping::proto::PoseGraph& pose_graph_proto);
+    mapping::MapById<mapping::NodeId, cartographer_proto::mapping::Node>&
+        node_id_to_nodes,
+    const cartographer_proto::mapping::PoseGraph& pose_graph_proto);
 
 }  // namespace io
 }  // namespace cartographer

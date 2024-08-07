@@ -18,8 +18,8 @@
 
 #include "async_grpc/rpc_handler.h"
 #include "cartographer/cloud/internal/map_builder_context_interface.h"
-#include "cartographer/cloud/proto/map_builder_service.pb.h"
 #include "cartographer/transform/transform.h"
+#include "cartographer_proto/cloud/map_builder_service.pb.h"
 #include "google/protobuf/empty.pb.h"
 
 namespace cartographer {
@@ -27,8 +27,10 @@ namespace cloud {
 namespace handlers {
 
 void GetLocalToGlobalTransformHandler::OnRequest(
-    const proto::GetLocalToGlobalTransformRequest& request) {
-  auto response = absl::make_unique<proto::GetLocalToGlobalTransformResponse>();
+    const cartographer_proto::cloud::GetLocalToGlobalTransformRequest&
+        request) {
+  auto response = absl::make_unique<
+      cartographer_proto::cloud::GetLocalToGlobalTransformResponse>();
   auto local_to_global =
       GetContext<MapBuilderContextInterface>()
           ->map_builder()

@@ -24,23 +24,23 @@
 namespace cartographer {
 namespace mapping {
 
-proto::PoseGraph::Constraint::Tag ToProto(
+cartographer_proto::mapping::PoseGraph::Constraint::Tag ToProto(
     const PoseGraph::Constraint::Tag& tag) {
   switch (tag) {
     case PoseGraph::Constraint::Tag::INTRA_SUBMAP:
-      return proto::PoseGraph::Constraint::INTRA_SUBMAP;
+      return cartographer_proto::mapping::PoseGraph::Constraint::INTRA_SUBMAP;
     case PoseGraph::Constraint::Tag::INTER_SUBMAP:
-      return proto::PoseGraph::Constraint::INTER_SUBMAP;
+      return cartographer_proto::mapping::PoseGraph::Constraint::INTER_SUBMAP;
   }
   LOG(FATAL) << "Unsupported tag.";
 }
 
 PoseGraph::Constraint::Tag FromProto(
-    const proto::PoseGraph::Constraint::Tag& proto) {
+    const cartographer_proto::mapping::PoseGraph::Constraint::Tag& proto) {
   switch (proto) {
-    case proto::PoseGraph::Constraint::INTRA_SUBMAP:
+    case cartographer_proto::mapping::PoseGraph::Constraint::INTRA_SUBMAP:
       return PoseGraph::Constraint::Tag::INTRA_SUBMAP;
-    case proto::PoseGraph::Constraint::INTER_SUBMAP:
+    case cartographer_proto::mapping::PoseGraph::Constraint::INTER_SUBMAP:
       return PoseGraph::Constraint::Tag::INTER_SUBMAP;
     case ::google::protobuf::kint32max:
     case ::google::protobuf::kint32min: {
@@ -50,7 +50,8 @@ PoseGraph::Constraint::Tag FromProto(
 }
 
 std::vector<PoseGraph::Constraint> FromProto(
-    const ::google::protobuf::RepeatedPtrField<proto::PoseGraph::Constraint>&
+    const ::google::protobuf::RepeatedPtrField<
+        cartographer_proto::mapping::PoseGraph::Constraint>&
         constraint_protos) {
   std::vector<PoseGraph::Constraint> constraints;
   for (const auto& constraint_proto : constraint_protos) {
@@ -70,7 +71,7 @@ std::vector<PoseGraph::Constraint> FromProto(
 }
 
 void PopulateOverlappingSubmapsTrimmerOptions2D(
-    proto::PoseGraphOptions* const pose_graph_options,
+    cartographer_proto::mapping::PoseGraphOptions* const pose_graph_options,
     common::LuaParameterDictionary* const parameter_dictionary) {
   constexpr char kDictionaryKey[] = "overlapping_submaps_trimmer_2d";
   if (!parameter_dictionary->HasKey(kDictionaryKey)) return;
@@ -85,9 +86,9 @@ void PopulateOverlappingSubmapsTrimmerOptions2D(
       options_dictionary->GetInt("min_added_submaps_count"));
 }
 
-proto::PoseGraphOptions CreatePoseGraphOptions(
+cartographer_proto::mapping::PoseGraphOptions CreatePoseGraphOptions(
     common::LuaParameterDictionary* const parameter_dictionary) {
-  proto::PoseGraphOptions options;
+  cartographer_proto::mapping::PoseGraphOptions options;
   options.set_optimize_every_n_nodes(
       parameter_dictionary->GetInt("optimize_every_n_nodes"));
   *options.mutable_constraint_builder_options() =
@@ -114,8 +115,9 @@ proto::PoseGraphOptions CreatePoseGraphOptions(
   return options;
 }
 
-proto::PoseGraph::Constraint ToProto(const PoseGraph::Constraint& constraint) {
-  proto::PoseGraph::Constraint constraint_proto;
+cartographer_proto::mapping::PoseGraph::Constraint ToProto(
+    const PoseGraph::Constraint& constraint) {
+  cartographer_proto::mapping::PoseGraph::Constraint constraint_proto;
   *constraint_proto.mutable_relative_pose() =
       transform::ToProto(constraint.pose.zbar_ij);
   constraint_proto.set_translation_weight(constraint.pose.translation_weight);
@@ -132,12 +134,15 @@ proto::PoseGraph::Constraint ToProto(const PoseGraph::Constraint& constraint) {
   return constraint_proto;
 }
 
-proto::PoseGraph PoseGraph::ToProto(bool include_unfinished_submaps) const {
-  proto::PoseGraph proto;
+cartographer_proto::mapping::PoseGraph PoseGraph::ToProto(
+    bool include_unfinished_submaps) const {
+  cartographer_proto::mapping::PoseGraph proto;
 
-  std::map<int, proto::Trajectory* const> trajectory_protos;
-  const auto trajectory = [&proto, &trajectory_protos](
-                              const int trajectory_id) -> proto::Trajectory* {
+  std::map<int, cartographer_proto::mapping::Trajectory* const>
+      trajectory_protos;
+  const auto trajectory =
+      [&proto, &trajectory_protos](
+          const int trajectory_id) -> cartographer_proto::mapping::Trajectory* {
     if (trajectory_protos.count(trajectory_id) == 0) {
       auto* const trajectory_proto = proto.add_trajectory();
       trajectory_proto->set_trajectory_id(trajectory_id);
@@ -148,7 +153,7 @@ proto::PoseGraph PoseGraph::ToProto(bool include_unfinished_submaps) const {
 
   std::set<mapping::SubmapId> unfinished_submaps;
   for (const auto& submap_id_data : GetAllSubmapData()) {
-    proto::Trajectory* trajectory_proto =
+    cartographer_proto::mapping::Trajectory* trajectory_proto =
         trajectory(submap_id_data.id.trajectory_id);
     if (!include_unfinished_submaps &&
         !submap_id_data.data.submap->insertion_finished()) {
@@ -188,7 +193,7 @@ proto::PoseGraph PoseGraph::ToProto(bool include_unfinished_submaps) const {
   }
 
   for (const auto& node_id_data : GetTrajectoryNodes()) {
-    proto::Trajectory* trajectory_proto =
+    cartographer_proto::mapping::Trajectory* trajectory_proto =
         trajectory(node_id_data.id.trajectory_id);
     CHECK(node_id_data.data.constant_data != nullptr);
     auto* const node_proto = trajectory_proto->add_node();

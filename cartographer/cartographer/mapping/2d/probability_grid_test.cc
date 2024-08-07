@@ -29,7 +29,7 @@ using Eigen::Array2i;
 using Eigen::Vector2f;
 
 TEST(ProbabilityGridTest, ProtoConstructor) {
-  proto::Grid2D proto;
+  cartographer_proto::mapping::Grid2D proto;
   const MapLimits limits(1., {2., 3.}, CellLimits(4., 5.));
   *proto.mutable_limits() = ToProto(limits);
   for (int i = 6; i < 12; ++i) {

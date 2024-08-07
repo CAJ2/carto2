@@ -103,7 +103,7 @@ TEST(Submap2DTest, ToFromProto) {
                     absl::make_unique<ProbabilityGrid>(expected_map_limits,
                                                        &conversion_tables),
                     &conversion_tables);
-  const proto::Submap proto =
+  const cartographer_proto::mapping::Submap proto =
       expected.ToProto(true /* include_probability_grid_data */);
   EXPECT_TRUE(proto.has_submap_2d());
   EXPECT_FALSE(proto.has_submap_3d());

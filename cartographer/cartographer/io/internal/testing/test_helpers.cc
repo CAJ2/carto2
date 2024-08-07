@@ -16,7 +16,7 @@
 
 #include "cartographer/io/internal/testing/test_helpers.h"
 
-#include "cartographer/mapping/proto/serialization.pb.h"
+#include "cartographer_proto/mapping/serialization.pb.h"
 
 namespace cartographer {
 namespace io {
@@ -27,14 +27,14 @@ std::unique_ptr<InMemoryProtoStreamReader> ProtoReaderFromStrings(
     const std::initializer_list<std::string> &data_textpbs) {
   std::queue<std::unique_ptr<::google::protobuf::Message>> proto_queue;
   proto_queue.emplace(absl::make_unique<
-                      ::cartographer::mapping::proto::SerializationHeader>(
-      ProtoFromStringOrDie<::cartographer::mapping::proto::SerializationHeader>(
+                      ::cartographer_proto::mapping::SerializationHeader>(
+      ProtoFromStringOrDie<::cartographer_proto::mapping::SerializationHeader>(
           header_textpb)));
   for (const std::string &data_textpb : data_textpbs) {
     proto_queue.emplace(
-        absl::make_unique<::cartographer::mapping::proto::SerializedData>(
-            ProtoFromStringOrDie<
-                ::cartographer::mapping::proto::SerializedData>(data_textpb)));
+        absl::make_unique<::cartographer_proto::mapping::SerializedData>(
+            ProtoFromStringOrDie<::cartographer_proto::mapping::SerializedData>(
+                data_textpb)));
   }
   return absl::make_unique<InMemoryProtoStreamReader>(std::move(proto_queue));
 }

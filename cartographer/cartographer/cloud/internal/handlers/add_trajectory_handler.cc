@@ -20,14 +20,14 @@
 #include "async_grpc/rpc_handler.h"
 #include "cartographer/cloud/internal/map_builder_context_interface.h"
 #include "cartographer/cloud/internal/sensor/serialization.h"
-#include "cartographer/cloud/proto/map_builder_service.pb.h"
+#include "cartographer_proto/cloud/map_builder_service.pb.h"
 
 namespace cartographer {
 namespace cloud {
 namespace handlers {
 
 void AddTrajectoryHandler::OnRequest(
-    const proto::AddTrajectoryRequest& request) {
+    const cartographer_proto::cloud::AddTrajectoryRequest& request) {
   auto local_slam_result_callback =
       GetUnsynchronizedContext<MapBuilderContextInterface>()
           ->GetLocalSlamResultCallbackForSubscriptions();
@@ -71,7 +71,8 @@ void AddTrajectoryHandler::OnRequest(
     }
   }
 
-  auto response = absl::make_unique<proto::AddTrajectoryResponse>();
+  auto response =
+      absl::make_unique<cartographer_proto::cloud::AddTrajectoryResponse>();
   response->set_trajectory_id(trajectory_id);
   Send(std::move(response));
 }

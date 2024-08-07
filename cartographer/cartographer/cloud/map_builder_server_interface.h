@@ -19,9 +19,9 @@
 
 #include <memory>
 
-#include "cartographer/cloud/proto/map_builder_server_options.pb.h"
 #include "cartographer/mapping/map_builder_interface.h"
 #include "cartographer/metrics/family_factory.h"
+#include "cartographer_proto/cloud/map_builder_server_options.pb.h"
 
 namespace cartographer {
 namespace cloud {
@@ -51,7 +51,8 @@ void RegisterMapBuilderServerMetrics(metrics::FamilyFactory* factory);
 
 // Returns MapBuilderServer with the actual implementation.
 std::unique_ptr<MapBuilderServerInterface> CreateMapBuilderServer(
-    const proto::MapBuilderServerOptions& map_builder_server_options,
+    const cartographer_proto::cloud::MapBuilderServerOptions&
+        map_builder_server_options,
     std::unique_ptr<mapping::MapBuilderInterface> map_builder);
 
 }  // namespace cloud

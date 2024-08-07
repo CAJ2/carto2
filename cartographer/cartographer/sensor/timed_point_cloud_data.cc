@@ -16,15 +16,15 @@
 
 #include "cartographer/sensor/timed_point_cloud_data.h"
 
-#include "cartographer/transform/proto/transform.pb.h"
 #include "cartographer/transform/transform.h"
+#include "cartographer_proto/transform/transform.pb.h"
 
 namespace cartographer {
 namespace sensor {
 
-proto::TimedPointCloudData ToProto(
+cartographer_proto::sensor::TimedPointCloudData ToProto(
     const TimedPointCloudData& timed_point_cloud_data) {
-  proto::TimedPointCloudData proto;
+  cartographer_proto::sensor::TimedPointCloudData proto;
   proto.set_timestamp(common::ToUniversal(timed_point_cloud_data.time));
   *proto.mutable_origin() = transform::ToProto(timed_point_cloud_data.origin);
   proto.mutable_point_data()->Reserve(timed_point_cloud_data.ranges.size());
@@ -37,7 +37,8 @@ proto::TimedPointCloudData ToProto(
   return proto;
 }
 
-TimedPointCloudData FromProto(const proto::TimedPointCloudData& proto) {
+TimedPointCloudData FromProto(
+    const cartographer_proto::sensor::TimedPointCloudData& proto) {
   CHECK(proto.intensities().size() == 0 ||
         proto.intensities().size() == proto.point_data().size());
   TimedPointCloud timed_point_cloud;

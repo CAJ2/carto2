@@ -20,15 +20,15 @@
 #include "async_grpc/rpc_handler.h"
 #include "cartographer/cloud/internal/map_builder_context_interface.h"
 #include "cartographer/cloud/internal/map_builder_server.h"
-#include "cartographer/cloud/proto/map_builder_service.pb.h"
 #include "cartographer/io/proto_stream.h"
+#include "cartographer_proto/cloud/map_builder_service.pb.h"
 
 namespace cartographer {
 namespace cloud {
 namespace handlers {
 
 void WriteStateToFileHandler::OnRequest(
-    const proto::WriteStateToFileRequest& request) {
+    const cartographer_proto::cloud::WriteStateToFileRequest& request) {
   if (request.filename().empty()) {
     Finish(::grpc::Status(::grpc::INVALID_ARGUMENT, "Filename empty."));
     return;
@@ -38,7 +38,8 @@ void WriteStateToFileHandler::OnRequest(
           ->map_builder()
           .SerializeStateToFile(
               /*include_unfinished_submaps=*/false, request.filename());
-  auto response = absl::make_unique<proto::WriteStateToFileResponse>();
+  auto response =
+      absl::make_unique<cartographer_proto::cloud::WriteStateToFileResponse>();
   response->set_success(success);
   Send(std::move(response));
 }

@@ -25,7 +25,7 @@
 #include "Eigen/Core"
 #include "cartographer/common/math.h"
 #include "cartographer/common/port.h"
-#include "cartographer/mapping/proto/cell_limits_2d.pb.h"
+#include "cartographer_proto/mapping/cell_limits_2d.pb.h"
 #include "glog/logging.h"
 
 namespace cartographer {
@@ -36,7 +36,8 @@ struct CellLimits {
   CellLimits(int init_num_x_cells, int init_num_y_cells)
       : num_x_cells(init_num_x_cells), num_y_cells(init_num_y_cells) {}
 
-  explicit CellLimits(const proto::CellLimits& cell_limits)
+  explicit CellLimits(
+      const cartographer_proto::mapping::CellLimits& cell_limits)
       : num_x_cells(cell_limits.num_x_cells()),
         num_y_cells(cell_limits.num_y_cells()) {}
 
@@ -44,8 +45,9 @@ struct CellLimits {
   int num_y_cells = 0;
 };
 
-inline proto::CellLimits ToProto(const CellLimits& cell_limits) {
-  proto::CellLimits result;
+inline cartographer_proto::mapping::CellLimits ToProto(
+    const CellLimits& cell_limits) {
+  cartographer_proto::mapping::CellLimits result;
   result.set_num_x_cells(cell_limits.num_x_cells);
   result.set_num_y_cells(cell_limits.num_y_cells);
   return result;

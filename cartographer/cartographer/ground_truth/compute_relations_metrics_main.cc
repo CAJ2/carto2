@@ -25,14 +25,14 @@
 
 #include "cartographer/common/math.h"
 #include "cartographer/common/port.h"
-#include "cartographer/ground_truth/proto/relations.pb.h"
 #include "cartographer/ground_truth/relations_text_file.h"
 #include "cartographer/io/proto_stream.h"
 #include "cartographer/io/proto_stream_deserializer.h"
-#include "cartographer/mapping/proto/pose_graph.pb.h"
 #include "cartographer/transform/rigid_transform.h"
 #include "cartographer/transform/transform.h"
 #include "cartographer/transform/transform_interpolation_buffer.h"
+#include "cartographer_proto/ground_truth/relations.pb.h"
+#include "cartographer_proto/mapping/pose_graph.pb.h"
 #include "gflags/gflags.h"
 #include "glog/logging.h"
 
@@ -113,9 +113,10 @@ std::string StatisticsString(const std::vector<Error>& errors) {
          MeanAndStdDevString(squared_rotational_errors_degrees) + " deg^2\n";
 }
 
-void WriteRelationMetricsToFile(const std::vector<Error>& errors,
-                                const proto::GroundTruth& ground_truth,
-                                const std::string& relation_metrics_filename) {
+void WriteRelationMetricsToFile(
+    const std::vector<Error>& errors,
+    const cartographer_proto::ground_truth::GroundTruth& ground_truth,
+    const std::string& relation_metrics_filename) {
   std::ofstream relation_errors_file;
   std::string log_file_path;
   LOG(INFO) << "Writing relation metrics to '" + relation_metrics_filename +
@@ -130,7 +131,8 @@ void WriteRelationMetricsToFile(const std::vector<Error>& errors,
   for (int relation_index = 0; relation_index < ground_truth.relation_size();
        ++relation_index) {
     const Error& error = errors[relation_index];
-    const proto::Relation& relation = ground_truth.relation(relation_index);
+    const cartographer_proto::ground_truth::Relation& relation =
+        ground_truth.relation(relation_index);
     double translational_error = std::sqrt(error.translational_squared);
     double squared_translational_error = error.translational_squared;
     double rotational_errors_degree =
@@ -173,13 +175,13 @@ void Run(const std::string& pose_graph_filename,
          const bool read_text_file_with_unix_timestamps,
          const bool write_relation_metrics) {
   LOG(INFO) << "Reading pose graph from '" << pose_graph_filename << "'...";
-  mapping::proto::PoseGraph pose_graph =
+  cartographer_proto::mapping::PoseGraph pose_graph =
       io::DeserializePoseGraphFromFile(pose_graph_filename);
 
   const transform::TransformInterpolationBuffer transform_interpolation_buffer(
       pose_graph.trajectory(0));
 
-  proto::GroundTruth ground_truth;
+  cartographer_proto::ground_truth::GroundTruth ground_truth;
   if (read_text_file_with_unix_timestamps) {
     LOG(INFO) << "Reading relations from '" << relations_filename << "'...";
     ground_truth = ReadRelationsTextFile(relations_filename);

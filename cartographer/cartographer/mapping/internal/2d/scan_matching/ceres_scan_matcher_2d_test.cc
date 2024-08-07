@@ -55,8 +55,8 @@ class CeresScanMatcherTest : public ::testing::Test {
             num_threads = 1,
           },
         })text");
-    const proto::CeresScanMatcherOptions2D options =
-        CreateCeresScanMatcherOptions2D(parameter_dictionary.get());
+    const cartographer_proto::mapping::scan_matching::CeresScanMatcherOptions2D
+        options = CreateCeresScanMatcherOptions2D(parameter_dictionary.get());
     ceres_scan_matcher_ = absl::make_unique<CeresScanMatcher2D>(options);
   }
 

@@ -20,8 +20,8 @@
 
 #include "Eigen/Core"
 #include "cartographer/common/time.h"
-#include "cartographer/mapping/proto/trajectory_node_data.pb.h"
 #include "cartographer/transform/rigid_transform_test_helpers.h"
+#include "cartographer_proto/mapping/trajectory_node_data.pb.h"
 #include "gtest/gtest.h"
 
 namespace cartographer {
@@ -45,7 +45,8 @@ TEST(TrajectoryNodeTest, ToAndFromProto) {
       Eigen::VectorXf::Unit(20, 4),
       transform::Rigid3d({1., 2., 3.},
                          Eigen::Quaterniond(4., 5., -6., -7.).normalized())};
-  const proto::TrajectoryNodeData proto = ToProto(expected);
+  const cartographer_proto::mapping::TrajectoryNodeData proto =
+      ToProto(expected);
   const TrajectoryNode::Data actual = FromProto(proto);
   EXPECT_EQ(expected.time, actual.time);
   EXPECT_TRUE(actual.gravity_alignment.isApprox(expected.gravity_alignment));

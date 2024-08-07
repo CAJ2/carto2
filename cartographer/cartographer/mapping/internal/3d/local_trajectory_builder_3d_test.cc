@@ -46,7 +46,7 @@ class LocalTrajectoryBuilderTest : public ::testing::Test {
 
   void SetUp() override { GenerateBubbles(); }
 
-  mapping::proto::LocalTrajectoryBuilderOptions3D
+  cartographer_proto::mapping::LocalTrajectoryBuilderOptions3D
   CreateTrajectoryBuilderOptions3D() {
     auto parameter_dictionary = common::MakeDictionary(R"text(
         return {
@@ -96,7 +96,7 @@ class LocalTrajectoryBuilderTest : public ::testing::Test {
 
           imu_gravity_time_constant = 1.,
           rotational_histogram_size = 120,
-          
+
           pose_extrapolator = {
             use_imu_based = false,
             constant_velocity = {
@@ -119,7 +119,7 @@ class LocalTrajectoryBuilderTest : public ::testing::Test {
               },
             },
           },
-          
+
           submaps = {
             high_resolution = 0.2,
             high_resolution_max_range = 50.,

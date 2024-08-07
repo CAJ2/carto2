@@ -23,9 +23,9 @@
 #include "Eigen/Core"
 #include "absl/types/optional.h"
 #include "cartographer/common/time.h"
-#include "cartographer/mapping/proto/trajectory_node_data.pb.h"
 #include "cartographer/sensor/range_data.h"
 #include "cartographer/transform/rigid_transform.h"
+#include "cartographer_proto/mapping/trajectory_node_data.pb.h"
 
 namespace cartographer {
 namespace mapping {
@@ -72,8 +72,10 @@ struct TrajectoryNode {
   transform::Rigid3d global_pose;
 };
 
-proto::TrajectoryNodeData ToProto(const TrajectoryNode::Data& constant_data);
-TrajectoryNode::Data FromProto(const proto::TrajectoryNodeData& proto);
+cartographer_proto::mapping::TrajectoryNodeData ToProto(
+    const TrajectoryNode::Data& constant_data);
+TrajectoryNode::Data FromProto(
+    const cartographer_proto::mapping::TrajectoryNodeData& proto);
 
 }  // namespace mapping
 }  // namespace cartographer

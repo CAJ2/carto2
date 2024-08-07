@@ -19,21 +19,23 @@
 
 #include "cartographer/common/lua_parameter_dictionary.h"
 #include "cartographer/mapping/internal/2d/tsdf_2d.h"
-#include "cartographer/mapping/proto/tsdf_range_data_inserter_options_2d.pb.h"
 #include "cartographer/mapping/range_data_inserter_interface.h"
 #include "cartographer/sensor/point_cloud.h"
 #include "cartographer/sensor/range_data.h"
+#include "cartographer_proto/mapping/tsdf_range_data_inserter_options_2d.pb.h"
 
 namespace cartographer {
 namespace mapping {
 
-proto::TSDFRangeDataInserterOptions2D CreateTSDFRangeDataInserterOptions2D(
+cartographer_proto::mapping::TSDFRangeDataInserterOptions2D
+CreateTSDFRangeDataInserterOptions2D(
     common::LuaParameterDictionary* parameter_dictionary);
 
 class TSDFRangeDataInserter2D : public RangeDataInserterInterface {
  public:
   explicit TSDFRangeDataInserter2D(
-      const proto::TSDFRangeDataInserterOptions2D& options);
+      const cartographer_proto::mapping::TSDFRangeDataInserterOptions2D&
+          options);
 
   TSDFRangeDataInserter2D(const TSDFRangeDataInserter2D&) = delete;
   TSDFRangeDataInserter2D& operator=(const TSDFRangeDataInserter2D&) = delete;
@@ -46,12 +48,14 @@ class TSDFRangeDataInserter2D : public RangeDataInserterInterface {
                       GridInterface* grid) const override;
 
  private:
-  void InsertHit(const proto::TSDFRangeDataInserterOptions2D& options,
-                 const Eigen::Vector2f& hit, const Eigen::Vector2f& origin,
-                 float normal, TSDF2D* tsdf) const;
+  void InsertHit(
+      const cartographer_proto::mapping::TSDFRangeDataInserterOptions2D&
+          options,
+      const Eigen::Vector2f& hit, const Eigen::Vector2f& origin, float normal,
+      TSDF2D* tsdf) const;
   void UpdateCell(const Eigen::Array2i& cell, float update_sdf,
                   float update_weight, TSDF2D* tsdf) const;
-  const proto::TSDFRangeDataInserterOptions2D options_;
+  const cartographer_proto::mapping::TSDFRangeDataInserterOptions2D options_;
 };
 
 }  // namespace mapping

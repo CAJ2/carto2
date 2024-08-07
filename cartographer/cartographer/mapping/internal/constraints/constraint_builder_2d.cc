@@ -31,12 +31,12 @@
 #include "absl/memory/memory.h"
 #include "cartographer/common/math.h"
 #include "cartographer/common/thread_pool.h"
-#include "cartographer/mapping/proto/scan_matching/ceres_scan_matcher_options_2d.pb.h"
-#include "cartographer/mapping/proto/scan_matching/fast_correlative_scan_matcher_options_2d.pb.h"
 #include "cartographer/metrics/counter.h"
 #include "cartographer/metrics/gauge.h"
 #include "cartographer/metrics/histogram.h"
 #include "cartographer/transform/transform.h"
+#include "cartographer_proto/mapping/scan_matching/ceres_scan_matcher_options_2d.pb.h"
+#include "cartographer_proto/mapping/scan_matching/fast_correlative_scan_matcher_options_2d.pb.h"
 #include "glog/logging.h"
 
 namespace cartographer {
@@ -57,7 +57,8 @@ transform::Rigid2d ComputeSubmapPose(const Submap2D& submap) {
 }
 
 ConstraintBuilder2D::ConstraintBuilder2D(
-    const constraints::proto::ConstraintBuilderOptions& options,
+    const cartographer_proto::mapping::constraints::ConstraintBuilderOptions&
+        options,
     common::ThreadPoolInterface* const thread_pool)
     : options_(options),
       thread_pool_(thread_pool),

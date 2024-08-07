@@ -29,7 +29,7 @@ using Eigen::Array2i;
 using Eigen::Vector2f;
 
 TEST(TSDF2DTest, ProtoConstructor) {
-  proto::Grid2D proto;
+  cartographer_proto::mapping::Grid2D proto;
   const MapLimits limits(1., {2., 3.}, CellLimits(4., 5.));
   *proto.mutable_limits() = ToProto(limits);
   proto.mutable_tsdf_2d()->set_max_weight(10.0);

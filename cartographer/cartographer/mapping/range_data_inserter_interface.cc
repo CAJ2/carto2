@@ -22,15 +22,17 @@
 namespace cartographer {
 namespace mapping {
 
-proto::RangeDataInserterOptions CreateRangeDataInserterOptions(
+cartographer_proto::mapping::RangeDataInserterOptions
+CreateRangeDataInserterOptions(
     common::LuaParameterDictionary* const parameter_dictionary) {
-  proto::RangeDataInserterOptions options;
+  cartographer_proto::mapping::RangeDataInserterOptions options;
   const std::string range_data_inserter_type_string =
       parameter_dictionary->GetString("range_data_inserter_type");
-  proto::RangeDataInserterOptions_RangeDataInserterType
+  cartographer_proto::mapping::RangeDataInserterOptions_RangeDataInserterType
       range_data_inserter_type;
-  CHECK(proto::RangeDataInserterOptions_RangeDataInserterType_Parse(
-      range_data_inserter_type_string, &range_data_inserter_type))
+  CHECK(cartographer_proto::mapping::
+            RangeDataInserterOptions_RangeDataInserterType_Parse(
+                range_data_inserter_type_string, &range_data_inserter_type))
       << "Unknown RangeDataInserterOptions_RangeDataInserterType kind: "
       << range_data_inserter_type_string;
   options.set_range_data_inserter_type(range_data_inserter_type);

@@ -37,17 +37,20 @@ class MapBuilderStub : public mapping::MapBuilderInterface {
 
   int AddTrajectoryBuilder(
       const std::set<SensorId>& expected_sensor_ids,
-      const mapping::proto::TrajectoryBuilderOptions& trajectory_options,
+      const cartographer_proto::cloud::mapping::TrajectoryBuilderOptions&
+          trajectory_options,
       LocalSlamResultCallback local_slam_result_callback) override;
   int AddTrajectoryForDeserialization(
-      const mapping::proto::TrajectoryBuilderOptionsWithSensorIds&
-          options_with_sensor_ids_proto) override;
+      const cartographer_proto::cloud::mapping::
+          TrajectoryBuilderOptionsWithSensorIds& options_with_sensor_ids_proto)
+      override;
   mapping::TrajectoryBuilderInterface* GetTrajectoryBuilder(
       int trajectory_id) const override;
   void FinishTrajectory(int trajectory_id) override;
   std::string SubmapToProto(
       const mapping::SubmapId& submap_id,
-      mapping::proto::SubmapQuery::Response* response) override;
+      cartographer_proto::cloud::mapping::SubmapQuery::Response* response)
+      override;
   void SerializeState(bool include_unfinished_submaps,
                       io::ProtoStreamWriterInterface* writer) override;
   bool SerializeStateToFile(bool include_unfinished_submaps,
@@ -58,7 +61,8 @@ class MapBuilderStub : public mapping::MapBuilderInterface {
                                        bool load_frozen_state) override;
   int num_trajectory_builders() const override;
   mapping::PoseGraphInterface* pose_graph() override;
-  const std::vector<mapping::proto::TrajectoryBuilderOptionsWithSensorIds>&
+  const std::vector<cartographer_proto::cloud::mapping::
+                        TrajectoryBuilderOptionsWithSensorIds>&
   GetAllTrajectoryBuilderOptions() const override;
 
  private:

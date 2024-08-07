@@ -27,8 +27,9 @@ namespace cartographer {
 namespace transform {
 
 TransformInterpolationBuffer::TransformInterpolationBuffer(
-    const mapping::proto::Trajectory& trajectory) {
-  for (const mapping::proto::Trajectory::Node& node : trajectory.node()) {
+    const cartographer_proto::mapping::Trajectory& trajectory) {
+  for (const cartographer_proto::mapping::Trajectory::Node& node :
+       trajectory.node()) {
     Push(common::FromUniversal(node.timestamp()),
          transform::ToRigid3(node.pose()));
   }

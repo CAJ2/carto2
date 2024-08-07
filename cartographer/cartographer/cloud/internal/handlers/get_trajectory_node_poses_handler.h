@@ -18,7 +18,7 @@
 #define CARTOGRAPHER_CLOUD_INTERNAL_HANDLERS_GET_TRAJECTORY_NODE_POSES_HANDLER_H
 
 #include "async_grpc/rpc_handler.h"
-#include "cartographer/cloud/proto/map_builder_service.pb.h"
+#include "cartographer_proto/cloud/map_builder_service.pb.h"
 #include "google/protobuf/empty.pb.h"
 
 namespace cartographer {
@@ -27,7 +27,7 @@ namespace handlers {
 
 DEFINE_HANDLER_SIGNATURE(
     GetTrajectoryNodePosesSignature, google::protobuf::Empty,
-    proto::GetTrajectoryNodePosesResponse,
+    cartographer_proto::cloud::GetTrajectoryNodePosesResponse,
     "/cartographer.cloud.proto.MapBuilderService/GetTrajectoryNodePoses")
 
 class GetTrajectoryNodePosesHandler

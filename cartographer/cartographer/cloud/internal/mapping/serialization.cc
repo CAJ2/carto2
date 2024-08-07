@@ -27,46 +27,49 @@ using TrajectoryState =
 
 }  // namespace
 
-proto::TrajectoryState ToProto(const TrajectoryState& trajectory_state) {
+cartographer_proto::cloud::TrajectoryState ToProto(
+    const TrajectoryState& trajectory_state) {
   switch (trajectory_state) {
     case TrajectoryState::ACTIVE:
-      return proto::TrajectoryState::ACTIVE;
+      return cartographer_proto::cloud::TrajectoryState::ACTIVE;
     case TrajectoryState::FINISHED:
-      return proto::TrajectoryState::FINISHED;
+      return cartographer_proto::cloud::TrajectoryState::FINISHED;
     case TrajectoryState::FROZEN:
-      return proto::TrajectoryState::FROZEN;
+      return cartographer_proto::cloud::TrajectoryState::FROZEN;
     case TrajectoryState::DELETED:
-      return proto::TrajectoryState::DELETED;
+      return cartographer_proto::cloud::TrajectoryState::DELETED;
     default:
       LOG(FATAL) << "Unknown TrajectoryState";
   }
 }
 
-TrajectoryState FromProto(const proto::TrajectoryState& proto) {
+TrajectoryState FromProto(
+    const cartographer_proto::cloud::TrajectoryState& proto) {
   switch (proto) {
-    case proto::TrajectoryState::ACTIVE:
+    case cartographer_proto::cloud::TrajectoryState::ACTIVE:
       return TrajectoryState::ACTIVE;
-    case proto::TrajectoryState::FINISHED:
+    case cartographer_proto::cloud::TrajectoryState::FINISHED:
       return TrajectoryState::FINISHED;
-    case proto::TrajectoryState::FROZEN:
+    case cartographer_proto::cloud::TrajectoryState::FROZEN:
       return TrajectoryState::FROZEN;
-    case proto::TrajectoryState::DELETED:
+    case cartographer_proto::cloud::TrajectoryState::DELETED:
       return TrajectoryState::DELETED;
     default:
-      LOG(FATAL) << "Unknown proto::TrajectoryState";
+      LOG(FATAL) << "Unknown cartographer_proto::cloud::TrajectoryState";
   }
 }
 
-proto::TrajectoryRemapping ToProto(
+cartographer_proto::cloud::TrajectoryRemapping ToProto(
     const std::map<int, int>& trajectory_remapping) {
-  proto::TrajectoryRemapping proto;
+  cartographer_proto::cloud::TrajectoryRemapping proto;
   *proto.mutable_serialized_trajectories_to_trajectories() =
       google::protobuf::Map<int32, int32>(trajectory_remapping.begin(),
                                           trajectory_remapping.end());
   return proto;
 }
 
-std::map<int, int> FromProto(const proto::TrajectoryRemapping& proto) {
+std::map<int, int> FromProto(
+    const cartographer_proto::cloud::TrajectoryRemapping& proto) {
   return std::map<int, int>(
       proto.serialized_trajectories_to_trajectories().begin(),
       proto.serialized_trajectories_to_trajectories().end());

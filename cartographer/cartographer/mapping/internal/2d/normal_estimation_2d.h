@@ -19,15 +19,16 @@
 
 #include <vector>
 
-#include "cartographer/mapping/proto/normal_estimation_options_2d.pb.h"
 #include "cartographer/sensor/point_cloud.h"
 #include "cartographer/sensor/range_data.h"
 #include "cartographer/transform/transform.h"
+#include "cartographer_proto/mapping/normal_estimation_options_2d.pb.h"
 
 namespace cartographer {
 namespace mapping {
 
-proto::NormalEstimationOptions2D CreateNormalEstimationOptions2D(
+cartographer_proto::mapping::NormalEstimationOptions2D
+CreateNormalEstimationOptions2D(
     common::LuaParameterDictionary* parameter_dictionary);
 
 // Estimates the normal for each 'return' in 'range_data'.
@@ -35,7 +36,8 @@ proto::NormalEstimationOptions2D CreateNormalEstimationOptions2D(
 // the orientation of the vector from 'origin' to 'return'.
 std::vector<float> EstimateNormals(
     const sensor::RangeData& range_data,
-    const proto::NormalEstimationOptions2D& normal_estimation_options);
+    const cartographer_proto::mapping::NormalEstimationOptions2D&
+        normal_estimation_options);
 
 }  // namespace mapping
 }  // namespace cartographer

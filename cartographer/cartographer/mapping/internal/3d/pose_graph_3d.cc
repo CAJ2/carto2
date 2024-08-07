@@ -30,10 +30,10 @@
 #include "Eigen/Eigenvalues"
 #include "absl/memory/memory.h"
 #include "cartographer/common/math.h"
-#include "cartographer/mapping/proto/pose_graph/constraint_builder_options.pb.h"
 #include "cartographer/sensor/compressed_point_cloud.h"
 #include "cartographer/sensor/internal/voxel_filter.h"
 #include "cartographer/transform/transform.h"
+#include "cartographer_proto/mapping/pose_graph/constraint_builder_options.pb.h"
 #include "glog/logging.h"
 
 namespace cartographer {
@@ -48,7 +48,7 @@ static auto* kFrozenSubmapsMetric = metrics::Gauge::Null();
 static auto* kDeletedSubmapsMetric = metrics::Gauge::Null();
 
 PoseGraph3D::PoseGraph3D(
-    const proto::PoseGraphOptions& options,
+    const cartographer_proto::mapping::PoseGraphOptions& options,
     std::unique_ptr<optimization::OptimizationProblem3D> optimization_problem,
     common::ThreadPool* thread_pool)
     : options_(options),
@@ -674,7 +674,8 @@ bool PoseGraph3D::IsTrajectoryFrozen(const int trajectory_id) const {
 }
 
 void PoseGraph3D::AddSubmapFromProto(
-    const transform::Rigid3d& global_submap_pose, const proto::Submap& submap) {
+    const transform::Rigid3d& global_submap_pose,
+    const cartographer_proto::mapping::Submap& submap) {
   if (!submap.has_submap_3d()) {
     return;
   }
@@ -711,8 +712,9 @@ void PoseGraph3D::AddSubmapFromProto(
   });
 }
 
-void PoseGraph3D::AddNodeFromProto(const transform::Rigid3d& global_pose,
-                                   const proto::Node& node) {
+void PoseGraph3D::AddNodeFromProto(
+    const transform::Rigid3d& global_pose,
+    const cartographer_proto::mapping::Node& node) {
   const NodeId node_id = {node.node_id().trajectory_id(),
                           node.node_id().node_index()};
   std::shared_ptr<const TrajectoryNode::Data> constant_data =
@@ -739,7 +741,7 @@ void PoseGraph3D::AddNodeFromProto(const transform::Rigid3d& global_pose,
 }
 
 void PoseGraph3D::SetTrajectoryDataFromProto(
-    const proto::TrajectoryData& data) {
+    const cartographer_proto::mapping::TrajectoryData& data) {
   TrajectoryData trajectory_data;
   trajectory_data.gravity_constant = data.gravity_constant();
   trajectory_data.imu_calibration = {

@@ -18,7 +18,7 @@
 #define CARTOGRAPHER_CLOUD_INTERNAL_HANDLERS_WRITE_STATE_TO_FILE_HANDLER_H
 
 #include "async_grpc/rpc_handler.h"
-#include "cartographer/cloud/proto/map_builder_service.pb.h"
+#include "cartographer_proto/cloud/map_builder_service.pb.h"
 #include "google/protobuf/empty.pb.h"
 
 namespace cartographer {
@@ -26,14 +26,16 @@ namespace cloud {
 namespace handlers {
 
 DEFINE_HANDLER_SIGNATURE(
-    WriteStateToFileSignature, proto::WriteStateToFileRequest,
-    proto::WriteStateToFileResponse,
+    WriteStateToFileSignature,
+    cartographer_proto::cloud::WriteStateToFileRequest,
+    cartographer_proto::cloud::WriteStateToFileResponse,
     "/cartographer.cloud.proto.MapBuilderService/WriteStateToFile")
 
 class WriteStateToFileHandler
     : public async_grpc::RpcHandler<WriteStateToFileSignature> {
  public:
-  void OnRequest(const proto::WriteStateToFileRequest& request) override;
+  void OnRequest(const cartographer_proto::cloud::WriteStateToFileRequest&
+                     request) override;
 };
 
 }  // namespace handlers

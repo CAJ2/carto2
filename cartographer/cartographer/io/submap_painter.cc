@@ -57,11 +57,11 @@ void CairoPaintSubmapSlices(
   }
 }
 
-bool Has2DGrid(const mapping::proto::Submap& submap) {
+bool Has2DGrid(const cartographer_proto::mapping::Submap& submap) {
   return submap.has_submap_2d() && submap.submap_2d().has_grid();
 }
 
-bool Has3DGrids(const mapping::proto::Submap& submap) {
+bool Has3DGrids(const cartographer_proto::mapping::Submap& submap) {
   return submap.has_submap_3d() &&
          submap.submap_3d().has_low_resolution_hybrid_grid() &&
          submap.submap_3d().has_high_resolution_hybrid_grid();
@@ -119,10 +119,10 @@ PaintSubmapSlicesResult PaintSubmapSlices(
 
 void FillSubmapSlice(
     const ::cartographer::transform::Rigid3d& global_submap_pose,
-    const ::cartographer::mapping::proto::Submap& proto,
+    const ::cartographer_proto::mapping::Submap& proto,
     SubmapSlice* const submap_slice,
     mapping::ValueConversionTables* conversion_tables) {
-  ::cartographer::mapping::proto::SubmapQuery::Response response;
+  ::cartographer_proto::mapping::SubmapQuery::Response response;
   ::cartographer::transform::Rigid3d local_pose;
   if (proto.has_submap_3d()) {
     mapping::Submap3D submap(proto.submap_3d());
@@ -161,7 +161,7 @@ void DeserializeAndFillSubmapSlices(
           transform::ToRigid3(submap.pose());
     }
   }
-  mapping::proto::SerializedData proto;
+  cartographer_proto::mapping::SerializedData proto;
   while (deserializer->ReadNextSerializedData(&proto)) {
     if (proto.has_submap() &&
         (Has2DGrid(proto.submap()) || Has3DGrids(proto.submap()))) {

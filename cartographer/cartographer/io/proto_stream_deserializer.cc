@@ -23,21 +23,22 @@
 namespace cartographer {
 namespace io {
 namespace {
-mapping::proto::SerializationHeader ReadHeaderOrDie(
+cartographer_proto::mapping::SerializationHeader ReadHeaderOrDie(
     ProtoStreamReaderInterface* const reader) {
-  mapping::proto::SerializationHeader header;
+  cartographer_proto::mapping::SerializationHeader header;
   CHECK(reader->ReadProto(&header)) << "Failed to read SerializationHeader.";
   return header;
 }
 
-bool IsVersionSupported(const mapping::proto::SerializationHeader& header) {
+bool IsVersionSupported(
+    const cartographer_proto::mapping::SerializationHeader& header) {
   return header.format_version() == kMappingStateSerializationFormatVersion ||
          header.format_version() == kFormatVersionWithoutSubmapHistograms;
 }
 
 }  // namespace
 
-mapping::proto::PoseGraph DeserializePoseGraphFromFile(
+cartographer_proto::mapping::PoseGraph DeserializePoseGraphFromFile(
     const std::string& file_name) {
   ProtoStreamReader reader(file_name);
   ProtoStreamDeserializer deserializer(&reader);
@@ -71,7 +72,7 @@ ProtoStreamDeserializer::ProtoStreamDeserializer(
 }
 
 bool ProtoStreamDeserializer::ReadNextSerializedData(
-    mapping::proto::SerializedData* data) {
+    cartographer_proto::mapping::SerializedData* data) {
   return reader_->ReadProto(data);
 }
 

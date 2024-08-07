@@ -96,9 +96,10 @@ float ComputeRangeWeightFactor(float range, int exponent) {
 }
 }  // namespace
 
-proto::TSDFRangeDataInserterOptions2D CreateTSDFRangeDataInserterOptions2D(
+cartographer_proto::mapping::TSDFRangeDataInserterOptions2D
+CreateTSDFRangeDataInserterOptions2D(
     common::LuaParameterDictionary* parameter_dictionary) {
-  proto::TSDFRangeDataInserterOptions2D options;
+  cartographer_proto::mapping::TSDFRangeDataInserterOptions2D options;
   options.set_truncation_distance(
       parameter_dictionary->GetDouble("truncation_distance"));
   options.set_maximum_weight(parameter_dictionary->GetDouble("maximum_weight"));
@@ -121,7 +122,7 @@ proto::TSDFRangeDataInserterOptions2D CreateTSDFRangeDataInserterOptions2D(
 }
 
 TSDFRangeDataInserter2D::TSDFRangeDataInserter2D(
-    const proto::TSDFRangeDataInserterOptions2D& options)
+    const cartographer_proto::mapping::TSDFRangeDataInserterOptions2D& options)
     : options_(options) {}
 
 // Casts a ray from origin towards hit for each hit in range data.
@@ -165,7 +166,7 @@ void TSDFRangeDataInserter2D::Insert(const sensor::RangeData& range_data,
 }
 
 void TSDFRangeDataInserter2D::InsertHit(
-    const proto::TSDFRangeDataInserterOptions2D& options,
+    const cartographer_proto::mapping::TSDFRangeDataInserterOptions2D& options,
     const Eigen::Vector2f& hit, const Eigen::Vector2f& origin, float normal,
     TSDF2D* tsdf) const {
   const Eigen::Vector2f ray = hit - origin;

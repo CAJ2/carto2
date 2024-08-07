@@ -23,7 +23,7 @@
 #include "Eigen/Core"
 #include "cartographer/common/port.h"
 #include "cartographer/sensor/point_cloud.h"
-#include "cartographer/sensor/proto/sensor.pb.h"
+#include "cartographer_proto/sensor/sensor.pb.h"
 
 namespace cartographer {
 namespace sensor {
@@ -39,7 +39,8 @@ class CompressedPointCloud {
 
   CompressedPointCloud() : num_points_(0) {}
   explicit CompressedPointCloud(const PointCloud& point_cloud);
-  explicit CompressedPointCloud(const proto::CompressedPointCloud& proto);
+  explicit CompressedPointCloud(
+      const cartographer_proto::sensor::CompressedPointCloud& proto);
 
   // Returns decompressed point cloud.
   PointCloud Decompress() const;
@@ -50,7 +51,7 @@ class CompressedPointCloud {
   ConstIterator end() const;
 
   bool operator==(const CompressedPointCloud& right_hand_container) const;
-  proto::CompressedPointCloud ToProto() const;
+  cartographer_proto::sensor::CompressedPointCloud ToProto() const;
 
  private:
   std::vector<int32> point_data_;

@@ -23,15 +23,16 @@
 #include "Eigen/Core"
 #include "cartographer/common/lua_parameter_dictionary.h"
 #include "cartographer/mapping/3d/hybrid_grid.h"
-#include "cartographer/mapping/proto/scan_matching/ceres_scan_matcher_options_3d.pb.h"
 #include "cartographer/sensor/point_cloud.h"
 #include "cartographer/transform/rigid_transform.h"
+#include "cartographer_proto/mapping/scan_matching/ceres_scan_matcher_options_3d.pb.h"
 
 namespace cartographer {
 namespace mapping {
 namespace scan_matching {
 
-proto::CeresScanMatcherOptions3D CreateCeresScanMatcherOptions3D(
+cartographer_proto::mapping::scan_matching::CeresScanMatcherOptions3D
+CreateCeresScanMatcherOptions3D(
     common::LuaParameterDictionary* parameter_dictionary);
 
 struct PointCloudAndHybridGridsPointers {
@@ -43,7 +44,8 @@ struct PointCloudAndHybridGridsPointers {
 // This scan matcher uses Ceres to align scans with an existing map.
 class CeresScanMatcher3D {
  public:
-  explicit CeresScanMatcher3D(const proto::CeresScanMatcherOptions3D& options);
+  explicit CeresScanMatcher3D(const cartographer_proto::mapping::scan_matching::
+                                  CeresScanMatcherOptions3D& options);
 
   CeresScanMatcher3D(const CeresScanMatcher3D&) = delete;
   CeresScanMatcher3D& operator=(const CeresScanMatcher3D&) = delete;
@@ -59,7 +61,8 @@ class CeresScanMatcher3D {
              ceres::Solver::Summary* summary) const;
 
  private:
-  const proto::CeresScanMatcherOptions3D options_;
+  const cartographer_proto::mapping::scan_matching::CeresScanMatcherOptions3D
+      options_;
   ceres::Solver::Options ceres_solver_options_;
 };
 

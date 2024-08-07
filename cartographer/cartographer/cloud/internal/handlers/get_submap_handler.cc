@@ -19,15 +19,17 @@
 #include "absl/memory/memory.h"
 #include "async_grpc/rpc_handler.h"
 #include "cartographer/cloud/internal/map_builder_context_interface.h"
-#include "cartographer/cloud/proto/map_builder_service.pb.h"
+#include "cartographer_proto/cloud/map_builder_service.pb.h"
 #include "google/protobuf/empty.pb.h"
 
 namespace cartographer {
 namespace cloud {
 namespace handlers {
 
-void GetSubmapHandler::OnRequest(const proto::GetSubmapRequest &request) {
-  auto response = absl::make_unique<proto::GetSubmapResponse>();
+void GetSubmapHandler::OnRequest(
+    const cartographer_proto::cloud::GetSubmapRequest& request) {
+  auto response =
+      absl::make_unique<cartographer_proto::cloud::GetSubmapResponse>();
   response->set_error_msg(
       GetContext<MapBuilderContextInterface>()->map_builder().SubmapToProto(
           mapping::SubmapId{request.submap_id().trajectory_id(),

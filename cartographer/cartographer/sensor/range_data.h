@@ -20,7 +20,7 @@
 #include "cartographer/common/port.h"
 #include "cartographer/sensor/compressed_point_cloud.h"
 #include "cartographer/sensor/point_cloud.h"
-#include "cartographer/sensor/proto/sensor.pb.h"
+#include "cartographer_proto/sensor/sensor.pb.h"
 
 namespace cartographer {
 namespace sensor {
@@ -41,11 +41,11 @@ RangeData TransformRangeData(const RangeData& range_data,
 // Crops 'range_data' according to the region defined by 'min_z' and 'max_z'.
 RangeData CropRangeData(const RangeData& range_data, float min_z, float max_z);
 
-// Converts 'range_data' to a proto::RangeData.
-proto::RangeData ToProto(const RangeData& range_data);
+// Converts 'range_data' to a cartographer_proto::sensor::RangeData.
+cartographer_proto::sensor::RangeData ToProto(const RangeData& range_data);
 
 // Converts 'proto' to RangeData.
-RangeData FromProto(const proto::RangeData& proto);
+RangeData FromProto(const cartographer_proto::sensor::RangeData& proto);
 
 }  // namespace sensor
 }  // namespace cartographer

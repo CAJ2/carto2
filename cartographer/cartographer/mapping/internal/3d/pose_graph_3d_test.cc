@@ -17,10 +17,10 @@
 #include "cartographer/mapping/internal/3d/pose_graph_3d.h"
 
 #include "cartographer/mapping/internal/testing/test_helpers.h"
-#include "cartographer/mapping/proto/serialization.pb.h"
 #include "cartographer/transform/rigid_transform.h"
 #include "cartographer/transform/rigid_transform_test_helpers.h"
 #include "cartographer/transform/transform.h"
+#include "cartographer_proto/mapping/serialization.pb.h"
 #include "gmock/gmock.h"
 #include "google/protobuf/util/message_differencer.h"
 
@@ -29,8 +29,8 @@ namespace mapping {
 namespace {
 
 using ::cartographer::mapping::optimization::OptimizationProblem3D;
-using ::cartographer::mapping::optimization::proto::OptimizationProblemOptions;
 using ::cartographer::transform::Rigid3d;
+using ::cartographer_proto::mapping::optimization::OptimizationProblemOptions;
 
 class MockOptimizationProblem3D : public OptimizationProblem3D {
  public:
@@ -47,9 +47,9 @@ class MockOptimizationProblem3D : public OptimizationProblem3D {
 class PoseGraph3DForTesting : public PoseGraph3D {
  public:
   PoseGraph3DForTesting(
-      const proto::PoseGraphOptions &options,
+      const cartographer_proto::mapping::PoseGraphOptions& options,
       std::unique_ptr<optimization::OptimizationProblem3D> optimization_problem,
-      common::ThreadPool *thread_pool)
+      common::ThreadPool* thread_pool)
       : PoseGraph3D(options, std::move(optimization_problem), thread_pool) {}
 
   void WaitForAllComputations() { PoseGraph3D::WaitForAllComputations(); }
@@ -83,7 +83,7 @@ class PoseGraph3DTest : public ::testing::Test {
         thread_pool_.get());
   }
 
-  proto::PoseGraphOptions pose_graph_options_;
+  cartographer_proto::mapping::PoseGraphOptions pose_graph_options_;
   std::unique_ptr<common::ThreadPool> thread_pool_;
   std::unique_ptr<PoseGraph3DForTesting> pose_graph_;
 };
@@ -98,14 +98,14 @@ TEST_F(PoseGraph3DTest, Empty) {
   EXPECT_TRUE(pose_graph_->GetTrajectoryNodes().empty());
   EXPECT_TRUE(pose_graph_->GetTrajectoryNodePoses().empty());
   EXPECT_TRUE(pose_graph_->GetTrajectoryData().empty());
-  proto::PoseGraph empty_proto;
+  cartographer_proto::mapping::PoseGraph empty_proto;
   EXPECT_TRUE(google::protobuf::util::MessageDifferencer::Equals(
       pose_graph_->ToProto(/*include_unfinished_submaps=*/true), empty_proto));
 }
 
 TEST_F(PoseGraph3DTest, BasicSerialization) {
   BuildPoseGraph();
-  proto::PoseGraph proto;
+  cartographer_proto::mapping::PoseGraph proto;
   auto fake_node = testing::CreateFakeNode();
   testing::AddToProtoGraph(fake_node, &proto);
   pose_graph_->AddNodeFromProto(Rigid3d::Identity(), fake_node);
@@ -119,7 +119,7 @@ TEST_F(PoseGraph3DTest, BasicSerialization) {
       testing::CreateFakeLandmark("landmark_id", Rigid3d::Identity()), &proto);
   pose_graph_->SetLandmarkPose("landmark_id", Rigid3d::Identity());
   pose_graph_->WaitForAllComputations();
-  proto::PoseGraph actual_proto =
+  cartographer_proto::mapping::PoseGraph actual_proto =
       pose_graph_->ToProto(/*include_unfinished_submaps=*/true);
   EXPECT_TRUE(google::protobuf::util::MessageDifferencer::Equals(
       proto.constraint(0), actual_proto.constraint(0)));
@@ -137,7 +137,7 @@ TEST_F(PoseGraph3DTest, BasicSerialization) {
 
 TEST_F(PoseGraph3DTest, SerializationWithUnfinishedSubmaps) {
   BuildPoseGraph();
-  proto::PoseGraph proto;
+  cartographer_proto::mapping::PoseGraph proto;
 
   // Create three nodes.
   auto fake_node_1 = testing::CreateFakeNode(1, 1);
@@ -170,7 +170,7 @@ TEST_F(PoseGraph3DTest, SerializationWithUnfinishedSubmaps) {
   pose_graph_->AddSerializedConstraints(FromProto(proto.constraint()));
 
   pose_graph_->WaitForAllComputations();
-  proto::PoseGraph actual_proto =
+  cartographer_proto::mapping::PoseGraph actual_proto =
       pose_graph_->ToProto(/*include_unfinished_submaps=*/false);
   EXPECT_EQ(actual_proto.constraint_size(), 2);
   EXPECT_EQ(actual_proto.trajectory_size(), 1);
@@ -202,11 +202,12 @@ TEST_F(PoseGraph3DTest, PureLocalizationTrimmer) {
       int node_index = 7 + num_nodes_per_submap * submap_index + j;
       auto node = testing::CreateFakeNode(trajectory_id, node_index);
       pose_graph_->AddNodeFromProto(Rigid3d::Identity(), node);
-      proto::PoseGraph proto;
+      cartographer_proto::mapping::PoseGraph proto;
       auto constraint = testing::CreateFakeConstraint(node, submap);
       // TODO(gaschler): Also remove inter constraints when all references are
       // gone.
-      constraint.set_tag(proto::PoseGraph::Constraint::INTRA_SUBMAP);
+      constraint.set_tag(
+          cartographer_proto::mapping::PoseGraph::Constraint::INTRA_SUBMAP);
       testing::AddToProtoGraph(constraint, &proto);
       pose_graph_->AddSerializedConstraints(FromProto(proto.constraint()));
     }
@@ -281,9 +282,10 @@ TEST_F(PoseGraph3DTest, EvenSubmapTrimmer) {
       int node_index = 7 + num_nodes_per_submap * i + j;
       auto node = testing::CreateFakeNode(trajectory_id, node_index);
       pose_graph_->AddNodeFromProto(Rigid3d::Identity(), node);
-      proto::PoseGraph proto;
+      cartographer_proto::mapping::PoseGraph proto;
       auto constraint = testing::CreateFakeConstraint(node, submap);
-      constraint.set_tag(proto::PoseGraph::Constraint::INTRA_SUBMAP);
+      constraint.set_tag(
+          cartographer_proto::mapping::PoseGraph::Constraint::INTRA_SUBMAP);
       testing::AddToProtoGraph(constraint, &proto);
       pose_graph_->AddSerializedConstraints(FromProto(proto.constraint()));
     }

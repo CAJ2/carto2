@@ -36,10 +36,10 @@
 #include "cartographer/mapping/internal/2d/scan_matching/ceres_scan_matcher_2d.h"
 #include "cartographer/mapping/internal/2d/scan_matching/fast_correlative_scan_matcher_2d.h"
 #include "cartographer/mapping/pose_graph_interface.h"
-#include "cartographer/mapping/proto/pose_graph/constraint_builder_options.pb.h"
 #include "cartographer/metrics/family_factory.h"
 #include "cartographer/sensor/internal/voxel_filter.h"
 #include "cartographer/sensor/point_cloud.h"
+#include "cartographer_proto/mapping/pose_graph/constraint_builder_options.pb.h"
 
 namespace cartographer {
 namespace mapping {
@@ -62,8 +62,10 @@ class ConstraintBuilder2D {
   using Constraint = PoseGraphInterface::Constraint;
   using Result = std::vector<Constraint>;
 
-  ConstraintBuilder2D(const proto::ConstraintBuilderOptions& options,
-                      common::ThreadPoolInterface* thread_pool);
+  ConstraintBuilder2D(
+      const cartographer_proto::mapping::constraints::ConstraintBuilderOptions&
+          options,
+      common::ThreadPoolInterface* thread_pool);
   ~ConstraintBuilder2D();
 
   ConstraintBuilder2D(const ConstraintBuilder2D&) = delete;
@@ -133,7 +135,8 @@ class ConstraintBuilder2D {
 
   void RunWhenDoneCallback() ABSL_LOCKS_EXCLUDED(mutex_);
 
-  const constraints::proto::ConstraintBuilderOptions options_;
+  const cartographer_proto::mapping::constraints::ConstraintBuilderOptions
+      options_;
   common::ThreadPoolInterface* thread_pool_;
   absl::Mutex mutex_;
 

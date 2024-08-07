@@ -24,7 +24,7 @@
 #include "cartographer/common/lua_parameter_dictionary.h"
 #include "cartographer/io/file_writer.h"
 #include "cartographer/io/points_processor.h"
-#include "cartographer/mapping/proto/trajectory.pb.h"
+#include "cartographer_proto/mapping/trajectory.pb.h"
 
 namespace cartographer {
 namespace io {
@@ -61,7 +61,7 @@ class PointsProcessorPipelineBuilder {
 // Register all 'PointsProcessor' that ship with Cartographer with this
 // 'builder'.
 void RegisterBuiltInPointsProcessors(
-    const std::vector<mapping::proto::Trajectory>& trajectories,
+    const std::vector<cartographer_proto::mapping::Trajectory>& trajectories,
     const FileWriterFactory& file_writer_factory,
     PointsProcessorPipelineBuilder* builder);
 

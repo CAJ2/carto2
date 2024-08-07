@@ -28,7 +28,7 @@
 DEFINE_bool(all_debug_strings, false,
             "Print debug strings of all serialized data.");
 
-using cartographer::mapping::proto::SerializedData;
+using cartographer_proto::mapping::SerializedData;
 
 namespace cartographer {
 namespace io {
@@ -40,13 +40,15 @@ void Run(const std::string& pbstream_filename, bool all_debug_strings) {
   io::ProtoStreamDeserializer deserializer(&reader);
   const auto header = deserializer.header();
   LOG(INFO) << "Header: " << header.DebugString();
-  for (const mapping::proto::TrajectoryBuilderOptionsWithSensorIds&
+  for (const cartographer_proto::mapping::TrajectoryBuilderOptionsWithSensorIds&
            trajectory_options : deserializer.all_trajectory_builder_options()
                                     .options_with_sensor_ids()) {
     LOG(INFO) << "Trajectory options: " << trajectory_options.DebugString();
   }
-  const mapping::proto::PoseGraph pose_graph = deserializer.pose_graph();
-  for (const mapping::proto::Trajectory& trajectory : pose_graph.trajectory()) {
+  const cartographer_proto::mapping::PoseGraph pose_graph =
+      deserializer.pose_graph();
+  for (const cartographer_proto::mapping::Trajectory& trajectory :
+       pose_graph.trajectory()) {
     LOG(INFO) << "Trajectory id: " << trajectory.trajectory_id()
               << " has #nodes " << trajectory.node_size() << " has #submaps "
               << trajectory.submap_size();

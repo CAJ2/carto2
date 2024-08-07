@@ -39,7 +39,7 @@ class MotionFilterTest : public ::testing::Test {
     return common::FromUniversal(seconds * 10000000);
   }
 
-  proto::MotionFilterOptions options_;
+  cartographer_proto::mapping::MotionFilterOptions options_;
 };
 
 TEST_F(MotionFilterTest, NotInitialized) {

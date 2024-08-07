@@ -68,9 +68,10 @@ void InsertIntensitiesIntoGrid(const sensor::PointCloud& returns,
 
 }  // namespace
 
-proto::RangeDataInserterOptions3D CreateRangeDataInserterOptions3D(
+cartographer_proto::mapping::RangeDataInserterOptions3D
+CreateRangeDataInserterOptions3D(
     common::LuaParameterDictionary* parameter_dictionary) {
-  proto::RangeDataInserterOptions3D options;
+  cartographer_proto::mapping::RangeDataInserterOptions3D options;
   options.set_hit_probability(
       parameter_dictionary->GetDouble("hit_probability"));
   options.set_miss_probability(
@@ -85,7 +86,7 @@ proto::RangeDataInserterOptions3D CreateRangeDataInserterOptions3D(
 }
 
 RangeDataInserter3D::RangeDataInserter3D(
-    const proto::RangeDataInserterOptions3D& options)
+    const cartographer_proto::mapping::RangeDataInserterOptions3D& options)
     : options_(options),
       hit_table_(
           ComputeLookupTableToApplyOdds(Odds(options_.hit_probability()))),

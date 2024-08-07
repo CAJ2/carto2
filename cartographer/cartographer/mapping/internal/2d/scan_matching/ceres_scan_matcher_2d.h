@@ -23,21 +23,23 @@
 #include "Eigen/Core"
 #include "cartographer/common/lua_parameter_dictionary.h"
 #include "cartographer/mapping/2d/grid_2d.h"
-#include "cartographer/mapping/proto/scan_matching/ceres_scan_matcher_options_2d.pb.h"
 #include "cartographer/sensor/point_cloud.h"
+#include "cartographer_proto/mapping/scan_matching/ceres_scan_matcher_options_2d.pb.h"
 #include "ceres/ceres.h"
 
 namespace cartographer {
 namespace mapping {
 namespace scan_matching {
 
-proto::CeresScanMatcherOptions2D CreateCeresScanMatcherOptions2D(
+cartographer_proto::mapping::scan_matching::CeresScanMatcherOptions2D
+CreateCeresScanMatcherOptions2D(
     common::LuaParameterDictionary* parameter_dictionary);
 
 // Align scans with an existing map using Ceres.
 class CeresScanMatcher2D {
  public:
-  explicit CeresScanMatcher2D(const proto::CeresScanMatcherOptions2D& options);
+  explicit CeresScanMatcher2D(const cartographer_proto::mapping::scan_matching::
+                                  CeresScanMatcherOptions2D& options);
   virtual ~CeresScanMatcher2D();
 
   CeresScanMatcher2D(const CeresScanMatcher2D&) = delete;
@@ -53,7 +55,8 @@ class CeresScanMatcher2D {
              ceres::Solver::Summary* summary) const;
 
  private:
-  const proto::CeresScanMatcherOptions2D options_;
+  const cartographer_proto::mapping::scan_matching::CeresScanMatcherOptions2D
+      options_;
   ceres::Solver::Options ceres_solver_options_;
 };
 

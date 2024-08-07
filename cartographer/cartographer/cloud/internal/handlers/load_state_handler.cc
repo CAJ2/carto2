@@ -20,25 +20,27 @@
 #include "async_grpc/rpc_handler.h"
 #include "cartographer/cloud/internal/map_builder_context_interface.h"
 #include "cartographer/cloud/internal/mapping/serialization.h"
-#include "cartographer/cloud/proto/map_builder_service.pb.h"
+#include "cartographer_proto/cloud/map_builder_service.pb.h"
 
 namespace cartographer {
 namespace cloud {
 namespace handlers {
 
-void LoadStateHandler::OnRequest(const proto::LoadStateRequest& request) {
+void LoadStateHandler::OnRequest(
+    const cartographer_proto::cloud::LoadStateRequest& request) {
   switch (request.state_chunk_case()) {
-    case proto::LoadStateRequest::kSerializedData:
+    case cartographer_proto::cloud::LoadStateRequest::kSerializedData:
       reader_.AddProto(request.serialized_data());
       break;
-    case proto::LoadStateRequest::kSerializationHeader:
+    case cartographer_proto::cloud::LoadStateRequest::kSerializationHeader:
       reader_.AddProto(request.serialization_header());
       break;
-    case proto::LoadStateRequest::kClientId:
+    case cartographer_proto::cloud::LoadStateRequest::kClientId:
       client_id_ = request.client_id();
       break;
     default:
-      LOG(FATAL) << "Unhandled proto::LoadStateRequest case.";
+      LOG(FATAL)
+          << "Unhandled cartographer_proto::cloud::LoadStateRequest case.";
   }
   load_frozen_state_ = request.load_frozen_state();
 }
@@ -51,7 +53,8 @@ void LoadStateHandler::OnReadsDone() {
     GetContext<MapBuilderContextInterface>()->RegisterClientIdForTrajectory(
         client_id_, entry.second);
   }
-  auto response = absl::make_unique<proto::LoadStateResponse>();
+  auto response =
+      absl::make_unique<cartographer_proto::cloud::LoadStateResponse>();
   *response->mutable_trajectory_remapping() = ToProto(trajectory_remapping);
   Send(std::move(response));
 }

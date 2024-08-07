@@ -16,25 +16,26 @@
 
 #include "cartographer/io/internal/mapping_state_serialization.h"
 
-#include "cartographer/mapping/proto/serialization.pb.h"
 #include "cartographer/transform/transform.h"
+#include "cartographer_proto/mapping/serialization.pb.h"
 
 namespace cartographer {
 namespace io {
 namespace {
+using cartographer_proto::mapping::SerializedData;
 using mapping::MapById;
 using mapping::NodeId;
 using mapping::PoseGraphInterface;
 using mapping::SubmapId;
 using mapping::TrajectoryNode;
-using mapping::proto::SerializedData;
 
-mapping::proto::AllTrajectoryBuilderOptions
+cartographer_proto::mapping::AllTrajectoryBuilderOptions
 CreateAllTrajectoryBuilderOptionsProto(
-    const std::vector<mapping::proto::TrajectoryBuilderOptionsWithSensorIds>&
+    const std::vector<
+        cartographer_proto::mapping::TrajectoryBuilderOptionsWithSensorIds>&
         all_options_with_sensor_ids,
     const std::vector<int>& trajectory_ids_to_serialize) {
-  mapping::proto::AllTrajectoryBuilderOptions all_options_proto;
+  cartographer_proto::mapping::AllTrajectoryBuilderOptions all_options_proto;
   for (auto id : trajectory_ids_to_serialize) {
     *all_options_proto.add_options_with_sensor_ids() =
         all_options_with_sensor_ids[id];
@@ -55,8 +56,8 @@ std::vector<int> GetValidTrajectoryIds(
   return valid_trajectories;
 }
 
-mapping::proto::SerializationHeader CreateHeader() {
-  mapping::proto::SerializationHeader header;
+cartographer_proto::mapping::SerializationHeader CreateHeader() {
+  cartographer_proto::mapping::SerializationHeader header;
   header.set_format_version(kMappingStateSerializationFormatVersion);
   return header;
 }
@@ -69,7 +70,8 @@ SerializedData SerializePoseGraph(const mapping::PoseGraph& pose_graph,
 }
 
 SerializedData SerializeTrajectoryBuilderOptions(
-    const std::vector<mapping::proto::TrajectoryBuilderOptionsWithSensorIds>&
+    const std::vector<
+        cartographer_proto::mapping::TrajectoryBuilderOptionsWithSensorIds>&
         trajectory_builder_options,
     const std::vector<int>& trajectory_ids_to_serialize) {
   SerializedData proto;
@@ -213,7 +215,8 @@ void SerializeLandmarkNodes(
 
 void WritePbStream(
     const mapping::PoseGraph& pose_graph,
-    const std::vector<mapping::proto::TrajectoryBuilderOptionsWithSensorIds>&
+    const std::vector<
+        cartographer_proto::mapping::TrajectoryBuilderOptionsWithSensorIds>&
         trajectory_builder_options,
     ProtoStreamWriterInterface* const writer, bool include_unfinished_submaps) {
   writer->WriteProto(CreateHeader());

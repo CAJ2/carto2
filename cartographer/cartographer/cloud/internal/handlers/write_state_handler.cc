@@ -19,8 +19,8 @@
 #include "async_grpc/rpc_handler.h"
 #include "cartographer/cloud/internal/map_builder_context_interface.h"
 #include "cartographer/cloud/internal/map_builder_server.h"
-#include "cartographer/cloud/proto/map_builder_service.pb.h"
 #include "cartographer/io/internal/in_memory_proto_stream.h"
+#include "cartographer_proto/cloud/map_builder_service.pb.h"
 
 namespace cartographer {
 namespace cloud {
@@ -35,7 +35,8 @@ void WriteStateHandler::OnRequest(const google::protobuf::Empty& request) {
           return true;
         }
 
-        auto response = absl::make_unique<proto::WriteStateResponse>();
+        auto response =
+            absl::make_unique<cartographer_proto::cloud::WriteStateResponse>();
         if (proto->GetTypeName() ==
             "cartographer.mapping.proto.SerializationHeader") {
           response->mutable_header()->CopyFrom(*proto);

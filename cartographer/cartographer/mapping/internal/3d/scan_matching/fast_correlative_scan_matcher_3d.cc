@@ -25,18 +25,19 @@
 #include "absl/memory/memory.h"
 #include "cartographer/common/math.h"
 #include "cartographer/mapping/internal/3d/scan_matching/low_resolution_matcher.h"
-#include "cartographer/mapping/proto/scan_matching/fast_correlative_scan_matcher_options_3d.pb.h"
 #include "cartographer/transform/transform.h"
+#include "cartographer_proto/mapping/scan_matching/fast_correlative_scan_matcher_options_3d.pb.h"
 #include "glog/logging.h"
 
 namespace cartographer {
 namespace mapping {
 namespace scan_matching {
 
-proto::FastCorrelativeScanMatcherOptions3D
+cartographer_proto::mapping::scan_matching::FastCorrelativeScanMatcherOptions3D
 CreateFastCorrelativeScanMatcherOptions3D(
     common::LuaParameterDictionary* const parameter_dictionary) {
-  proto::FastCorrelativeScanMatcherOptions3D options;
+  cartographer_proto::mapping::scan_matching::
+      FastCorrelativeScanMatcherOptions3D options;
   options.set_branch_and_bound_depth(
       parameter_dictionary->GetInt("branch_and_bound_depth"));
   options.set_full_resolution_depth(
@@ -56,7 +57,8 @@ CreateFastCorrelativeScanMatcherOptions3D(
 
 PrecomputationGridStack3D::PrecomputationGridStack3D(
     const HybridGrid& hybrid_grid,
-    const proto::FastCorrelativeScanMatcherOptions3D& options) {
+    const cartographer_proto::mapping::scan_matching::
+        FastCorrelativeScanMatcherOptions3D& options) {
   CHECK_GE(options.branch_and_bound_depth(), 1);
   CHECK_GE(options.full_resolution_depth(), 1);
   precomputation_grids_.reserve(options.branch_and_bound_depth());
@@ -113,7 +115,8 @@ FastCorrelativeScanMatcher3D::FastCorrelativeScanMatcher3D(
     const HybridGrid& hybrid_grid,
     const HybridGrid* const low_resolution_hybrid_grid,
     const Eigen::VectorXf* rotational_scan_matcher_histogram,
-    const proto::FastCorrelativeScanMatcherOptions3D& options)
+    const cartographer_proto::mapping::scan_matching::
+        FastCorrelativeScanMatcherOptions3D& options)
     : options_(options),
       resolution_(hybrid_grid.resolution()),
       width_in_voxels_(hybrid_grid.grid_size()),

@@ -30,12 +30,12 @@
 #include "cartographer/mapping/id.h"
 #include "cartographer/mapping/internal/optimization/optimization_problem_interface.h"
 #include "cartographer/mapping/pose_graph_interface.h"
-#include "cartographer/mapping/proto/pose_graph/optimization_problem_options.pb.h"
 #include "cartographer/sensor/fixed_frame_pose_data.h"
 #include "cartographer/sensor/imu_data.h"
 #include "cartographer/sensor/map_by_time.h"
 #include "cartographer/sensor/odometry_data.h"
 #include "cartographer/transform/transform_interpolation_buffer.h"
+#include "cartographer_proto/mapping/pose_graph/optimization_problem_options.pb.h"
 
 namespace cartographer {
 namespace mapping {
@@ -56,7 +56,8 @@ class OptimizationProblem3D
                                           transform::Rigid3d> {
  public:
   explicit OptimizationProblem3D(
-      const optimization::proto::OptimizationProblemOptions& options);
+      const cartographer_proto::mapping::optimization::
+          OptimizationProblemOptions& options);
   ~OptimizationProblem3D();
 
   OptimizationProblem3D(const OptimizationProblem3D&) = delete;
@@ -122,7 +123,8 @@ class OptimizationProblem3D
       int trajectory_id, const NodeSpec3D& first_node_data,
       const NodeSpec3D& second_node_data) const;
 
-  optimization::proto::OptimizationProblemOptions options_;
+  cartographer_proto::mapping::optimization::OptimizationProblemOptions
+      options_;
   MapById<NodeId, NodeSpec3D> node_data_;
   MapById<SubmapId, SubmapSpec3D> submap_data_;
   std::map<std::string, transform::Rigid3d> landmark_data_;

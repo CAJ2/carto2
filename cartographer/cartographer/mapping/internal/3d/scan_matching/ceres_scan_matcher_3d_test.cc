@@ -97,7 +97,8 @@ class CeresScanMatcher3DTest : public ::testing::Test {
   IntensityHybridGrid intensity_hybrid_grid_;
   transform::Rigid3d expected_pose_;
   sensor::PointCloud point_cloud_;
-  proto::CeresScanMatcherOptions3D options_;
+  cartographer_proto::mapping::scan_matching::CeresScanMatcherOptions3D
+      options_;
   std::unique_ptr<CeresScanMatcher3D> ceres_scan_matcher_;
 };
 

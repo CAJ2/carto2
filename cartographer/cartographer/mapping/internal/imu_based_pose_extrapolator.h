@@ -34,11 +34,13 @@ namespace mapping {
 class ImuBasedPoseExtrapolator : public PoseExtrapolatorInterface {
  public:
   explicit ImuBasedPoseExtrapolator(
-      const proto::ImuBasedPoseExtrapolatorOptions& options);
+      const cartographer_proto::mapping::ImuBasedPoseExtrapolatorOptions&
+          options);
   ~ImuBasedPoseExtrapolator() override;
 
   static std::unique_ptr<PoseExtrapolatorInterface> InitializeWithImu(
-      const proto::ImuBasedPoseExtrapolatorOptions& options,
+      const cartographer_proto::mapping::ImuBasedPoseExtrapolatorOptions&
+          options,
       const std::vector<sensor::ImuData>& imu_data,
       const std::vector<transform::TimestampedTransform>& initial_poses);
 
@@ -90,7 +92,7 @@ class ImuBasedPoseExtrapolator : public PoseExtrapolatorInterface {
 
   transform::Rigid3d gravity_from_local_ = transform::Rigid3d::Identity();
 
-  const proto::ImuBasedPoseExtrapolatorOptions options_;
+  const cartographer_proto::mapping::ImuBasedPoseExtrapolatorOptions options_;
   const ceres::Solver::Options solver_options_;
 
   common::Histogram num_iterations_hist_;

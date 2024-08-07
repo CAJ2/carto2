@@ -38,7 +38,7 @@ namespace {
 geometry_msgs::msg::TransformStamped ToTransformStamped(
     int64_t timestamp_uts, const std::string& parent_frame_id,
     const std::string& child_frame_id,
-    const cartographer::transform::proto::Rigid3d& parent_T_child) {
+    const cartographer_proto::transform::Rigid3d& parent_T_child) {
   static int64_t seq = 0;
   geometry_msgs::msg::TransformStamped transform_stamped;
   transform_stamped.header.seq = ++seq;

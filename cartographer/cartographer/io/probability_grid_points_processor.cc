@@ -33,7 +33,7 @@ namespace {
 void DrawTrajectoriesIntoImage(
     const mapping::ProbabilityGrid& probability_grid,
     const Eigen::Array2i& offset,
-    const std::vector<mapping::proto::Trajectory>& trajectories,
+    const std::vector<cartographer_proto::mapping::Trajectory>& trajectories,
     cairo_surface_t* cairo_surface) {
   for (size_t i = 0; i < trajectories.size(); ++i) {
     DrawTrajectory(
@@ -80,11 +80,12 @@ ProbabilityGridPointsProcessor::OutputType OutputTypeFromString(
 
 ProbabilityGridPointsProcessor::ProbabilityGridPointsProcessor(
     const double resolution,
-    const mapping::proto::ProbabilityGridRangeDataInserterOptions2D&
-        probability_grid_range_data_inserter_options,
+    const cartographer_proto::mapping::
+        ProbabilityGridRangeDataInserterOptions2D&
+            probability_grid_range_data_inserter_options,
     const DrawTrajectories& draw_trajectories, const OutputType& output_type,
     std::unique_ptr<FileWriter> file_writer,
-    const std::vector<mapping::proto::Trajectory>& trajectories,
+    const std::vector<cartographer_proto::mapping::Trajectory>& trajectories,
     PointsProcessor* const next)
     : draw_trajectories_(draw_trajectories),
       output_type_(output_type),
@@ -102,7 +103,7 @@ ProbabilityGridPointsProcessor::ProbabilityGridPointsProcessor(
 
 std::unique_ptr<ProbabilityGridPointsProcessor>
 ProbabilityGridPointsProcessor::FromDictionary(
-    const std::vector<mapping::proto::Trajectory>& trajectories,
+    const std::vector<cartographer_proto::mapping::Trajectory>& trajectories,
     const FileWriterFactory& file_writer_factory,
     common::LuaParameterDictionary* const dictionary,
     PointsProcessor* const next) {

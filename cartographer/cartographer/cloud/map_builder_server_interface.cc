@@ -11,7 +11,8 @@ void RegisterMapBuilderServerMetrics(metrics::FamilyFactory* factory) {
 }
 
 std::unique_ptr<MapBuilderServerInterface> CreateMapBuilderServer(
-    const proto::MapBuilderServerOptions& map_builder_server_options,
+    const cartographer_proto::cloud::MapBuilderServerOptions&
+        map_builder_server_options,
     std::unique_ptr<mapping::MapBuilderInterface> map_builder) {
   return absl::make_unique<MapBuilderServer>(map_builder_server_options,
                                              std::move(map_builder));

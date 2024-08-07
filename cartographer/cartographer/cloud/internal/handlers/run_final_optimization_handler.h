@@ -18,7 +18,7 @@
 #define CARTOGRAPHER_CLOUD_INTERNAL_HANDLERS_RUN_FINAL_OPTIMIZATION_HANDLER_H
 
 #include "async_grpc/rpc_handler.h"
-#include "cartographer/cloud/proto/map_builder_service.pb.h"
+#include "cartographer_proto/cloud/map_builder_service.pb.h"
 #include "google/protobuf/empty.pb.h"
 
 namespace cartographer {

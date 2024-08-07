@@ -19,8 +19,8 @@
 #include "absl/memory/memory.h"
 #include "async_grpc/rpc_handler.h"
 #include "cartographer/cloud/internal/map_builder_context_interface.h"
-#include "cartographer/cloud/proto/map_builder_service.pb.h"
 #include "cartographer/mapping/pose_graph.h"
+#include "cartographer_proto/cloud/map_builder_service.pb.h"
 #include "google/protobuf/empty.pb.h"
 
 namespace cartographer {
@@ -32,7 +32,8 @@ void GetConstraintsHandler::OnRequest(const google::protobuf::Empty& request) {
                          ->map_builder()
                          .pose_graph()
                          ->constraints();
-  auto response = absl::make_unique<proto::GetConstraintsResponse>();
+  auto response =
+      absl::make_unique<cartographer_proto::cloud::GetConstraintsResponse>();
   response->mutable_constraints()->Reserve(constraints.size());
   for (const auto& constraint : constraints) {
     *response->add_constraints() = mapping::ToProto(constraint);

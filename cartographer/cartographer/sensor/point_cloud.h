@@ -20,9 +20,9 @@
 #include <vector>
 
 #include "Eigen/Core"
-#include "cartographer/sensor/proto/sensor.pb.h"
 #include "cartographer/sensor/rangefinder_point.h"
 #include "cartographer/transform/rigid_transform.h"
+#include "cartographer_proto/sensor/sensor.pb.h"
 #include "glog/logging.h"
 
 namespace cartographer {

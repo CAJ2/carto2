@@ -54,7 +54,7 @@ using AddRangefinderDataHandlerTest =
                          AddRangefinderDataHandler>;
 
 TEST_F(AddRangefinderDataHandlerTest, NoLocalSlamUploader) {
-  proto::AddRangefinderDataRequest request;
+  cartographer_proto::cloud::AddRangefinderDataRequest request;
   EXPECT_TRUE(
       google::protobuf::TextFormat::ParseFromString(kMessage, &request));
   EXPECT_CALL(

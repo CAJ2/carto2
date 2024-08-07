@@ -26,9 +26,10 @@ namespace cartographer {
 namespace mapping {
 namespace constraints {
 
-proto::ConstraintBuilderOptions CreateConstraintBuilderOptions(
+cartographer_proto::mapping::constraints::ConstraintBuilderOptions
+CreateConstraintBuilderOptions(
     common::LuaParameterDictionary* const parameter_dictionary) {
-  proto::ConstraintBuilderOptions options;
+  cartographer_proto::mapping::constraints::ConstraintBuilderOptions options;
   options.set_sampling_ratio(parameter_dictionary->GetDouble("sampling_ratio"));
   options.set_max_constraint_distance(
       parameter_dictionary->GetDouble("max_constraint_distance"));

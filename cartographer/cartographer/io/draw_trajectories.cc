@@ -22,7 +22,7 @@
 namespace cartographer {
 namespace io {
 
-void DrawTrajectory(const mapping::proto::Trajectory& trajectory,
+void DrawTrajectory(const cartographer_proto::mapping::Trajectory& trajectory,
                     const FloatColor& color,
                     const PoseToPixelFunction& pose_to_pixel,
                     cairo_surface_t* surface) {

@@ -172,7 +172,7 @@ bool MapBuilderBridge::SerializeState(const std::string& filename,
 void MapBuilderBridge::HandleSubmapQuery(
     const cartographer_ros_msgs::srv::SubmapQuery::Request::SharedPtr request,
     cartographer_ros_msgs::srv::SubmapQuery::Response::SharedPtr response) {
-  cartographer::mapping::proto::SubmapQuery::Response response_proto;
+  cartographer_proto::mapping::SubmapQuery::Response response_proto;
   cartographer::mapping::SubmapId submap_id{request->trajectory_id,
                                             request->submap_index};
   const std::string error =

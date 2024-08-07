@@ -21,8 +21,9 @@
 namespace cartographer {
 namespace sensor {
 
-proto::LandmarkData ToProto(const LandmarkData& landmark_data) {
-  proto::LandmarkData proto;
+cartographer_proto::sensor::LandmarkData ToProto(
+    const LandmarkData& landmark_data) {
+  cartographer_proto::sensor::LandmarkData proto;
   proto.set_timestamp(common::ToUniversal(landmark_data.time));
   for (const auto& observation : landmark_data.landmark_observations) {
     auto* item = proto.add_landmark_observations();
@@ -35,7 +36,7 @@ proto::LandmarkData ToProto(const LandmarkData& landmark_data) {
   return proto;
 }
 
-LandmarkData FromProto(const proto::LandmarkData& proto) {
+LandmarkData FromProto(const cartographer_proto::sensor::LandmarkData& proto) {
   LandmarkData landmark_data;
   landmark_data.time = common::FromUniversal(proto.timestamp());
   for (const auto& item : proto.landmark_observations()) {

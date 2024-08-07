@@ -23,8 +23,8 @@
 #include "Eigen/Geometry"
 #include "cartographer/common/port.h"
 #include "cartographer/common/time.h"
-#include "cartographer/sensor/proto/sensor.pb.h"
 #include "cartographer/transform/rigid_transform.h"
+#include "cartographer_proto/sensor/sensor.pb.h"
 
 namespace cartographer {
 namespace sensor {
@@ -41,11 +41,12 @@ struct LandmarkData {
   std::vector<LandmarkObservation> landmark_observations;
 };
 
-// Converts 'landmark_data' to a proto::LandmarkData.
-proto::LandmarkData ToProto(const LandmarkData& landmark_data);
+// Converts 'landmark_data' to a cartographer_proto::sensor::LandmarkData.
+cartographer_proto::sensor::LandmarkData ToProto(
+    const LandmarkData& landmark_data);
 
 // Converts 'proto' to an LandmarkData.
-LandmarkData FromProto(const proto::LandmarkData& proto);
+LandmarkData FromProto(const cartographer_proto::sensor::LandmarkData& proto);
 
 }  // namespace sensor
 }  // namespace cartographer

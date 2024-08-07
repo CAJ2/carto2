@@ -22,10 +22,10 @@
 #include "cartographer/common/internal/blocking_queue.h"
 #include "cartographer/mapping/map_builder_interface.h"
 #include "cartographer/mapping/pose_graph_interface.h"
-#include "cartographer/mapping/proto/serialization.pb.h"
 #include "cartographer/sensor/data.h"
 #include "cartographer/sensor/range_data.h"
 #include "cartographer/transform/rigid_transform.h"
+#include "cartographer_proto/mapping/serialization.pb.h"
 
 namespace cartographer {
 namespace cloud {
@@ -91,7 +91,8 @@ class MapBuilderContextInterface : public async_grpc::ExecutionContext {
                                  std::unique_ptr<sensor::Data> data) = 0;
   virtual void EnqueueLocalSlamResultData(
       int trajectory_id, const std::string& sensor_id,
-      const mapping::proto::LocalSlamResultData& local_slam_result_data) = 0;
+      const cartographer_proto::cloud::mapping::LocalSlamResultData&
+          local_slam_result_data) = 0;
   virtual void RegisterClientIdForTrajectory(const std::string& client_id,
                                              int trajectory_id) = 0;
   virtual bool CheckClientIdForTrajectory(const std::string& client_id,

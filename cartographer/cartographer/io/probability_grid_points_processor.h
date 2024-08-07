@@ -25,9 +25,9 @@
 #include "cartographer/io/points_processor.h"
 #include "cartographer/mapping/2d/probability_grid.h"
 #include "cartographer/mapping/2d/probability_grid_range_data_inserter_2d.h"
-#include "cartographer/mapping/proto/probability_grid_range_data_inserter_options_2d.pb.h"
-#include "cartographer/mapping/proto/trajectory.pb.h"
 #include "cartographer/mapping/value_conversion_tables.h"
+#include "cartographer_proto/mapping/probability_grid_range_data_inserter_options_2d.pb.h"
+#include "cartographer_proto/mapping/trajectory.pb.h"
 
 namespace cartographer {
 namespace io {
@@ -44,11 +44,12 @@ class ProbabilityGridPointsProcessor : public PointsProcessor {
   enum class OutputType { kPng, kPb };
   ProbabilityGridPointsProcessor(
       double resolution,
-      const mapping::proto::ProbabilityGridRangeDataInserterOptions2D&
-          probability_grid_range_data_inserter_options,
+      const cartographer_proto::mapping::
+          ProbabilityGridRangeDataInserterOptions2D&
+              probability_grid_range_data_inserter_options,
       const DrawTrajectories& draw_trajectories, const OutputType& output_type,
       std::unique_ptr<FileWriter> file_writer,
-      const std::vector<mapping::proto::Trajectory>& trajectories,
+      const std::vector<cartographer_proto::mapping::Trajectory>& trajectories,
       PointsProcessor* next);
   ProbabilityGridPointsProcessor(const ProbabilityGridPointsProcessor&) =
       delete;
@@ -56,7 +57,7 @@ class ProbabilityGridPointsProcessor : public PointsProcessor {
       const ProbabilityGridPointsProcessor&) = delete;
 
   static std::unique_ptr<ProbabilityGridPointsProcessor> FromDictionary(
-      const std::vector<mapping::proto::Trajectory>& trajectories,
+      const std::vector<cartographer_proto::mapping::Trajectory>& trajectories,
       const FileWriterFactory& file_writer_factory,
       common::LuaParameterDictionary* dictionary, PointsProcessor* next);
 
@@ -68,7 +69,7 @@ class ProbabilityGridPointsProcessor : public PointsProcessor {
  private:
   const DrawTrajectories draw_trajectories_;
   const OutputType output_type_;
-  const std::vector<mapping::proto::Trajectory> trajectories_;
+  const std::vector<cartographer_proto::mapping::Trajectory> trajectories_;
   std::unique_ptr<FileWriter> file_writer_;
   PointsProcessor* const next_;
   mapping::ProbabilityGridRangeDataInserter2D range_data_inserter_;

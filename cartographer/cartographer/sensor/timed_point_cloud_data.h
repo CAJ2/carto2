@@ -43,12 +43,14 @@ struct TimedPointCloudOriginData {
   std::vector<RangeMeasurement> ranges;
 };
 
-// Converts 'timed_point_cloud_data' to a proto::TimedPointCloudData.
-proto::TimedPointCloudData ToProto(
+// Converts 'timed_point_cloud_data' to a
+// cartographer_proto::sensor::TimedPointCloudData.
+cartographer_proto::sensor::TimedPointCloudData ToProto(
     const TimedPointCloudData& timed_point_cloud_data);
 
 // Converts 'proto' to TimedPointCloudData.
-TimedPointCloudData FromProto(const proto::TimedPointCloudData& proto);
+TimedPointCloudData FromProto(
+    const cartographer_proto::sensor::TimedPointCloudData& proto);
 
 }  // namespace sensor
 }  // namespace cartographer

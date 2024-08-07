@@ -78,7 +78,8 @@ double Median(const std::vector<double>& sorted) {
 
 // Cut the trajectory at jumps in z. A new span is started when the current
 // node's z differes by more than kLevelHeightMeters from the median z values.
-std::vector<Span> SliceByAltitudeChange(const proto::Trajectory& trajectory) {
+std::vector<Span> SliceByAltitudeChange(
+    const cartographer_proto::mapping::Trajectory& trajectory) {
   CHECK_GT(trajectory.node_size(), 0);
 
   std::vector<Span> spans;
@@ -96,7 +97,8 @@ std::vector<Span> SliceByAltitudeChange(const proto::Trajectory& trajectory) {
 }
 
 // Returns the length of 'span' in meters.
-double SpanLength(const proto::Trajectory& trajectory, const Span& span) {
+double SpanLength(const cartographer_proto::mapping::Trajectory& trajectory,
+                  const Span& span) {
   double length = 0;
   for (int i = span.start_index + 1; i < span.end_index; ++i) {
     const auto a =
@@ -109,13 +111,15 @@ double SpanLength(const proto::Trajectory& trajectory, const Span& span) {
 
 // True if 'span' is considered to be short, i.e. not interesting on its own,
 // but should be folded into the levels before and after entering it.
-bool IsShort(const proto::Trajectory& trajectory, const Span& span) {
+bool IsShort(const cartographer_proto::mapping::Trajectory& trajectory,
+             const Span& span) {
   return SpanLength(trajectory, span) < kMaxShortSpanLengthMeters;
 }
 
 // Merges all 'spans' that have similar median z value into the same level.
-void GroupSegmentsByAltitude(const proto::Trajectory& trajectory,
-                             const std::vector<Span>& spans, Levels* levels) {
+void GroupSegmentsByAltitude(
+    const cartographer_proto::mapping::Trajectory& trajectory,
+    const std::vector<Span>& spans, Levels* levels) {
   for (size_t i = 0; i < spans.size(); ++i) {
     for (size_t j = i + 1; j < spans.size(); ++j) {
       if (std::abs(Median(spans[i].z_values) - Median(spans[j].z_values)) <
@@ -126,9 +130,9 @@ void GroupSegmentsByAltitude(const proto::Trajectory& trajectory,
   }
 }
 
-std::vector<Floor> FindFloors(const proto::Trajectory& trajectory,
-                              const std::vector<Span>& spans,
-                              const Levels& levels) {
+std::vector<Floor> FindFloors(
+    const cartographer_proto::mapping::Trajectory& trajectory,
+    const std::vector<Span>& spans, const Levels& levels) {
   std::map<int, std::vector<Span>> level_spans;
 
   // Initialize the levels to start out with only long spans.
@@ -201,7 +205,8 @@ std::vector<Floor> FindFloors(const proto::Trajectory& trajectory,
 
 }  // namespace
 
-std::vector<Floor> DetectFloors(const proto::Trajectory& trajectory) {
+std::vector<Floor> DetectFloors(
+    const cartographer_proto::mapping::Trajectory& trajectory) {
   const std::vector<Span> spans = SliceByAltitudeChange(trajectory);
   Levels levels;
   for (size_t i = 0; i < spans.size(); ++i) {

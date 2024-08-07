@@ -39,7 +39,7 @@ namespace mapping {
 using ::cartographer::transform::TimestampedTransform;
 
 ImuBasedPoseExtrapolator::ImuBasedPoseExtrapolator(
-    const proto::ImuBasedPoseExtrapolatorOptions& options)
+    const cartographer_proto::mapping::ImuBasedPoseExtrapolatorOptions& options)
     : options_(options),
       solver_options_(
           common::CreateCeresSolverOptions(options_.solver_options())) {}
@@ -51,7 +51,7 @@ ImuBasedPoseExtrapolator::~ImuBasedPoseExtrapolator() {
 
 std::unique_ptr<PoseExtrapolatorInterface>
 ImuBasedPoseExtrapolator::InitializeWithImu(
-    const proto::ImuBasedPoseExtrapolatorOptions& options,
+    const cartographer_proto::mapping::ImuBasedPoseExtrapolatorOptions& options,
     const std::vector<sensor::ImuData>& imu_data,
     const std::vector<transform::TimestampedTransform>& initial_poses) {
   CHECK(!imu_data.empty());

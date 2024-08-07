@@ -19,9 +19,9 @@
 namespace cartographer {
 namespace common {
 
-proto::CeresSolverOptions CreateCeresSolverOptionsProto(
+cartographer_proto::common::CeresSolverOptions CreateCeresSolverOptionsProto(
     common::LuaParameterDictionary* parameter_dictionary) {
-  proto::CeresSolverOptions proto;
+  cartographer_proto::common::CeresSolverOptions proto;
   proto.set_use_nonmonotonic_steps(
       parameter_dictionary->GetBool("use_nonmonotonic_steps"));
   proto.set_max_num_iterations(
@@ -33,7 +33,7 @@ proto::CeresSolverOptions CreateCeresSolverOptionsProto(
 }
 
 ceres::Solver::Options CreateCeresSolverOptions(
-    const proto::CeresSolverOptions& proto) {
+    const cartographer_proto::common::CeresSolverOptions& proto) {
   ceres::Solver::Options options;
   options.use_nonmonotonic_steps = proto.use_nonmonotonic_steps();
   options.max_num_iterations = proto.max_num_iterations();

@@ -19,8 +19,8 @@
 #include "absl/memory/memory.h"
 #include "async_grpc/rpc_handler.h"
 #include "cartographer/cloud/internal/map_builder_context_interface.h"
-#include "cartographer/cloud/proto/map_builder_service.pb.h"
 #include "cartographer/transform/transform.h"
+#include "cartographer_proto/cloud/map_builder_service.pb.h"
 #include "google/protobuf/empty.pb.h"
 
 namespace cartographer {
@@ -33,7 +33,8 @@ void GetTrajectoryNodePosesHandler::OnRequest(
                         ->map_builder()
                         .pose_graph()
                         ->GetTrajectoryNodePoses();
-  auto response = absl::make_unique<proto::GetTrajectoryNodePosesResponse>();
+  auto response = absl::make_unique<
+      cartographer_proto::cloud::GetTrajectoryNodePosesResponse>();
   for (const auto& node_id_pose : node_poses) {
     auto* node_pose = response->add_node_poses();
     node_id_pose.id.ToProto(node_pose->mutable_node_id());

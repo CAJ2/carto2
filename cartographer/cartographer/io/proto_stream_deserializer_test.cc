@@ -32,8 +32,8 @@ namespace {
 
 using ::cartographer::io::testing::ProtoFromStringOrDie;
 using ::cartographer::io::testing::ProtoReaderFromStrings;
-using ::cartographer::mapping::proto::SerializationHeader;
-using ::cartographer::mapping::proto::SerializedData;
+using ::cartographer_proto::mapping::SerializationHeader;
+using ::cartographer_proto::mapping::SerializedData;
 using ::google::protobuf::Message;
 using ::google::protobuf::util::MessageDifferencer;
 using ::testing::Eq;

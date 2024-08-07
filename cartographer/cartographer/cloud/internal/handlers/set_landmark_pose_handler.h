@@ -18,7 +18,7 @@
 #define CARTOGRAPHER_CLOUD_INTERNAL_HANDLERS_ADD_SET_LANDMARK_POSE_HANDLER_H
 
 #include "async_grpc/rpc_handler.h"
-#include "cartographer/cloud/proto/map_builder_service.pb.h"
+#include "cartographer_proto/cloud/map_builder_service.pb.h"
 #include "google/protobuf/empty.pb.h"
 
 namespace cartographer {
@@ -26,14 +26,15 @@ namespace cloud {
 namespace handlers {
 
 DEFINE_HANDLER_SIGNATURE(
-    SetLandmarkPoseSignature, proto::SetLandmarkPoseRequest,
+    SetLandmarkPoseSignature, cartographer_proto::cloud::SetLandmarkPoseRequest,
     google::protobuf::Empty,
     "/cartographer.cloud.proto.MapBuilderService/SetLandmarkPose")
 
 class SetLandmarkPoseHandler
     : public async_grpc::RpcHandler<SetLandmarkPoseSignature> {
  public:
-  void OnRequest(const proto::SetLandmarkPoseRequest &request) override;
+  void OnRequest(const cartographer_proto::cloud::SetLandmarkPoseRequest&
+                     request) override;
 };
 
 }  // namespace handlers

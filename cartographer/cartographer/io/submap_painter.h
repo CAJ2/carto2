@@ -22,9 +22,9 @@
 #include "cartographer/io/image.h"
 #include "cartographer/io/proto_stream_deserializer.h"
 #include "cartographer/mapping/id.h"
-#include "cartographer/mapping/proto/serialization.pb.h"
 #include "cartographer/mapping/value_conversion_tables.h"
 #include "cartographer/transform/rigid_transform.h"
+#include "cartographer_proto/mapping/serialization.pb.h"
 
 namespace cartographer {
 namespace io {
@@ -81,7 +81,7 @@ PaintSubmapSlicesResult PaintSubmapSlices(
 
 void FillSubmapSlice(
     const ::cartographer::transform::Rigid3d& global_submap_pose,
-    const ::cartographer::mapping::proto::Submap& proto,
+    const ::cartographer_proto::mapping::Submap& proto,
     SubmapSlice* const submap_slice,
     mapping::ValueConversionTables* conversion_tables);
 

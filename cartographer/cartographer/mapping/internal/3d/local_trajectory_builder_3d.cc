@@ -21,11 +21,11 @@
 #include "absl/memory/memory.h"
 #include "cartographer/common/time.h"
 #include "cartographer/mapping/internal/3d/scan_matching/rotational_scan_matcher.h"
-#include "cartographer/mapping/proto/local_trajectory_builder_options_3d.pb.h"
-#include "cartographer/mapping/proto/scan_matching/ceres_scan_matcher_options_3d.pb.h"
-#include "cartographer/mapping/proto/scan_matching/real_time_correlative_scan_matcher_options.pb.h"
-#include "cartographer/mapping/proto/submaps_options_3d.pb.h"
 #include "cartographer/transform/timestamped_transform.h"
+#include "cartographer_proto/mapping/local_trajectory_builder_options_3d.pb.h"
+#include "cartographer_proto/mapping/scan_matching/ceres_scan_matcher_options_3d.pb.h"
+#include "cartographer_proto/mapping/scan_matching/real_time_correlative_scan_matcher_options.pb.h"
+#include "cartographer_proto/mapping/submaps_options_3d.pb.h"
 #include "glog/logging.h"
 
 namespace cartographer {
@@ -46,7 +46,7 @@ static auto* kScanMatcherResidualDistanceMetric = metrics::Histogram::Null();
 static auto* kScanMatcherResidualAngleMetric = metrics::Histogram::Null();
 
 LocalTrajectoryBuilder3D::LocalTrajectoryBuilder3D(
-    const mapping::proto::LocalTrajectoryBuilderOptions3D& options,
+    const cartographer_proto::mapping::LocalTrajectoryBuilderOptions3D& options,
     const std::vector<std::string>& expected_range_sensor_ids)
     : options_(options),
       active_submaps_(options.submaps_options()),

@@ -18,21 +18,23 @@
 #define CARTOGRAPHER_CLOUD_INTERNAL_HANDLERS_IS_TRAJECTORY_FINISHED_HANDLER_H
 
 #include "async_grpc/rpc_handler.h"
-#include "cartographer/cloud/proto/map_builder_service.pb.h"
+#include "cartographer_proto/cloud/map_builder_service.pb.h"
 
 namespace cartographer {
 namespace cloud {
 namespace handlers {
 
 DEFINE_HANDLER_SIGNATURE(
-    IsTrajectoryFinishedSignature, proto::IsTrajectoryFinishedRequest,
-    proto::IsTrajectoryFinishedResponse,
+    IsTrajectoryFinishedSignature,
+    cartographer_proto::cloud::IsTrajectoryFinishedRequest,
+    cartographer_proto::cloud::IsTrajectoryFinishedResponse,
     "/cartographer.cloud.proto.MapBuilderService/IsTrajectoryFinished")
 
 class IsTrajectoryFinishedHandler
     : public async_grpc::RpcHandler<IsTrajectoryFinishedSignature> {
  public:
-  void OnRequest(const proto::IsTrajectoryFinishedRequest& request) override;
+  void OnRequest(const cartographer_proto::cloud::IsTrajectoryFinishedRequest&
+                     request) override;
 };
 
 }  // namespace handlers

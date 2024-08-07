@@ -21,9 +21,9 @@
 namespace cartographer {
 namespace mapping {
 
-proto::MapBuilderOptions CreateMapBuilderOptions(
+cartographer_proto::mapping::MapBuilderOptions CreateMapBuilderOptions(
     common::LuaParameterDictionary* const parameter_dictionary) {
-  proto::MapBuilderOptions options;
+  cartographer_proto::mapping::MapBuilderOptions options;
   options.set_use_trajectory_builder_2d(
       parameter_dictionary->GetBool("use_trajectory_builder_2d"));
   options.set_use_trajectory_builder_3d(

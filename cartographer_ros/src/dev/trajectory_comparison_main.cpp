@@ -22,8 +22,8 @@
 
 #include "cartographer/common/math.h"
 #include "cartographer/io/proto_stream_deserializer.h"
-#include "cartographer/mapping/proto/pose_graph.pb.h"
 #include "cartographer/transform/transform_interpolation_buffer.h"
+#include "cartographer_proto/mapping/pose_graph.pb.h"
 #include "cartographer_ros/msg_conversion.h"
 #include "cartographer_ros/time_conversion.h"
 #include "gflags/gflags.h"
@@ -71,9 +71,9 @@ std::string QuantilesToString(std::vector<double>* v) {
 
 void Run(const std::string& pbstream_filename,
          const std::string& bag_filename) {
-  cartographer::mapping::proto::PoseGraph pose_graph_proto =
+  cartographer_proto::mapping::PoseGraph pose_graph_proto =
       cartographer::io::DeserializePoseGraphFromFile(pbstream_filename);
-  const cartographer::mapping::proto::Trajectory& last_trajectory_proto =
+  const cartographer_proto::mapping::Trajectory& last_trajectory_proto =
       *pose_graph_proto.mutable_trajectory()->rbegin();
   const cartographer::transform::TransformInterpolationBuffer
       transform_interpolation_buffer(last_trajectory_proto);

@@ -24,12 +24,12 @@
 #include "Eigen/Geometry"
 #include "cartographer/common/math.h"
 #include "cartographer/mapping/2d/xy_index.h"
-#include "cartographer/mapping/proto/map_limits.pb.h"
 #include "cartographer/mapping/trajectory_node.h"
 #include "cartographer/sensor/point_cloud.h"
 #include "cartographer/sensor/range_data.h"
 #include "cartographer/transform/rigid_transform.h"
 #include "cartographer/transform/transform.h"
+#include "cartographer_proto/mapping/map_limits.pb.h"
 #include "glog/logging.h"
 
 namespace cartographer {
@@ -47,7 +47,7 @@ class MapLimits {
     CHECK_GT(cell_limits.num_y_cells, 0.);
   }
 
-  explicit MapLimits(const proto::MapLimits& map_limits)
+  explicit MapLimits(const cartographer_proto::mapping::MapLimits& map_limits)
       : resolution_(map_limits.resolution()),
         max_(transform::ToEigen(map_limits.max())),
         cell_limits_(map_limits.cell_limits()) {}
@@ -95,8 +95,9 @@ class MapLimits {
   CellLimits cell_limits_;
 };
 
-inline proto::MapLimits ToProto(const MapLimits& map_limits) {
-  proto::MapLimits result;
+inline cartographer_proto::mapping::MapLimits ToProto(
+    const MapLimits& map_limits) {
+  cartographer_proto::mapping::MapLimits result;
   result.set_resolution(map_limits.resolution());
   *result.mutable_max() = transform::ToProto(map_limits.max());
   *result.mutable_cell_limits() = ToProto(map_limits.cell_limits());

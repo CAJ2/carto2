@@ -145,7 +145,8 @@ std::string ComputePixelValues(
 
 void AddToTextureProto(
     const HybridGrid& hybrid_grid, const transform::Rigid3d& global_submap_pose,
-    proto::SubmapQuery::Response::SubmapTexture* const texture) {
+    cartographer_proto::mapping::SubmapQuery::Response::SubmapTexture* const
+        texture) {
   // Generate an X-ray view through the 'hybrid_grid', aligned to the
   // xy-plane in the global map frame.
   const float resolution = hybrid_grid.resolution();
@@ -177,9 +178,9 @@ void AddToTextureProto(
 
 }  // namespace
 
-proto::SubmapsOptions3D CreateSubmapsOptions3D(
+cartographer_proto::mapping::SubmapsOptions3D CreateSubmapsOptions3D(
     common::LuaParameterDictionary* parameter_dictionary) {
-  proto::SubmapsOptions3D options;
+  cartographer_proto::mapping::SubmapsOptions3D options;
   options.set_high_resolution(
       parameter_dictionary->GetDouble("high_resolution"));
   options.set_high_resolution_max_range(
@@ -206,14 +207,14 @@ Submap3D::Submap3D(const float high_resolution, const float low_resolution,
           absl::make_unique<IntensityHybridGrid>(high_resolution)),
       rotational_scan_matcher_histogram_(rotational_scan_matcher_histogram) {}
 
-Submap3D::Submap3D(const proto::Submap3D& proto)
+Submap3D::Submap3D(const cartographer_proto::mapping::Submap3D& proto)
     : Submap(transform::ToRigid3(proto.local_pose())) {
   UpdateFromProto(proto);
 }
 
-proto::Submap Submap3D::ToProto(
+cartographer_proto::mapping::Submap Submap3D::ToProto(
     const bool include_probability_grid_data) const {
-  proto::Submap proto;
+  cartographer_proto::mapping::Submap proto;
   auto* const submap_3d = proto.mutable_submap_3d();
   *submap_3d->mutable_local_pose() = transform::ToProto(local_pose());
   submap_3d->set_num_range_data(num_range_data());
@@ -232,12 +233,14 @@ proto::Submap Submap3D::ToProto(
   return proto;
 }
 
-void Submap3D::UpdateFromProto(const proto::Submap& proto) {
+void Submap3D::UpdateFromProto(
+    const cartographer_proto::mapping::Submap& proto) {
   CHECK(proto.has_submap_3d());
   UpdateFromProto(proto.submap_3d());
 }
 
-void Submap3D::UpdateFromProto(const proto::Submap3D& submap_3d) {
+void Submap3D::UpdateFromProto(
+    const cartographer_proto::mapping::Submap3D& submap_3d) {
   set_num_range_data(submap_3d.num_range_data());
   set_insertion_finished(submap_3d.finished());
   if (submap_3d.has_high_resolution_hybrid_grid()) {
@@ -259,7 +262,7 @@ void Submap3D::UpdateFromProto(const proto::Submap3D& submap_3d) {
 
 void Submap3D::ToResponseProto(
     const transform::Rigid3d& global_submap_pose,
-    proto::SubmapQuery::Response* const response) const {
+    cartographer_proto::mapping::SubmapQuery::Response* const response) const {
   response->set_submap_version(num_range_data());
 
   AddToTextureProto(*high_resolution_hybrid_grid_, global_submap_pose,
@@ -298,7 +301,8 @@ void Submap3D::Finish() {
   set_insertion_finished(true);
 }
 
-ActiveSubmaps3D::ActiveSubmaps3D(const proto::SubmapsOptions3D& options)
+ActiveSubmaps3D::ActiveSubmaps3D(
+    const cartographer_proto::mapping::SubmapsOptions3D& options)
     : options_(options),
       range_data_inserter_(options.range_data_inserter_options()) {}
 

@@ -21,21 +21,25 @@
 
 #include "async_grpc/rpc_handler.h"
 #include "cartographer/cloud/internal/map_builder_context_interface.h"
-#include "cartographer/cloud/proto/map_builder_service.pb.h"
+#include "cartographer_proto/cloud/map_builder_service.pb.h"
 
 namespace cartographer {
 namespace cloud {
 namespace handlers {
 
 DEFINE_HANDLER_SIGNATURE(
-    ReceiveLocalSlamResultsSignature, proto::ReceiveLocalSlamResultsRequest,
-    async_grpc::Stream<proto::ReceiveLocalSlamResultsResponse>,
+    ReceiveLocalSlamResultsSignature,
+    cartographer_proto::cloud::ReceiveLocalSlamResultsRequest,
+    async_grpc::Stream<
+        cartographer_proto::cloud::ReceiveLocalSlamResultsResponse>,
     "/cartographer.cloud.proto.MapBuilderService/ReceiveLocalSlamResults")
 
 class ReceiveLocalSlamResultsHandler
     : public async_grpc::RpcHandler<ReceiveLocalSlamResultsSignature> {
  public:
-  void OnRequest(const proto::ReceiveLocalSlamResultsRequest& request) override;
+  void OnRequest(
+      const cartographer_proto::cloud::ReceiveLocalSlamResultsRequest& request)
+      override;
   void OnFinish() override;
 
  private:

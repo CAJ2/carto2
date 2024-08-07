@@ -23,9 +23,10 @@
 namespace cartographer {
 namespace cloud {
 
-proto::MapBuilderServerOptions CreateMapBuilderServerOptions(
+cartographer_proto::cloud::MapBuilderServerOptions
+CreateMapBuilderServerOptions(
     common::LuaParameterDictionary* lua_parameter_dictionary) {
-  proto::MapBuilderServerOptions map_builder_server_options;
+  cartographer_proto::cloud::MapBuilderServerOptions map_builder_server_options;
   map_builder_server_options.set_server_address(
       lua_parameter_dictionary->GetString("server_address"));
   map_builder_server_options.set_num_grpc_threads(
@@ -46,7 +47,7 @@ proto::MapBuilderServerOptions CreateMapBuilderServerOptions(
   return map_builder_server_options;
 }
 
-proto::MapBuilderServerOptions LoadMapBuilderServerOptions(
+cartographer_proto::cloud::MapBuilderServerOptions LoadMapBuilderServerOptions(
     const std::string& configuration_directory,
     const std::string& configuration_basename) {
   auto file_resolver = absl::make_unique<common::ConfigurationFileResolver>(

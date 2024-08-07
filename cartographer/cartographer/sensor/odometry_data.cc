@@ -21,14 +21,15 @@
 namespace cartographer {
 namespace sensor {
 
-proto::OdometryData ToProto(const OdometryData& odometry_data) {
-  proto::OdometryData proto;
+cartographer_proto::sensor::OdometryData ToProto(
+    const OdometryData& odometry_data) {
+  cartographer_proto::sensor::OdometryData proto;
   proto.set_timestamp(common::ToUniversal(odometry_data.time));
   *proto.mutable_pose() = transform::ToProto(odometry_data.pose);
   return proto;
 }
 
-OdometryData FromProto(const proto::OdometryData& proto) {
+OdometryData FromProto(const cartographer_proto::sensor::OdometryData& proto) {
   return OdometryData{common::FromUniversal(proto.timestamp()),
                       transform::ToRigid3(proto.pose())};
 }

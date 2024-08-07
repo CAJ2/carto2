@@ -19,8 +19,8 @@
 
 #include "cartographer/common/configuration_file_resolver.h"
 #include "cartographer/io/points_processor_pipeline_builder.h"
-#include "cartographer/mapping/proto/pose_graph.pb.h"
-#include "cartographer/mapping/proto/trajectory_builder_options.pb.h"
+#include "cartographer_proto/mapping/pose_graph.pb.h"
+#include "cartographer_proto/mapping/trajectory_builder_options.pb.h"
 #include <rclcpp/rclcpp.hpp>
 
 #ifndef CARTOGRAPHER_ROS_CARTOGRAPHER_ROS_ASSETS_WRITER_H
@@ -53,8 +53,8 @@ class AssetsWriter {
 
  private:
   std::vector<std::string> bag_filenames_;
-  std::vector<::cartographer::mapping::proto::Trajectory> all_trajectories_;
-  ::cartographer::mapping::proto::PoseGraph pose_graph_;
+  std::vector<::cartographer_proto::mapping::Trajectory> all_trajectories_;
+  ::cartographer_proto::mapping::PoseGraph pose_graph_;
   std::unique_ptr<::cartographer::io::PointsProcessorPipelineBuilder>
       point_pipeline_builder_;
 };

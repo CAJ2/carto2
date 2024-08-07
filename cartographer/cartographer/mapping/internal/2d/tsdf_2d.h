@@ -33,7 +33,7 @@ class TSDF2D : public Grid2D {
  public:
   TSDF2D(const MapLimits& limits, float truncation_distance, float max_weight,
          ValueConversionTables* conversion_tables);
-  explicit TSDF2D(const proto::Grid2D& proto,
+  explicit TSDF2D(const cartographer_proto::mapping::Grid2D& proto,
                   ValueConversionTables* conversion_tables);
 
   void SetCell(const Eigen::Array2i& cell_index, const float tsd,
@@ -45,10 +45,11 @@ class TSDF2D : public Grid2D {
       const Eigen::Array2i& cell_index) const;
 
   void GrowLimits(const Eigen::Vector2f& point) override;
-  proto::Grid2D ToProto() const override;
+  cartographer_proto::mapping::Grid2D ToProto() const override;
   std::unique_ptr<Grid2D> ComputeCroppedGrid() const override;
   bool DrawToSubmapTexture(
-      proto::SubmapQuery::Response::SubmapTexture* const texture,
+      cartographer_proto::mapping::SubmapQuery::Response::SubmapTexture* const
+          texture,
       transform::Rigid3d local_pose) const override;
   bool CellIsUpdated(const Eigen::Array2i& cell_index) const;
 

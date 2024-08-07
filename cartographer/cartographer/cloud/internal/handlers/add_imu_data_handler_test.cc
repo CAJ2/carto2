@@ -50,7 +50,7 @@ using AddImuDataHandlerTest =
     testing::HandlerTest<AddImuDataSignature, AddImuDataHandler>;
 
 TEST_F(AddImuDataHandlerTest, NoLocalSlamUploader) {
-  proto::AddImuDataRequest request;
+  cartographer_proto::cloud::AddImuDataRequest request;
   EXPECT_TRUE(
       google::protobuf::TextFormat::ParseFromString(kMessage, &request));
   SetNoLocalTrajectoryUploader();
@@ -69,7 +69,7 @@ TEST_F(AddImuDataHandlerTest, NoLocalSlamUploader) {
 }
 
 TEST_F(AddImuDataHandlerTest, WithMockLocalSlamUploader) {
-  proto::AddImuDataRequest request;
+  cartographer_proto::cloud::AddImuDataRequest request;
   EXPECT_TRUE(
       google::protobuf::TextFormat::ParseFromString(kMessage, &request));
   SetMockLocalTrajectoryUploader();
@@ -82,7 +82,7 @@ TEST_F(AddImuDataHandlerTest, WithMockLocalSlamUploader) {
               DoEnqueueSensorData(
                   Eq(request.sensor_metadata().trajectory_id()),
                   Pointee(Truly(testing::BuildDataPredicateEquals(request)))));
-  proto::SensorData sensor_data;
+  cartographer_proto::cloud::SensorData sensor_data;
   *sensor_data.mutable_sensor_metadata() = request.sensor_metadata();
   *sensor_data.mutable_imu_data() = request.imu_data();
   EXPECT_CALL(*mock_local_trajectory_uploader_,

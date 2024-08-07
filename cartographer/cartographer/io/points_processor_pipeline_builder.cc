@@ -32,7 +32,7 @@
 #include "cartographer/io/vertical_range_filtering_points_processor.h"
 #include "cartographer/io/xray_points_processor.h"
 #include "cartographer/io/xyz_writing_points_processor.h"
-#include "cartographer/mapping/proto/trajectory.pb.h"
+#include "cartographer_proto/mapping/trajectory.pb.h"
 
 namespace cartographer {
 namespace io {
@@ -64,7 +64,7 @@ void RegisterFileWritingPointsProcessor(
 
 template <typename PointsProcessorType>
 void RegisterFileWritingPointsProcessorWithTrajectories(
-    const std::vector<mapping::proto::Trajectory>& trajectories,
+    const std::vector<cartographer_proto::mapping::Trajectory>& trajectories,
     const FileWriterFactory& file_writer_factory,
     PointsProcessorPipelineBuilder* const builder) {
   builder->Register(
@@ -78,7 +78,7 @@ void RegisterFileWritingPointsProcessorWithTrajectories(
 }
 
 void RegisterBuiltInPointsProcessors(
-    const std::vector<mapping::proto::Trajectory>& trajectories,
+    const std::vector<cartographer_proto::mapping::Trajectory>& trajectories,
     const FileWriterFactory& file_writer_factory,
     PointsProcessorPipelineBuilder* builder) {
   RegisterPlainPointsProcessor<CountingPointsProcessor>(builder);

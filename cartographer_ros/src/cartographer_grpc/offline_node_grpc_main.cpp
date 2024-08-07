@@ -38,7 +38,7 @@ int main(int argc, char** argv) {
   cartographer_ros::ScopedRosLogSink ros_log_sink;
 
   const cartographer_ros::MapBuilderFactory map_builder_factory =
-      [](const ::cartographer::mapping::proto::MapBuilderOptions&) {
+      [](const ::cartographer_proto::mapping::MapBuilderOptions&) {
         return absl::make_unique< ::cartographer::cloud::MapBuilderStub>(
             FLAGS_server_address, FLAGS_client_id);
       };

@@ -146,7 +146,7 @@ CompressedPointCloud::CompressedPointCloud(const PointCloud& point_cloud)
 }
 
 CompressedPointCloud::CompressedPointCloud(
-    const proto::CompressedPointCloud& proto) {
+    const cartographer_proto::sensor::CompressedPointCloud& proto) {
   num_points_ = proto.num_points();
   const int data_size = proto.point_data_size();
   point_data_.reserve(data_size);
@@ -182,8 +182,9 @@ bool CompressedPointCloud::operator==(
          num_points_ == right_hand_container.num_points_;
 }
 
-proto::CompressedPointCloud CompressedPointCloud::ToProto() const {
-  proto::CompressedPointCloud result;
+cartographer_proto::sensor::CompressedPointCloud CompressedPointCloud::ToProto()
+    const {
+  cartographer_proto::sensor::CompressedPointCloud result;
   result.set_num_points(num_points_);
   for (const int32 data : point_data_) {
     result.add_point_data(data);

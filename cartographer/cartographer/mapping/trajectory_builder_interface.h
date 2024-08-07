@@ -25,18 +25,19 @@
 #include "cartographer/common/lua_parameter_dictionary.h"
 #include "cartographer/common/port.h"
 #include "cartographer/common/time.h"
-#include "cartographer/mapping/proto/trajectory_builder_options.pb.h"
 #include "cartographer/mapping/submaps.h"
 #include "cartographer/sensor/fixed_frame_pose_data.h"
 #include "cartographer/sensor/imu_data.h"
 #include "cartographer/sensor/landmark_data.h"
 #include "cartographer/sensor/odometry_data.h"
 #include "cartographer/sensor/timed_point_cloud_data.h"
+#include "cartographer_proto/mapping/trajectory_builder_options.pb.h"
 
 namespace cartographer {
 namespace mapping {
 
-proto::TrajectoryBuilderOptions CreateTrajectoryBuilderOptions(
+cartographer_proto::mapping::TrajectoryBuilderOptions
+CreateTrajectoryBuilderOptions(
     common::LuaParameterDictionary* const parameter_dictionary);
 
 class LocalSlamResultData;
@@ -112,9 +113,10 @@ class TrajectoryBuilderInterface {
       std::unique_ptr<mapping::LocalSlamResultData> local_slam_result_data) = 0;
 };
 
-proto::SensorId ToProto(const TrajectoryBuilderInterface::SensorId& sensor_id);
+cartographer_proto::mapping::SensorId ToProto(
+    const TrajectoryBuilderInterface::SensorId& sensor_id);
 TrajectoryBuilderInterface::SensorId FromProto(
-    const proto::SensorId& sensor_id_proto);
+    const cartographer_proto::mapping::SensorId& sensor_id_proto);
 
 }  // namespace mapping
 }  // namespace cartographer

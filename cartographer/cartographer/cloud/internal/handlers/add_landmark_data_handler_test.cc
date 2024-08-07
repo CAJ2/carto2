@@ -57,7 +57,7 @@ using AddLandmarkDataHandlerTest =
     testing::HandlerTest<AddLandmarkDataSignature, AddLandmarkDataHandler>;
 
 TEST_F(AddLandmarkDataHandlerTest, NoLocalSlamUploader) {
-  proto::AddLandmarkDataRequest request;
+  cartographer_proto::cloud::AddLandmarkDataRequest request;
   EXPECT_TRUE(
       google::protobuf::TextFormat::ParseFromString(kMessage, &request));
   SetNoLocalTrajectoryUploader();
@@ -76,7 +76,7 @@ TEST_F(AddLandmarkDataHandlerTest, NoLocalSlamUploader) {
 }
 
 TEST_F(AddLandmarkDataHandlerTest, WithMockLocalSlamUploader) {
-  proto::AddLandmarkDataRequest request;
+  cartographer_proto::cloud::AddLandmarkDataRequest request;
   EXPECT_TRUE(
       google::protobuf::TextFormat::ParseFromString(kMessage, &request));
   SetMockLocalTrajectoryUploader();
@@ -89,7 +89,7 @@ TEST_F(AddLandmarkDataHandlerTest, WithMockLocalSlamUploader) {
               DoEnqueueSensorData(
                   Eq(request.sensor_metadata().trajectory_id()),
                   Pointee(Truly(testing::BuildDataPredicateEquals(request)))));
-  proto::SensorData sensor_data;
+  cartographer_proto::cloud::SensorData sensor_data;
   *sensor_data.mutable_sensor_metadata() = request.sensor_metadata();
   *sensor_data.mutable_landmark_data() = request.landmark_data();
   EXPECT_CALL(*mock_local_trajectory_uploader_,

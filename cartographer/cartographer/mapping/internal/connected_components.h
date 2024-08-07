@@ -21,8 +21,8 @@
 
 #include "absl/container/flat_hash_map.h"
 #include "absl/synchronization/mutex.h"
-#include "cartographer/mapping/proto/connected_components.pb.h"
 #include "cartographer/mapping/submaps.h"
+#include "cartographer_proto/mapping/connected_components.pb.h"
 
 namespace cartographer {
 namespace mapping {
@@ -83,7 +83,7 @@ class ConnectedComponents {
 };
 
 // Returns a proto encoding connected components.
-proto::ConnectedComponents ToProto(
+cartographer_proto::mapping::ConnectedComponents ToProto(
     std::vector<std::vector<int>> connected_components);
 
 }  // namespace mapping

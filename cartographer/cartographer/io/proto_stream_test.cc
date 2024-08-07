@@ -22,7 +22,7 @@
 #include <string.h>
 
 #include "cartographer/common/port.h"
-#include "cartographer/mapping/proto/trajectory.pb.h"
+#include "cartographer_proto/mapping/trajectory.pb.h"
 #include "gtest/gtest.h"
 
 namespace cartographer {
@@ -41,7 +41,7 @@ TEST_F(ProtoStreamTest, WriteAndReadBack) {
   {
     ProtoStreamWriter writer(test_file);
     for (int i = 0; i != 10; ++i) {
-      mapping::proto::Trajectory trajectory;
+      cartographer_proto::mapping::Trajectory trajectory;
       trajectory.add_node()->set_timestamp(i);
       writer.WriteProto(trajectory);
     }
@@ -50,12 +50,12 @@ TEST_F(ProtoStreamTest, WriteAndReadBack) {
   {
     ProtoStreamReader reader(test_file);
     for (int i = 0; i != 10; ++i) {
-      mapping::proto::Trajectory trajectory;
+      cartographer_proto::mapping::Trajectory trajectory;
       ASSERT_TRUE(reader.ReadProto(&trajectory));
       ASSERT_EQ(1, trajectory.node_size());
       EXPECT_EQ(i, trajectory.node(0).timestamp());
     }
-    mapping::proto::Trajectory trajectory;
+    cartographer_proto::mapping::Trajectory trajectory;
     EXPECT_FALSE(reader.ReadProto(&trajectory));
   }
   remove(test_file.c_str());

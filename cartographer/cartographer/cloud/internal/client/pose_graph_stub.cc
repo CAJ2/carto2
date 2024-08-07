@@ -78,7 +78,7 @@ PoseGraphStub::GetAllSubmapPoses() const {
 
 transform::Rigid3d PoseGraphStub::GetLocalToGlobalTransform(
     int trajectory_id) const {
-  proto::GetLocalToGlobalTransformRequest request;
+  cartographer_proto::cloud::GetLocalToGlobalTransformRequest request;
   request.set_trajectory_id(trajectory_id);
   async_grpc::Client<handlers::GetLocalToGlobalTransformSignature> client(
       client_channel_);
@@ -146,7 +146,7 @@ std::map<std::string, transform::Rigid3d> PoseGraphStub::GetLandmarkPoses()
 void PoseGraphStub::SetLandmarkPose(const std::string& landmark_id,
                                     const transform::Rigid3d& global_pose,
                                     const bool frozen) {
-  proto::SetLandmarkPoseRequest request;
+  cartographer_proto::cloud::SetLandmarkPoseRequest request;
   request.mutable_landmark_pose()->set_landmark_id(landmark_id);
   *request.mutable_landmark_pose()->mutable_global_pose() =
       transform::ToProto(global_pose);
@@ -156,7 +156,7 @@ void PoseGraphStub::SetLandmarkPose(const std::string& landmark_id,
 }
 
 void PoseGraphStub::DeleteTrajectory(int trajectory_id) {
-  proto::DeleteTrajectoryRequest request;
+  cartographer_proto::cloud::DeleteTrajectoryRequest request;
   request.set_client_id(client_id_);
   request.set_trajectory_id(trajectory_id);
   async_grpc::Client<handlers::DeleteTrajectorySignature> client(
@@ -171,7 +171,7 @@ void PoseGraphStub::DeleteTrajectory(int trajectory_id) {
 }
 
 bool PoseGraphStub::IsTrajectoryFinished(int trajectory_id) const {
-  proto::IsTrajectoryFinishedRequest request;
+  cartographer_proto::cloud::IsTrajectoryFinishedRequest request;
   request.set_trajectory_id(trajectory_id);
   async_grpc::Client<handlers::IsTrajectoryFinishedSignature> client(
       client_channel_);
@@ -183,7 +183,7 @@ bool PoseGraphStub::IsTrajectoryFinished(int trajectory_id) const {
 }
 
 bool PoseGraphStub::IsTrajectoryFrozen(int trajectory_id) const {
-  proto::IsTrajectoryFrozenRequest request;
+  cartographer_proto::cloud::IsTrajectoryFrozenRequest request;
   request.set_trajectory_id(trajectory_id);
   async_grpc::Client<handlers::IsTrajectoryFrozenSignature> client(
       client_channel_);
@@ -209,7 +209,7 @@ PoseGraphStub::constraints() const {
   return mapping::FromProto(client.response().constraints());
 }
 
-mapping::proto::PoseGraph PoseGraphStub::ToProto(
+cartographer_proto::cloud::mapping::PoseGraph PoseGraphStub::ToProto(
     bool include_unfinished_submaps) const {
   LOG(FATAL) << "Not implemented";
 }

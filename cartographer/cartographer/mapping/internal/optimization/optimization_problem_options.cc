@@ -22,9 +22,10 @@ namespace cartographer {
 namespace mapping {
 namespace optimization {
 
-proto::OptimizationProblemOptions CreateOptimizationProblemOptions(
+cartographer_proto::mapping::optimization::OptimizationProblemOptions
+CreateOptimizationProblemOptions(
     common::LuaParameterDictionary* const parameter_dictionary) {
-  proto::OptimizationProblemOptions options;
+  cartographer_proto::mapping::optimization::OptimizationProblemOptions options;
   options.set_huber_scale(parameter_dictionary->GetDouble("huber_scale"));
   options.set_acceleration_weight(
       parameter_dictionary->GetDouble("acceleration_weight"));

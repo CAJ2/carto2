@@ -19,18 +19,19 @@
 #include "absl/memory/memory.h"
 #include "async_grpc/rpc_handler.h"
 #include "cartographer/cloud/internal/map_builder_context_interface.h"
-#include "cartographer/cloud/proto/map_builder_service.pb.h"
 #include "cartographer/transform/transform.h"
+#include "cartographer_proto/cloud/map_builder_service.pb.h"
 
 namespace cartographer {
 namespace cloud {
 namespace handlers {
 namespace {
 
-std::unique_ptr<proto::ReceiveLocalSlamResultsResponse> GenerateResponse(
-    std::unique_ptr<MapBuilderContextInterface::LocalSlamResult>
-        local_slam_result) {
-  auto response = absl::make_unique<proto::ReceiveLocalSlamResultsResponse>();
+std::unique_ptr<cartographer_proto::cloud::ReceiveLocalSlamResultsResponse>
+GenerateResponse(std::unique_ptr<MapBuilderContextInterface::LocalSlamResult>
+                     local_slam_result) {
+  auto response = absl::make_unique<
+      cartographer_proto::cloud::ReceiveLocalSlamResultsResponse>();
   response->set_trajectory_id(local_slam_result->trajectory_id);
   response->set_timestamp(common::ToUniversal(local_slam_result->time));
   *response->mutable_local_pose() =
@@ -49,7 +50,7 @@ std::unique_ptr<proto::ReceiveLocalSlamResultsResponse> GenerateResponse(
 }  // namespace
 
 void ReceiveLocalSlamResultsHandler::OnRequest(
-    const proto::ReceiveLocalSlamResultsRequest& request) {
+    const cartographer_proto::cloud::ReceiveLocalSlamResultsRequest& request) {
   auto writer = GetWriter();
   MapBuilderContextInterface::LocalSlamSubscriptionId subscription_id =
       GetUnsynchronizedContext<MapBuilderContextInterface>()

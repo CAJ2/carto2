@@ -20,11 +20,11 @@
 
 #include "cartographer/common/port.h"
 #include "cartographer/ground_truth/autogenerate_ground_truth.h"
-#include "cartographer/ground_truth/proto/relations.pb.h"
 #include "cartographer/io/proto_stream.h"
 #include "cartographer/io/proto_stream_deserializer.h"
-#include "cartographer/mapping/proto/pose_graph.pb.h"
 #include "cartographer/transform/transform.h"
+#include "cartographer_proto/ground_truth/relations.pb.h"
+#include "cartographer_proto/mapping/pose_graph.pb.h"
 #include "gflags/gflags.h"
 #include "glog/logging.h"
 
@@ -51,11 +51,11 @@ void Run(const std::string& pose_graph_filename,
          const double outlier_threshold_meters,
          const double outlier_threshold_radians) {
   LOG(INFO) << "Reading pose graph from '" << pose_graph_filename << "'...";
-  mapping::proto::PoseGraph pose_graph =
+  cartographer_proto::mapping::PoseGraph pose_graph =
       io::DeserializePoseGraphFromFile(pose_graph_filename);
 
   LOG(INFO) << "Autogenerating ground truth relations...";
-  const proto::GroundTruth ground_truth =
+  const cartographer_proto::ground_truth::GroundTruth ground_truth =
       GenerateGroundTruth(pose_graph, min_covered_distance,
                           outlier_threshold_meters, outlier_threshold_radians);
   LOG(INFO) << "Writing " << ground_truth.relation_size() << " relations to '"

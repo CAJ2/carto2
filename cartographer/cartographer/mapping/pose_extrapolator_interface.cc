@@ -26,10 +26,10 @@ namespace mapping {
 
 namespace {
 
-proto::ConstantVelocityPoseExtrapolatorOptions
+cartographer_proto::mapping::ConstantVelocityPoseExtrapolatorOptions
 CreateConstantVelocityPoseExtrapolatorOptions(
     common::LuaParameterDictionary* const parameter_dictionary) {
-  proto::ConstantVelocityPoseExtrapolatorOptions options;
+  cartographer_proto::mapping::ConstantVelocityPoseExtrapolatorOptions options;
   options.set_pose_queue_duration(
       parameter_dictionary->GetDouble("pose_queue_duration"));
   options.set_imu_gravity_time_constant(
@@ -37,9 +37,10 @@ CreateConstantVelocityPoseExtrapolatorOptions(
   return options;
 }
 
-proto::ImuBasedPoseExtrapolatorOptions CreateImuBasedPoseExtrapolatorOptions(
+cartographer_proto::mapping::ImuBasedPoseExtrapolatorOptions
+CreateImuBasedPoseExtrapolatorOptions(
     common::LuaParameterDictionary* const parameter_dictionary) {
-  proto::ImuBasedPoseExtrapolatorOptions options;
+  cartographer_proto::mapping::ImuBasedPoseExtrapolatorOptions options;
 
   options.set_pose_queue_duration(
       parameter_dictionary->GetDouble("pose_queue_duration"));
@@ -65,9 +66,10 @@ proto::ImuBasedPoseExtrapolatorOptions CreateImuBasedPoseExtrapolatorOptions(
 
 }  // namespace
 
-proto::PoseExtrapolatorOptions CreatePoseExtrapolatorOptions(
+cartographer_proto::mapping::PoseExtrapolatorOptions
+CreatePoseExtrapolatorOptions(
     common::LuaParameterDictionary* const parameter_dictionary) {
-  proto::PoseExtrapolatorOptions options;
+  cartographer_proto::mapping::PoseExtrapolatorOptions options;
   options.set_use_imu_based(parameter_dictionary->GetBool("use_imu_based"));
   *options.mutable_constant_velocity() =
       CreateConstantVelocityPoseExtrapolatorOptions(
@@ -80,7 +82,7 @@ proto::PoseExtrapolatorOptions CreatePoseExtrapolatorOptions(
 
 std::unique_ptr<PoseExtrapolatorInterface>
 PoseExtrapolatorInterface::CreateWithImuData(
-    const proto::PoseExtrapolatorOptions& options,
+    const cartographer_proto::mapping::PoseExtrapolatorOptions& options,
     const std::vector<sensor::ImuData>& imu_data,
     const std::vector<transform::TimestampedTransform>& initial_poses) {
   CHECK(!imu_data.empty());

@@ -18,7 +18,7 @@
 #define CARTOGRAPHER_CLOUD_INTERNAL_HANDLERS_FINISH_TRAJECTORY_HANDLER_H
 
 #include "async_grpc/rpc_handler.h"
-#include "cartographer/cloud/proto/map_builder_service.pb.h"
+#include "cartographer_proto/cloud/map_builder_service.pb.h"
 #include "google/protobuf/empty.pb.h"
 
 namespace cartographer {
@@ -26,14 +26,15 @@ namespace cloud {
 namespace handlers {
 
 DEFINE_HANDLER_SIGNATURE(
-    FinishTrajectorySignature, proto::FinishTrajectoryRequest,
-    google::protobuf::Empty,
+    FinishTrajectorySignature,
+    cartographer_proto::cloud::FinishTrajectoryRequest, google::protobuf::Empty,
     "/cartographer.cloud.proto.MapBuilderService/FinishTrajectory")
 
 class FinishTrajectoryHandler
     : public async_grpc::RpcHandler<FinishTrajectorySignature> {
  public:
-  void OnRequest(const proto::FinishTrajectoryRequest& request) override;
+  void OnRequest(const cartographer_proto::cloud::FinishTrajectoryRequest&
+                     request) override;
 };
 
 }  // namespace handlers

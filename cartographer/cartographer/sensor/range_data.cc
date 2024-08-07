@@ -16,8 +16,8 @@
 
 #include "cartographer/sensor/range_data.h"
 
-#include "cartographer/sensor/proto/sensor.pb.h"
 #include "cartographer/transform/transform.h"
+#include "cartographer_proto/sensor/sensor.pb.h"
 
 namespace cartographer {
 namespace sensor {
@@ -38,8 +38,8 @@ RangeData CropRangeData(const RangeData& range_data, const float min_z,
                    CropPointCloud(range_data.misses, min_z, max_z)};
 }
 
-proto::RangeData ToProto(const RangeData& range_data) {
-  proto::RangeData proto;
+cartographer_proto::sensor::RangeData ToProto(const RangeData& range_data) {
+  cartographer_proto::sensor::RangeData proto;
   *proto.mutable_origin() = transform::ToProto(range_data.origin);
   proto.mutable_returns()->Reserve(range_data.returns.size());
   for (const RangefinderPoint& point : range_data.returns) {
@@ -52,7 +52,7 @@ proto::RangeData ToProto(const RangeData& range_data) {
   return proto;
 }
 
-RangeData FromProto(const proto::RangeData& proto) {
+RangeData FromProto(const cartographer_proto::sensor::RangeData& proto) {
   std::vector<RangefinderPoint> returns;
   if (proto.returns_size() > 0) {
     returns.reserve(proto.returns().size());

@@ -43,7 +43,7 @@ class OverlappingSubmapsTrimmer2DTest : public ::testing::Test {
                        const Rigid2d& local_to_submap_frame,
                        const Eigen::Vector2d& submap_corner, int submap_index,
                        int num_cells, bool is_finished) {
-    proto::Submap2D submap_2d;
+    cartographer_proto::mapping::Submap2D submap_2d;
     submap_2d.set_num_range_data(1);
     submap_2d.set_finished(is_finished);
     *submap_2d.mutable_local_pose() =

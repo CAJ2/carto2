@@ -57,7 +57,7 @@ class RangeDataInserterTest2DTSDF : public ::testing::Test {
   }
 
   ValueConversionTables conversion_tables_;
-  proto::TSDFRangeDataInserterOptions2D options_;
+  cartographer_proto::mapping::TSDFRangeDataInserterOptions2D options_;
   TSDF2D tsdf_;
   std::unique_ptr<TSDFRangeDataInserter2D> range_data_inserter_;
 };

@@ -22,9 +22,9 @@
 
 #include "absl/container/flat_hash_map.h"
 #include "async_grpc/rpc_handler.h"
-#include "cartographer/cloud/proto/map_builder_service.pb.h"
 #include "cartographer/metrics/counter.h"
 #include "cartographer/metrics/family_factory.h"
+#include "cartographer_proto/cloud/map_builder_service.pb.h"
 #include "google/protobuf/empty.pb.h"
 
 namespace cartographer {
@@ -32,14 +32,16 @@ namespace cloud {
 namespace handlers {
 
 DEFINE_HANDLER_SIGNATURE(
-    AddSensorDataBatchSignature, proto::AddSensorDataBatchRequest,
+    AddSensorDataBatchSignature,
+    cartographer_proto::cloud::AddSensorDataBatchRequest,
     google::protobuf::Empty,
     "/cartographer.cloud.proto.MapBuilderService/AddSensorDataBatch")
 
 class AddSensorDataBatchHandler
     : public async_grpc::RpcHandler<AddSensorDataBatchSignature> {
  public:
-  void OnRequest(const proto::AddSensorDataBatchRequest& request) override;
+  void OnRequest(const cartographer_proto::cloud::AddSensorDataBatchRequest&
+                     request) override;
 
   static void RegisterMetrics(metrics::FamilyFactory* family_factory);
 

@@ -22,8 +22,8 @@
 #include "Eigen/Core"
 #include "Eigen/Geometry"
 #include "cartographer/common/math.h"
-#include "cartographer/transform/proto/transform.pb.h"
 #include "cartographer/transform/rigid_transform.h"
+#include "cartographer_proto/transform/transform.pb.h"
 
 namespace cartographer {
 namespace transform {
@@ -115,23 +115,26 @@ Rigid3<T> Embed3D(const Rigid2<T>& transform) {
 }
 
 // Conversions between Eigen and proto.
-Rigid2d ToRigid2(const proto::Rigid2d& transform);
-Eigen::Vector2d ToEigen(const proto::Vector2d& vector);
-Eigen::Vector3f ToEigen(const proto::Vector3f& vector);
-Eigen::Vector4f ToEigen(const proto::Vector4f& vector);
-Eigen::Vector3d ToEigen(const proto::Vector3d& vector);
-Eigen::Quaterniond ToEigen(const proto::Quaterniond& quaternion);
-proto::Rigid2d ToProto(const Rigid2d& transform);
-proto::Rigid2f ToProto(const Rigid2f& transform);
-proto::Rigid3d ToProto(const Rigid3d& rigid);
-Rigid3d ToRigid3(const proto::Rigid3d& rigid);
-proto::Rigid3f ToProto(const Rigid3f& rigid);
-proto::Vector2d ToProto(const Eigen::Vector2d& vector);
-proto::Vector3f ToProto(const Eigen::Vector3f& vector);
-proto::Vector4f ToProto(const Eigen::Vector4f& vector);
-proto::Vector3d ToProto(const Eigen::Vector3d& vector);
-proto::Quaternionf ToProto(const Eigen::Quaternionf& quaternion);
-proto::Quaterniond ToProto(const Eigen::Quaterniond& quaternion);
+Rigid2d ToRigid2(const cartographer_proto::transform::Rigid2d& transform);
+Eigen::Vector2d ToEigen(const cartographer_proto::transform::Vector2d& vector);
+Eigen::Vector3f ToEigen(const cartographer_proto::transform::Vector3f& vector);
+Eigen::Vector4f ToEigen(const cartographer_proto::transform::Vector4f& vector);
+Eigen::Vector3d ToEigen(const cartographer_proto::transform::Vector3d& vector);
+Eigen::Quaterniond ToEigen(
+    const cartographer_proto::transform::Quaterniond& quaternion);
+cartographer_proto::transform::Rigid2d ToProto(const Rigid2d& transform);
+cartographer_proto::transform::Rigid2f ToProto(const Rigid2f& transform);
+cartographer_proto::transform::Rigid3d ToProto(const Rigid3d& rigid);
+Rigid3d ToRigid3(const cartographer_proto::transform::Rigid3d& rigid);
+cartographer_proto::transform::Rigid3f ToProto(const Rigid3f& rigid);
+cartographer_proto::transform::Vector2d ToProto(const Eigen::Vector2d& vector);
+cartographer_proto::transform::Vector3f ToProto(const Eigen::Vector3f& vector);
+cartographer_proto::transform::Vector4f ToProto(const Eigen::Vector4f& vector);
+cartographer_proto::transform::Vector3d ToProto(const Eigen::Vector3d& vector);
+cartographer_proto::transform::Quaternionf ToProto(
+    const Eigen::Quaternionf& quaternion);
+cartographer_proto::transform::Quaterniond ToProto(
+    const Eigen::Quaterniond& quaternion);
 
 }  // namespace transform
 }  // namespace cartographer

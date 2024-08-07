@@ -22,7 +22,6 @@
 #include "cartographer/cloud/internal/local_trajectory_uploader.h"
 #include "cartographer/cloud/internal/map_builder_context_interface.h"
 #include "cartographer/cloud/map_builder_server_interface.h"
-#include "cartographer/cloud/proto/map_builder_server_options.pb.h"
 #include "cartographer/common/internal/blocking_queue.h"
 #include "cartographer/common/time.h"
 #include "cartographer/mapping/2d/submap_2d.h"
@@ -32,6 +31,7 @@
 #include "cartographer/mapping/trajectory_builder_interface.h"
 #include "cartographer/metrics/family_factory.h"
 #include "cartographer/sensor/internal/dispatchable.h"
+#include "cartographer_proto/cloud/map_builder_server_options.pb.h"
 
 namespace cartographer {
 namespace cloud {
@@ -59,10 +59,10 @@ class MapBuilderContext : public MapBuilderContextInterface {
   LocalTrajectoryUploaderInterface* local_trajectory_uploader() override;
   void EnqueueSensorData(int trajectory_id,
                          std::unique_ptr<sensor::Data> data) override;
-  void EnqueueLocalSlamResultData(int trajectory_id,
-                                  const std::string& sensor_id,
-                                  const mapping::proto::LocalSlamResultData&
-                                      local_slam_result_data) override;
+  void EnqueueLocalSlamResultData(
+      int trajectory_id, const std::string& sensor_id,
+      const cartographer_proto::cloud::mapping::LocalSlamResultData&
+          local_slam_result_data) override;
   void RegisterClientIdForTrajectory(const std::string& client_id,
                                      int trajectory_id) override;
   bool CheckClientIdForTrajectory(const std::string& client_id,
@@ -79,9 +79,9 @@ class MapBuilderServer : public MapBuilderServerInterface {
   friend MapBuilderContext<mapping::Submap2D>;
   friend MapBuilderContext<mapping::Submap3D>;
 
-  MapBuilderServer(
-      const proto::MapBuilderServerOptions& map_builder_server_options,
-      std::unique_ptr<mapping::MapBuilderInterface> map_builder);
+  MapBuilderServer(const cartographer_proto::cloud::MapBuilderServerOptions&
+                       map_builder_server_options,
+                   std::unique_ptr<mapping::MapBuilderInterface> map_builder);
   ~MapBuilderServer() {}
 
   // Starts the gRPC server, the 'LocalTrajectoryUploader' and the SLAM thread.

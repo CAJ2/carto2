@@ -19,8 +19,8 @@
 #include "absl/memory/memory.h"
 #include "async_grpc/rpc_handler.h"
 #include "cartographer/cloud/internal/map_builder_context_interface.h"
-#include "cartographer/cloud/proto/map_builder_service.pb.h"
 #include "cartographer/transform/transform.h"
+#include "cartographer_proto/cloud/map_builder_service.pb.h"
 #include "google/protobuf/empty.pb.h"
 
 namespace cartographer {
@@ -33,7 +33,8 @@ void GetLandmarkPosesHandler::OnRequest(
                             ->map_builder()
                             .pose_graph()
                             ->GetLandmarkPoses();
-  auto response = absl::make_unique<proto::GetLandmarkPosesResponse>();
+  auto response =
+      absl::make_unique<cartographer_proto::cloud::GetLandmarkPosesResponse>();
   for (const auto& landmark_pose : landmark_poses) {
     auto* landmark = response->add_landmark_poses();
     landmark->set_landmark_id(landmark_pose.first);

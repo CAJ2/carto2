@@ -22,7 +22,7 @@ namespace mapping {
 template <>
 std::shared_ptr<mapping::Submap2D>
 SubmapController<mapping::Submap2D>::CreateSubmap(
-    const mapping::proto::Submap& proto) {
+    const cartographer_proto::mapping::Submap& proto) {
   if (proto.submap_2d().num_range_data() != 1) {
     LOG(WARNING) << "Refusing to create partially filled submap: "
                  << proto.submap_2d().num_range_data();
@@ -35,7 +35,7 @@ SubmapController<mapping::Submap2D>::CreateSubmap(
 template <>
 std::shared_ptr<mapping::Submap3D>
 SubmapController<mapping::Submap3D>::CreateSubmap(
-    const mapping::proto::Submap& proto) {
+    const cartographer_proto::mapping::Submap& proto) {
   if (proto.submap_3d().num_range_data() != 1) {
     LOG(INFO) << "Refusing to create partially filled submap: "
               << proto.submap_3d().num_range_data();

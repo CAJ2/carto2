@@ -40,9 +40,10 @@ namespace cartographer {
 namespace mapping {
 namespace scan_matching {
 
-proto::CeresScanMatcherOptions3D CreateCeresScanMatcherOptions3D(
+cartographer_proto::mapping::scan_matching::CeresScanMatcherOptions3D
+CreateCeresScanMatcherOptions3D(
     common::LuaParameterDictionary* const parameter_dictionary) {
-  proto::CeresScanMatcherOptions3D options;
+  cartographer_proto::mapping::scan_matching::CeresScanMatcherOptions3D options;
   for (int i = 0;; ++i) {
     const std::string lua_identifier =
         "occupied_space_weight_" + std::to_string(i);
@@ -83,7 +84,8 @@ proto::CeresScanMatcherOptions3D CreateCeresScanMatcherOptions3D(
 }
 
 CeresScanMatcher3D::CeresScanMatcher3D(
-    const proto::CeresScanMatcherOptions3D& options)
+    const cartographer_proto::mapping::scan_matching::CeresScanMatcherOptions3D&
+        options)
     : options_(options),
       ceres_solver_options_(
           common::CreateCeresSolverOptions(options.ceres_solver_options())) {

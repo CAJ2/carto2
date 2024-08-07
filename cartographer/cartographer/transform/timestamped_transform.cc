@@ -38,13 +38,15 @@ TimestampedTransform Interpolate(const TimestampedTransform& start,
   return TimestampedTransform{time, transform::Rigid3d(origin, rotation)};
 }
 
-TimestampedTransform FromProto(const proto::TimestampedTransform& proto) {
+TimestampedTransform FromProto(
+    const cartographer_proto::transform::TimestampedTransform& proto) {
   return TimestampedTransform{common::FromUniversal(proto.time()),
                               ToRigid3(proto.transform())};
 }
 
-proto::TimestampedTransform ToProto(const TimestampedTransform& transform) {
-  proto::TimestampedTransform proto;
+cartographer_proto::transform::TimestampedTransform ToProto(
+    const TimestampedTransform& transform) {
+  cartographer_proto::transform::TimestampedTransform proto;
   proto.set_time(common::ToUniversal(transform.time));
   *proto.mutable_transform() = ToProto(transform.transform);
   return proto;

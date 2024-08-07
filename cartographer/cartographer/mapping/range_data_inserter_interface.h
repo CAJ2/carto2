@@ -21,13 +21,14 @@
 #include <vector>
 
 #include "cartographer/mapping/grid_interface.h"
-#include "cartographer/mapping/proto/submaps_options_2d.pb.h"
 #include "cartographer/sensor/range_data.h"
+#include "cartographer_proto/mapping/submaps_options_2d.pb.h"
 
 namespace cartographer {
 namespace mapping {
 
-proto::RangeDataInserterOptions CreateRangeDataInserterOptions(
+cartographer_proto::mapping::RangeDataInserterOptions
+CreateRangeDataInserterOptions(
     common::LuaParameterDictionary* const parameter_dictionary);
 
 class RangeDataInserterInterface {

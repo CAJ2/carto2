@@ -70,7 +70,7 @@ TEST_F(GetLandmarkPosesHandlerTest, NoLocalSlamUploader) {
       .WillOnce(::testing::Return(landmark_poses));
   test_server_->SendWrite(google::protobuf::Empty());
 
-  proto::GetLandmarkPosesResponse expected_response;
+  cartographer_proto::cloud::GetLandmarkPosesResponse expected_response;
   EXPECT_TRUE(google::protobuf::TextFormat::ParseFromString(
       kMessage, &expected_response));
   EXPECT_THAT(

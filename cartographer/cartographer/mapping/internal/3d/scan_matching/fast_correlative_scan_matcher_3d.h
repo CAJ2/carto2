@@ -29,23 +29,23 @@
 #include "cartographer/mapping/internal/2d/scan_matching/fast_correlative_scan_matcher_2d.h"
 #include "cartographer/mapping/internal/3d/scan_matching/precomputation_grid_3d.h"
 #include "cartographer/mapping/internal/3d/scan_matching/rotational_scan_matcher.h"
-#include "cartographer/mapping/proto/scan_matching/fast_correlative_scan_matcher_options_3d.pb.h"
 #include "cartographer/mapping/trajectory_node.h"
 #include "cartographer/sensor/point_cloud.h"
+#include "cartographer_proto/mapping/scan_matching/fast_correlative_scan_matcher_options_3d.pb.h"
 
 namespace cartographer {
 namespace mapping {
 namespace scan_matching {
 
-proto::FastCorrelativeScanMatcherOptions3D
+cartographer_proto::mapping::scan_matching::FastCorrelativeScanMatcherOptions3D
 CreateFastCorrelativeScanMatcherOptions3D(
     common::LuaParameterDictionary* parameter_dictionary);
 
 class PrecomputationGridStack3D {
  public:
-  PrecomputationGridStack3D(
-      const HybridGrid& hybrid_grid,
-      const proto::FastCorrelativeScanMatcherOptions3D& options);
+  PrecomputationGridStack3D(const HybridGrid& hybrid_grid,
+                            const cartographer_proto::mapping::scan_matching::
+                                FastCorrelativeScanMatcherOptions3D& options);
 
   const PrecomputationGrid3D& Get(int depth) const {
     return precomputation_grids_.at(depth);
@@ -76,7 +76,8 @@ class FastCorrelativeScanMatcher3D {
       const HybridGrid& hybrid_grid,
       const HybridGrid* low_resolution_hybrid_grid,
       const Eigen::VectorXf* rotational_scan_matcher_histogram,
-      const proto::FastCorrelativeScanMatcherOptions3D& options);
+      const cartographer_proto::mapping::scan_matching::
+          FastCorrelativeScanMatcherOptions3D& options);
   ~FastCorrelativeScanMatcher3D();
 
   FastCorrelativeScanMatcher3D(const FastCorrelativeScanMatcher3D&) = delete;
@@ -142,7 +143,8 @@ class FastCorrelativeScanMatcher3D {
       const std::vector<DiscreteScan3D>& discrete_scans,
       const Candidate3D& candidate) const;
 
-  const proto::FastCorrelativeScanMatcherOptions3D options_;
+  const cartographer_proto::mapping::scan_matching::
+      FastCorrelativeScanMatcherOptions3D options_;
   const float resolution_;
   const int width_in_voxels_;
   std::unique_ptr<PrecomputationGridStack3D> precomputation_grid_stack_;

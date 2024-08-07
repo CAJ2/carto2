@@ -27,16 +27,16 @@
 #include "cartographer/io/proto_stream_interface.h"
 #include "cartographer/mapping/id.h"
 #include "cartographer/mapping/pose_graph_interface.h"
-#include "cartographer/mapping/proto/map_builder_options.pb.h"
-#include "cartographer/mapping/proto/submap_visualization.pb.h"
-#include "cartographer/mapping/proto/trajectory_builder_options.pb.h"
 #include "cartographer/mapping/submaps.h"
 #include "cartographer/mapping/trajectory_builder_interface.h"
+#include "cartographer_proto/mapping/map_builder_options.pb.h"
+#include "cartographer_proto/mapping/submap_visualization.pb.h"
+#include "cartographer_proto/mapping/trajectory_builder_options.pb.h"
 
 namespace cartographer {
 namespace mapping {
 
-proto::MapBuilderOptions CreateMapBuilderOptions(
+cartographer_proto::mapping::MapBuilderOptions CreateMapBuilderOptions(
     common::LuaParameterDictionary* const parameter_dictionary);
 
 // This interface is used for both library and RPC implementations.
@@ -57,13 +57,14 @@ class MapBuilderInterface {
   // Creates a new trajectory builder and returns its index.
   virtual int AddTrajectoryBuilder(
       const std::set<SensorId>& expected_sensor_ids,
-      const proto::TrajectoryBuilderOptions& trajectory_options,
+      const cartographer_proto::mapping::TrajectoryBuilderOptions&
+          trajectory_options,
       LocalSlamResultCallback local_slam_result_callback) = 0;
 
   // Creates a new trajectory and returns its index. Querying the trajectory
   // builder for it will return 'nullptr'.
   virtual int AddTrajectoryForDeserialization(
-      const proto::TrajectoryBuilderOptionsWithSensorIds&
+      const cartographer_proto::mapping::TrajectoryBuilderOptionsWithSensorIds&
           options_with_sensor_ids_proto) = 0;
 
   // Returns the 'TrajectoryBuilderInterface' corresponding to the specified
@@ -78,8 +79,9 @@ class MapBuilderInterface {
 
   // Fills the SubmapQuery::Response corresponding to 'submap_id'. Returns an
   // error string on failure, or an empty string on success.
-  virtual std::string SubmapToProto(const SubmapId& submap_id,
-                                    proto::SubmapQuery::Response* response) = 0;
+  virtual std::string SubmapToProto(
+      const SubmapId& submap_id,
+      cartographer_proto::mapping::SubmapQuery::Response* response) = 0;
 
   // Serializes the current state to a proto stream. If
   // 'include_unfinished_submaps' is set to true, unfinished submaps, i.e.
@@ -110,7 +112,8 @@ class MapBuilderInterface {
 
   virtual mapping::PoseGraphInterface* pose_graph() = 0;
 
-  virtual const std::vector<proto::TrajectoryBuilderOptionsWithSensorIds>&
+  virtual const std::vector<
+      cartographer_proto::mapping::TrajectoryBuilderOptionsWithSensorIds>&
   GetAllTrajectoryBuilderOptions() const = 0;
 };
 

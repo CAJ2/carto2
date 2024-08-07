@@ -176,7 +176,8 @@ void AddLandmarkCostFunctions(
 }  // namespace
 
 OptimizationProblem2D::OptimizationProblem2D(
-    const proto::OptimizationProblemOptions& options)
+    const cartographer_proto::mapping::optimization::OptimizationProblemOptions&
+        options)
     : options_(options) {}
 
 OptimizationProblem2D::~OptimizationProblem2D() {}

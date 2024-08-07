@@ -18,8 +18,8 @@
 #define CARTOGRAPHER_SENSOR_ODOMETRY_DATA_H_
 
 #include "cartographer/common/time.h"
-#include "cartographer/sensor/proto/sensor.pb.h"
 #include "cartographer/transform/rigid_transform.h"
+#include "cartographer_proto/sensor/sensor.pb.h"
 
 namespace cartographer {
 namespace sensor {
@@ -29,11 +29,12 @@ struct OdometryData {
   transform::Rigid3d pose;
 };
 
-// Converts 'odometry_data' to a proto::OdometryData.
-proto::OdometryData ToProto(const OdometryData& odometry_data);
+// Converts 'odometry_data' to a cartographer_proto::sensor::OdometryData.
+cartographer_proto::sensor::OdometryData ToProto(
+    const OdometryData& odometry_data);
 
 // Converts 'proto' to an OdometryData.
-OdometryData FromProto(const proto::OdometryData& proto);
+OdometryData FromProto(const cartographer_proto::sensor::OdometryData& proto);
 
 }  // namespace sensor
 }  // namespace cartographer

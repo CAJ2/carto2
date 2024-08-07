@@ -35,7 +35,7 @@ TEST(NormalEstimation2DTest, SinglePoint) {
       "num_normal_samples = 2, "
       "sample_radius = 10.0, "
       "}");
-  const proto::NormalEstimationOptions2D options =
+  const cartographer_proto::mapping::NormalEstimationOptions2D options =
       CreateNormalEstimationOptions2D(parameter_dictionary.get());
   auto range_data = sensor::RangeData();
   const size_t num_angles = 100;
@@ -61,7 +61,7 @@ TEST(NormalEstimation2DTest, StraightLineGeometry) {
       "num_normal_samples = 2, "
       "sample_radius = 10.0, "
       "}");
-  const proto::NormalEstimationOptions2D options =
+  const cartographer_proto::mapping::NormalEstimationOptions2D options =
       CreateNormalEstimationOptions2D(parameter_dictionary.get());
   auto range_data = sensor::RangeData();
   range_data.returns.push_back({Eigen::Vector3f{-1.f, 1.f, 0.f}});
@@ -112,7 +112,7 @@ TEST_P(CircularGeometry2DTest, NumSamplesPerNormal) {
       ", "
       "sample_radius = 10.0, "
       "}");
-  const proto::NormalEstimationOptions2D options =
+  const cartographer_proto::mapping::NormalEstimationOptions2D options =
       CreateNormalEstimationOptions2D(parameter_dictionary.get());
   auto range_data = sensor::RangeData();
   const size_t num_angles = 100;

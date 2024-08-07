@@ -22,8 +22,8 @@
 #include "cartographer/common/thread_pool.h"
 #include "cartographer/mapping/map_builder_interface.h"
 #include "cartographer/mapping/pose_graph.h"
-#include "cartographer/mapping/proto/map_builder_options.pb.h"
 #include "cartographer/sensor/collator_interface.h"
+#include "cartographer_proto/mapping/map_builder_options.pb.h"
 
 namespace cartographer {
 namespace mapping {
@@ -32,25 +32,28 @@ namespace mapping {
 // and a PoseGraph for loop closure.
 class MapBuilder : public MapBuilderInterface {
  public:
-  explicit MapBuilder(const proto::MapBuilderOptions &options);
+  explicit MapBuilder(
+      const cartographer_proto::mapping::MapBuilderOptions& options);
   ~MapBuilder() override {}
 
   MapBuilder(const MapBuilder &) = delete;
   MapBuilder &operator=(const MapBuilder &) = delete;
 
   int AddTrajectoryBuilder(
-      const std::set<SensorId> &expected_sensor_ids,
-      const proto::TrajectoryBuilderOptions &trajectory_options,
+      const std::set<SensorId>& expected_sensor_ids,
+      const cartographer_proto::mapping::TrajectoryBuilderOptions&
+          trajectory_options,
       LocalSlamResultCallback local_slam_result_callback) override;
 
   int AddTrajectoryForDeserialization(
-      const proto::TrajectoryBuilderOptionsWithSensorIds
-          &options_with_sensor_ids_proto) override;
+      const cartographer_proto::mapping::TrajectoryBuilderOptionsWithSensorIds&
+          options_with_sensor_ids_proto) override;
 
   void FinishTrajectory(int trajectory_id) override;
 
-  std::string SubmapToProto(const SubmapId &submap_id,
-                            proto::SubmapQuery::Response *response) override;
+  std::string SubmapToProto(
+      const SubmapId& submap_id,
+      cartographer_proto::mapping::SubmapQuery::Response* response) override;
 
   void SerializeState(bool include_unfinished_submaps,
                       io::ProtoStreamWriterInterface *writer) override;
@@ -77,13 +80,14 @@ class MapBuilder : public MapBuilderInterface {
     return trajectory_builders_.at(trajectory_id).get();
   }
 
-  const std::vector<proto::TrajectoryBuilderOptionsWithSensorIds>
-      &GetAllTrajectoryBuilderOptions() const override {
+  const std::vector<
+      cartographer_proto::mapping::TrajectoryBuilderOptionsWithSensorIds>&
+  GetAllTrajectoryBuilderOptions() const override {
     return all_trajectory_builder_options_;
   }
 
  private:
-  const proto::MapBuilderOptions options_;
+  const cartographer_proto::mapping::MapBuilderOptions options_;
   common::ThreadPool thread_pool_;
 
   std::unique_ptr<PoseGraph> pose_graph_;
@@ -91,12 +95,13 @@ class MapBuilder : public MapBuilderInterface {
   std::unique_ptr<sensor::CollatorInterface> sensor_collator_;
   std::vector<std::unique_ptr<mapping::TrajectoryBuilderInterface>>
       trajectory_builders_;
-  std::vector<proto::TrajectoryBuilderOptionsWithSensorIds>
+  std::vector<
+      cartographer_proto::mapping::TrajectoryBuilderOptionsWithSensorIds>
       all_trajectory_builder_options_;
 };
 
 std::unique_ptr<MapBuilderInterface> CreateMapBuilder(
-    const proto::MapBuilderOptions& options);
+    const cartographer_proto::mapping::MapBuilderOptions& options);
 
 }  // namespace mapping
 }  // namespace cartographer

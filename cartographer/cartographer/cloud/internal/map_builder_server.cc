@@ -56,7 +56,8 @@ const common::Duration kPopTimeout = common::FromMilliseconds(100);
 }  // namespace
 
 MapBuilderServer::MapBuilderServer(
-    const proto::MapBuilderServerOptions& map_builder_server_options,
+    const cartographer_proto::cloud::MapBuilderServerOptions&
+        map_builder_server_options,
     std::unique_ptr<mapping::MapBuilderInterface> map_builder)
     : map_builder_(std::move(map_builder)) {
   async_grpc::Server::Builder server_builder;
@@ -188,7 +189,8 @@ void MapBuilderServer::OnLocalSlamResult(
   if (insertion_result &&
       grpc_server_->GetUnsynchronizedContext<MapBuilderContextInterface>()
           ->local_trajectory_uploader()) {
-    auto sensor_data = absl::make_unique<proto::SensorData>();
+    auto sensor_data =
+        absl::make_unique<cartographer_proto::cloud::SensorData>();
     auto sensor_id =
         grpc_server_->GetUnsynchronizedContext<MapBuilderContextInterface>()
             ->local_trajectory_uploader()

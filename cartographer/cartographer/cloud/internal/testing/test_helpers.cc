@@ -21,8 +21,9 @@ namespace cloud {
 namespace testing {
 
 template <>
-DataPredicateType BuildDataPredicateEquals<proto::AddImuDataRequest>(
-    const proto::AddImuDataRequest &proto) {
+DataPredicateType
+BuildDataPredicateEquals<cartographer_proto::cloud::AddImuDataRequest>(
+    const cartographer_proto::cloud::AddImuDataRequest& proto) {
   return [proto](const sensor::Data &data) {
     const auto *dispatchable =
         dynamic_cast<const sensor::Dispatchable<sensor::ImuData> *>(&data);
@@ -34,8 +35,9 @@ DataPredicateType BuildDataPredicateEquals<proto::AddImuDataRequest>(
 }
 
 template <>
-DataPredicateType BuildDataPredicateEquals<proto::AddFixedFramePoseDataRequest>(
-    const proto::AddFixedFramePoseDataRequest &proto) {
+DataPredicateType BuildDataPredicateEquals<
+    cartographer_proto::cloud::AddFixedFramePoseDataRequest>(
+    const cartographer_proto::cloud::AddFixedFramePoseDataRequest& proto) {
   return [proto](const sensor::Data &data) {
     const auto *dispatchable =
         dynamic_cast<const sensor::Dispatchable<sensor::FixedFramePoseData> *>(
@@ -49,8 +51,9 @@ DataPredicateType BuildDataPredicateEquals<proto::AddFixedFramePoseDataRequest>(
 }
 
 template <>
-DataPredicateType BuildDataPredicateEquals<proto::AddOdometryDataRequest>(
-    const proto::AddOdometryDataRequest &proto) {
+DataPredicateType
+BuildDataPredicateEquals<cartographer_proto::cloud::AddOdometryDataRequest>(
+    const cartographer_proto::cloud::AddOdometryDataRequest& proto) {
   return [proto](const sensor::Data &data) {
     const auto *dispatchable =
         dynamic_cast<const sensor::Dispatchable<sensor::OdometryData> *>(&data);
@@ -62,8 +65,9 @@ DataPredicateType BuildDataPredicateEquals<proto::AddOdometryDataRequest>(
 }
 
 template <>
-DataPredicateType BuildDataPredicateEquals<proto::AddLandmarkDataRequest>(
-    const proto::AddLandmarkDataRequest &proto) {
+DataPredicateType
+BuildDataPredicateEquals<cartographer_proto::cloud::AddLandmarkDataRequest>(
+    const cartographer_proto::cloud::AddLandmarkDataRequest& proto) {
   return [proto](const sensor::Data &data) {
     const auto *dispatchable =
         dynamic_cast<const sensor::Dispatchable<sensor::LandmarkData> *>(&data);
@@ -75,8 +79,9 @@ DataPredicateType BuildDataPredicateEquals<proto::AddLandmarkDataRequest>(
 }
 
 template <>
-DataPredicateType BuildDataPredicateEquals<proto::AddRangefinderDataRequest>(
-    const proto::AddRangefinderDataRequest &proto) {
+DataPredicateType
+BuildDataPredicateEquals<cartographer_proto::cloud::AddRangefinderDataRequest>(
+    const cartographer_proto::cloud::AddRangefinderDataRequest& proto) {
   return [proto](const sensor::Data &data) {
     const auto *dispatchable =
         dynamic_cast<const sensor::Dispatchable<sensor::TimedPointCloudData> *>(

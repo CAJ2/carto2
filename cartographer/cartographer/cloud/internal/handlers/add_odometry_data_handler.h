@@ -19,7 +19,7 @@
 
 #include "async_grpc/rpc_handler.h"
 #include "cartographer/cloud/internal/handlers/add_sensor_data_handler_base.h"
-#include "cartographer/cloud/proto/map_builder_service.pb.h"
+#include "cartographer_proto/cloud/map_builder_service.pb.h"
 #include "google/protobuf/empty.pb.h"
 
 namespace cartographer {
@@ -27,14 +27,16 @@ namespace cloud {
 namespace handlers {
 
 DEFINE_HANDLER_SIGNATURE(
-    AddOdometryDataSignature, async_grpc::Stream<proto::AddOdometryDataRequest>,
+    AddOdometryDataSignature,
+    async_grpc::Stream<cartographer_proto::cloud::AddOdometryDataRequest>,
     google::protobuf::Empty,
     "/cartographer.cloud.proto.MapBuilderService/AddOdometryData")
 
 class AddOdometryDataHandler
     : public AddSensorDataHandlerBase<AddOdometryDataSignature> {
  public:
-  void OnSensorData(const proto::AddOdometryDataRequest& request) override;
+  void OnSensorData(const cartographer_proto::cloud::AddOdometryDataRequest&
+                        request) override;
 };
 
 }  // namespace handlers

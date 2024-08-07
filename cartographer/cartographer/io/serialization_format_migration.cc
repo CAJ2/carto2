@@ -31,14 +31,14 @@
 #include "cartographer/mapping/map_builder_interface.h"
 #include "cartographer/mapping/pose_graph.h"
 #include "cartographer/mapping/probability_values.h"
-#include "cartographer/mapping/proto/map_builder_options.pb.h"
-#include "cartographer/mapping/proto/trajectory_builder_options.pb.h"
+#include "cartographer_proto/mapping/map_builder_options.pb.h"
+#include "cartographer_proto/mapping/trajectory_builder_options.pb.h"
 #include "glog/logging.h"
 
 namespace cartographer {
 namespace io {
 
-using mapping::proto::SerializedData;
+using cartographer_proto::mapping::SerializedData;
 
 void MigrateStreamVersion1ToVersion2(
     cartographer::io::ProtoStreamReaderInterface* const input,
@@ -69,11 +69,13 @@ void MigrateStreamVersion1ToVersion2(
 
   // Create a copy of the pose_graph_proto, such that we can re-write the
   // trajectory ids.
-  mapping::proto::PoseGraph pose_graph_proto = deserializer.pose_graph();
+  cartographer_proto::mapping::PoseGraph pose_graph_proto =
+      deserializer.pose_graph();
   const auto& all_builder_options_proto =
       deserializer.all_trajectory_builder_options();
 
-  std::vector<mapping::proto::TrajectoryBuilderOptionsWithSensorIds>
+  std::vector<
+      cartographer_proto::mapping::TrajectoryBuilderOptionsWithSensorIds>
       trajectory_builder_options;
   for (int i = 0; i < pose_graph_proto.trajectory_size(); ++i) {
     auto& trajectory_proto = *pose_graph_proto.mutable_trajectory(i);
@@ -92,9 +94,9 @@ void MigrateStreamVersion1ToVersion2(
   }
 
   mapping::MapById<mapping::SubmapId, transform::Rigid3d> submap_poses;
-  for (const mapping::proto::Trajectory& trajectory_proto :
+  for (const cartographer_proto::mapping::Trajectory& trajectory_proto :
        pose_graph_proto.trajectory()) {
-    for (const mapping::proto::Trajectory::Submap& submap_proto :
+    for (const cartographer_proto::mapping::Trajectory::Submap& submap_proto :
          trajectory_proto.submap()) {
       submap_poses.Insert(mapping::SubmapId{trajectory_proto.trajectory_id(),
                                             submap_proto.submap_index()},
@@ -103,9 +105,9 @@ void MigrateStreamVersion1ToVersion2(
   }
 
   mapping::MapById<mapping::NodeId, transform::Rigid3d> node_poses;
-  for (const mapping::proto::Trajectory& trajectory_proto :
+  for (const cartographer_proto::mapping::Trajectory& trajectory_proto :
        pose_graph_proto.trajectory()) {
-    for (const mapping::proto::Trajectory::Node& node_proto :
+    for (const cartographer_proto::mapping::Trajectory::Node& node_proto :
          trajectory_proto.node()) {
       node_poses.Insert(mapping::NodeId{trajectory_proto.trajectory_id(),
                                         node_proto.node_index()},
@@ -120,9 +122,10 @@ void MigrateStreamVersion1ToVersion2(
                                true);
   }
 
-  mapping::MapById<mapping::SubmapId, mapping::proto::Submap>
+  mapping::MapById<mapping::SubmapId, cartographer_proto::mapping::Submap>
       submap_id_to_submap;
-  mapping::MapById<mapping::NodeId, mapping::proto::Node> node_id_to_node;
+  mapping::MapById<mapping::NodeId, cartographer_proto::mapping::Node>
+      node_id_to_node;
   SerializedData proto;
   while (deserializer.ReadNextSerializedData(&proto)) {
     switch (proto.data_case()) {
@@ -211,22 +214,26 @@ void MigrateStreamVersion1ToVersion2(
                 include_unfinished_submaps);
 }
 
-mapping::MapById<mapping::SubmapId, mapping::proto::Submap>
+mapping::MapById<mapping::SubmapId, cartographer_proto::mapping::Submap>
 MigrateSubmapFormatVersion1ToVersion2(
-    const mapping::MapById<mapping::SubmapId, mapping::proto::Submap>&
+    const mapping::MapById<mapping::SubmapId,
+                           cartographer_proto::mapping::Submap>&
         submap_id_to_submap,
-    mapping::MapById<mapping::NodeId, mapping::proto::Node>& node_id_to_node,
-    const mapping::proto::PoseGraph& pose_graph_proto) {
+    mapping::MapById<mapping::NodeId, cartographer_proto::mapping::Node>&
+        node_id_to_node,
+    const cartographer_proto::mapping::PoseGraph& pose_graph_proto) {
   using namespace mapping;
   if (submap_id_to_submap.empty() ||
       submap_id_to_submap.begin()->data.has_submap_2d()) {
     return submap_id_to_submap;
   }
 
-  MapById<SubmapId, proto::Submap> migrated_submaps = submap_id_to_submap;
-  for (const proto::PoseGraph::Constraint& constraint_proto :
-       pose_graph_proto.constraint()) {
-    if (constraint_proto.tag() == proto::PoseGraph::Constraint::INTRA_SUBMAP) {
+  MapById<SubmapId, cartographer_proto::mapping::Submap> migrated_submaps =
+      submap_id_to_submap;
+  for (const cartographer_proto::mapping::PoseGraph::Constraint&
+           constraint_proto : pose_graph_proto.constraint()) {
+    if (constraint_proto.tag() ==
+        cartographer_proto::mapping::PoseGraph::Constraint::INTRA_SUBMAP) {
       NodeId node_id{constraint_proto.node_id().trajectory_id(),
                      constraint_proto.node_id().node_index()};
       CHECK(node_id_to_node.Contains(node_id));
@@ -238,10 +245,11 @@ MigrateSubmapFormatVersion1ToVersion2(
       SubmapId submap_id{constraint_proto.submap_id().trajectory_id(),
                          constraint_proto.submap_id().submap_index()};
       CHECK(migrated_submaps.Contains(submap_id));
-      proto::Submap& migrated_submap_proto = migrated_submaps.at(submap_id);
+      cartographer_proto::mapping::Submap& migrated_submap_proto =
+          migrated_submaps.at(submap_id);
       CHECK(migrated_submap_proto.has_submap_3d());
 
-      proto::Submap3D* submap_3d_proto =
+      cartographer_proto::mapping::Submap3D* submap_3d_proto =
           migrated_submap_proto.mutable_submap_3d();
       const double submap_yaw_from_gravity =
           transform::GetYaw(transform::ToRigid3(submap_3d_proto->local_pose())

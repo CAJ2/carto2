@@ -19,7 +19,7 @@
 
 #include "async_grpc/rpc_handler.h"
 #include "cartographer/cloud/internal/handlers/add_sensor_data_handler_base.h"
-#include "cartographer/cloud/proto/map_builder_service.pb.h"
+#include "cartographer_proto/cloud/map_builder_service.pb.h"
 #include "google/protobuf/empty.pb.h"
 
 namespace cartographer {
@@ -28,14 +28,15 @@ namespace handlers {
 
 DEFINE_HANDLER_SIGNATURE(
     AddRangefinderDataSignature,
-    async_grpc::Stream<proto::AddRangefinderDataRequest>,
+    async_grpc::Stream<cartographer_proto::cloud::AddRangefinderDataRequest>,
     google::protobuf::Empty,
     "/cartographer.cloud.proto.MapBuilderService/AddRangefinderData")
 
 class AddRangefinderDataHandler
     : public AddSensorDataHandlerBase<AddRangefinderDataSignature> {
  public:
-  void OnSensorData(const proto::AddRangefinderDataRequest& request) override;
+  void OnSensorData(const cartographer_proto::cloud::AddRangefinderDataRequest&
+                        request) override;
 };
 
 }  // namespace handlers

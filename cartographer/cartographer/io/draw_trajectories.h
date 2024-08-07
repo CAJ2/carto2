@@ -19,8 +19,8 @@
 
 #include "cairo/cairo.h"
 #include "cartographer/io/color.h"
-#include "cartographer/mapping/proto/trajectory.pb.h"
 #include "cartographer/transform/rigid_transform.h"
+#include "cartographer_proto/mapping/trajectory.pb.h"
 
 namespace cartographer {
 namespace io {
@@ -31,7 +31,7 @@ using PoseToPixelFunction =
 // Draws the 'trajectory' with the given 'color' onto 'surface'. The
 // 'pose_to_pixel' function must translate a trajectory node's position into the
 // pixel on 'surface'.
-void DrawTrajectory(const mapping::proto::Trajectory& trajectory,
+void DrawTrajectory(const cartographer_proto::mapping::Trajectory& trajectory,
                     const FloatColor& color,
                     const PoseToPixelFunction& pose_to_pixel,
                     cairo_surface_t* surface);

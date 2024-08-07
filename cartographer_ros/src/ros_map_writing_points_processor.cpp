@@ -25,7 +25,7 @@ namespace cartographer_ros {
 
 RosMapWritingPointsProcessor::RosMapWritingPointsProcessor(
     const double resolution,
-    const ::cartographer::mapping::proto::
+    const ::cartographer_proto::mapping::
         ProbabilityGridRangeDataInserterOptions2D& range_data_inserter_options,
     ::cartographer::io::FileWriterFactory file_writer_factory,
     const std::string& filestem,

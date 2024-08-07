@@ -17,8 +17,8 @@
 #ifndef CARTOGRAPHER_GROUND_TRUTH_AUTOGENERATE_GROUND_TRUTH_H_
 #define CARTOGRAPHER_GROUND_TRUTH_AUTOGENERATE_GROUND_TRUTH_H_
 
-#include "cartographer/ground_truth/proto/relations.pb.h"
-#include "cartographer/mapping/proto/pose_graph.pb.h"
+#include "cartographer_proto/ground_truth/relations.pb.h"
+#include "cartographer_proto/mapping/pose_graph.pb.h"
 
 namespace cartographer {
 namespace ground_truth {
@@ -27,9 +27,10 @@ namespace ground_truth {
 // criteria parameters. See
 // 'https://google-cartographer.readthedocs.io/en/latest/evaluation.html' for
 // more details.
-proto::GroundTruth GenerateGroundTruth(
-    const mapping::proto::PoseGraph& pose_graph, double min_covered_distance,
-    double outlier_threshold_meters, double outlier_threshold_radians);
+cartographer_proto::ground_truth::GroundTruth GenerateGroundTruth(
+    const cartographer_proto::mapping::PoseGraph& pose_graph,
+    double min_covered_distance, double outlier_threshold_meters,
+    double outlier_threshold_radians);
 
 }  // namespace ground_truth
 }  // namespace cartographer

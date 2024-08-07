@@ -27,8 +27,8 @@
 #include "cartographer/cloud/internal/handlers/write_state_to_file_handler.h"
 #include "cartographer/cloud/internal/mapping/serialization.h"
 #include "cartographer/cloud/internal/sensor/serialization.h"
-#include "cartographer/cloud/proto/map_builder_service.pb.h"
 #include "cartographer/io/proto_stream_deserializer.h"
+#include "cartographer_proto/cloud/map_builder_service.pb.h"
 #include "glog/logging.h"
 
 namespace cartographer {
@@ -61,9 +61,10 @@ MapBuilderStub::MapBuilderStub(const std::string& server_address,
 
 int MapBuilderStub::AddTrajectoryBuilder(
     const std::set<SensorId>& expected_sensor_ids,
-    const mapping::proto::TrajectoryBuilderOptions& trajectory_options,
+    const cartographer_proto::cloud::mapping::TrajectoryBuilderOptions&
+        trajectory_options,
     LocalSlamResultCallback local_slam_result_callback) {
-  proto::AddTrajectoryRequest request;
+  cartographer_proto::cloud::AddTrajectoryRequest request;
   request.set_client_id(client_id_);
   *request.mutable_trajectory_builder_options() = trajectory_options;
   for (const auto& sensor_id : expected_sensor_ids) {
@@ -87,8 +88,8 @@ int MapBuilderStub::AddTrajectoryBuilder(
 }
 
 int MapBuilderStub::AddTrajectoryForDeserialization(
-    const mapping::proto::TrajectoryBuilderOptionsWithSensorIds&
-        options_with_sensor_ids_proto) {
+    const cartographer_proto::cloud::mapping::
+        TrajectoryBuilderOptionsWithSensorIds& options_with_sensor_ids_proto) {
   LOG(FATAL) << "Not implemented";
 }
 
@@ -102,7 +103,7 @@ mapping::TrajectoryBuilderInterface* MapBuilderStub::GetTrajectoryBuilder(
 }
 
 void MapBuilderStub::FinishTrajectory(int trajectory_id) {
-  proto::FinishTrajectoryRequest request;
+  cartographer_proto::cloud::FinishTrajectoryRequest request;
   request.set_client_id(client_id_);
   request.set_trajectory_id(trajectory_id);
   async_grpc::Client<handlers::FinishTrajectorySignature> client(
@@ -120,8 +121,9 @@ void MapBuilderStub::FinishTrajectory(int trajectory_id) {
 
 std::string MapBuilderStub::SubmapToProto(
     const mapping::SubmapId& submap_id,
-    mapping::proto::SubmapQuery::Response* submap_query_response) {
-  proto::GetSubmapRequest request;
+    cartographer_proto::cloud::mapping::SubmapQuery::Response*
+        submap_query_response) {
+  cartographer_proto::cloud::GetSubmapRequest request;
   submap_id.ToProto(request.mutable_submap_id());
   async_grpc::Client<handlers::GetSubmapSignature> client(client_channel_);
   CHECK(client.Write(request));
@@ -138,13 +140,13 @@ void MapBuilderStub::SerializeState(bool include_unfinished_submaps,
   google::protobuf::Empty request;
   async_grpc::Client<handlers::WriteStateSignature> client(client_channel_);
   CHECK(client.Write(request));
-  proto::WriteStateResponse response;
+  cartographer_proto::cloud::WriteStateResponse response;
   while (client.StreamRead(&response)) {
     switch (response.state_chunk_case()) {
-      case proto::WriteStateResponse::kHeader:
+      case cartographer_proto::cloud::WriteStateResponse::kHeader:
         writer->WriteProto(response.header());
         break;
-      case proto::WriteStateResponse::kSerializedData:
+      case cartographer_proto::cloud::WriteStateResponse::kSerializedData:
         writer->WriteProto(response.serialized_data());
         break;
       default:
@@ -159,7 +161,7 @@ bool MapBuilderStub::SerializeStateToFile(bool include_unfinished_submaps,
     LOG(WARNING) << "Serializing unfinished submaps is currently unsupported. "
                     "Proceeding to write the state without them.";
   }
-  proto::WriteStateToFileRequest request;
+  cartographer_proto::cloud::WriteStateToFileRequest request;
   request.set_filename(filename);
   ::grpc::Status status;
   async_grpc::Client<handlers::WriteStateToFileSignature> client(
@@ -176,7 +178,7 @@ std::map<int, int> MapBuilderStub::LoadState(
     io::ProtoStreamReaderInterface* reader, const bool load_frozen_state) {
   async_grpc::Client<handlers::LoadStateSignature> client(client_channel_);
   {
-    proto::LoadStateRequest request;
+    cartographer_proto::cloud::LoadStateRequest request;
     request.set_client_id(client_id_);
     CHECK(client.Write(request));
   }
@@ -184,14 +186,14 @@ std::map<int, int> MapBuilderStub::LoadState(
   io::ProtoStreamDeserializer deserializer(reader);
   // Request with the SerializationHeader proto is sent first.
   {
-    proto::LoadStateRequest request;
+    cartographer_proto::cloud::LoadStateRequest request;
     *request.mutable_serialization_header() = deserializer.header();
     request.set_load_frozen_state(load_frozen_state);
     CHECK(client.Write(request));
   }
   // Request with a PoseGraph proto is sent second.
   {
-    proto::LoadStateRequest request;
+    cartographer_proto::cloud::LoadStateRequest request;
     *request.mutable_serialized_data()->mutable_pose_graph() =
         deserializer.pose_graph();
     request.set_load_frozen_state(load_frozen_state);
@@ -199,7 +201,7 @@ std::map<int, int> MapBuilderStub::LoadState(
   }
   // Request with an AllTrajectoryBuilderOptions should be third.
   {
-    proto::LoadStateRequest request;
+    cartographer_proto::cloud::LoadStateRequest request;
     *request.mutable_serialized_data()
          ->mutable_all_trajectory_builder_options() =
         deserializer.all_trajectory_builder_options();
@@ -207,7 +209,7 @@ std::map<int, int> MapBuilderStub::LoadState(
     CHECK(client.Write(request));
   }
   // Multiple requests with SerializedData are sent after.
-  proto::LoadStateRequest request;
+  cartographer_proto::cloud::LoadStateRequest request;
   while (
       deserializer.ReadNextSerializedData(request.mutable_serialized_data())) {
     request.set_load_frozen_state(load_frozen_state);
@@ -222,7 +224,7 @@ std::map<int, int> MapBuilderStub::LoadState(
 
 std::map<int, int> MapBuilderStub::LoadStateFromFile(
     const std::string& filename, const bool load_frozen_state) {
-  proto::LoadStateFromFileRequest request;
+  cartographer_proto::cloud::LoadStateFromFileRequest request;
   request.set_file_path(filename);
   request.set_client_id(client_id_);
   request.set_load_frozen_state(load_frozen_state);
@@ -240,7 +242,8 @@ mapping::PoseGraphInterface* MapBuilderStub::pose_graph() {
   return pose_graph_stub_.get();
 }
 
-const std::vector<mapping::proto::TrajectoryBuilderOptionsWithSensorIds>&
+const std::vector<
+    cartographer_proto::cloud::mapping::TrajectoryBuilderOptionsWithSensorIds>&
 MapBuilderStub::GetAllTrajectoryBuilderOptions() const {
   LOG(FATAL) << "Not implemented";
 }

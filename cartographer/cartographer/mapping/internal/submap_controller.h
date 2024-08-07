@@ -20,7 +20,7 @@
 #include "cartographer/mapping/2d/submap_2d.h"
 #include "cartographer/mapping/3d/submap_3d.h"
 #include "cartographer/mapping/id.h"
-#include "cartographer/mapping/proto/serialization.pb.h"
+#include "cartographer_proto/mapping/serialization.pb.h"
 
 namespace cartographer {
 namespace mapping {
@@ -29,7 +29,7 @@ template <class SubmapType>
 class SubmapController {
  public:
   std::shared_ptr<SubmapType> UpdateSubmap(
-      const mapping::proto::Submap& proto) {
+      const cartographer_proto::mapping::Submap& proto) {
     mapping::SubmapId submap_id{proto.submap_id().trajectory_id(),
                                 proto.submap_id().submap_index()};
     std::shared_ptr<SubmapType> submap_ptr;
@@ -58,7 +58,8 @@ class SubmapController {
   }
 
  private:
-  std::shared_ptr<SubmapType> CreateSubmap(const mapping::proto::Submap& proto);
+  std::shared_ptr<SubmapType> CreateSubmap(
+      const cartographer_proto::mapping::Submap& proto);
 
   mapping::MapById<mapping::SubmapId, std::shared_ptr<SubmapType>>
       unfinished_submaps_;
@@ -69,11 +70,11 @@ class SubmapController {
 template <>
 std::shared_ptr<mapping::Submap2D>
 SubmapController<mapping::Submap2D>::CreateSubmap(
-    const mapping::proto::Submap& proto);
+    const cartographer_proto::mapping::Submap& proto);
 template <>
 std::shared_ptr<mapping::Submap3D>
 SubmapController<mapping::Submap3D>::CreateSubmap(
-    const mapping::proto::Submap& proto);
+    const cartographer_proto::mapping::Submap& proto);
 
 }  // namespace mapping
 }  // namespace cartographer

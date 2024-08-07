@@ -81,13 +81,16 @@ class RangeDataInserter3DTest : public ::testing::Test {
         hybrid_grid_.GetCellIndex(Eigen::Vector3f(x, y, z)));
   }
 
-  const proto::RangeDataInserterOptions3D& options() const { return options_; }
+  const cartographer_proto::mapping::RangeDataInserterOptions3D& options()
+      const {
+    return options_;
+  }
 
  private:
   HybridGrid hybrid_grid_;
   IntensityHybridGrid intensity_hybrid_grid_;
   std::unique_ptr<RangeDataInserter3D> range_data_inserter_;
-  proto::RangeDataInserterOptions3D options_;
+  cartographer_proto::mapping::RangeDataInserterOptions3D options_;
 };
 
 TEST_F(RangeDataInserter3DTest, InsertPointCloud) {

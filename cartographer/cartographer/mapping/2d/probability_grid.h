@@ -32,7 +32,7 @@ class ProbabilityGrid : public Grid2D {
  public:
   explicit ProbabilityGrid(const MapLimits& limits,
                            ValueConversionTables* conversion_tables);
-  explicit ProbabilityGrid(const proto::Grid2D& proto,
+  explicit ProbabilityGrid(const cartographer_proto::mapping::Grid2D& proto,
                            ValueConversionTables* conversion_tables);
 
   // Sets the probability of the cell at 'cell_index' to the given
@@ -55,10 +55,11 @@ class ProbabilityGrid : public Grid2D {
   // Returns the probability of the cell with 'cell_index'.
   float GetProbability(const Eigen::Array2i& cell_index) const;
 
-  proto::Grid2D ToProto() const override;
+  cartographer_proto::mapping::Grid2D ToProto() const override;
   std::unique_ptr<Grid2D> ComputeCroppedGrid() const override;
   bool DrawToSubmapTexture(
-      proto::SubmapQuery::Response::SubmapTexture* const texture,
+      cartographer_proto::mapping::SubmapQuery::Response::SubmapTexture* const
+          texture,
       transform::Rigid3d local_pose) const override;
 
  private:

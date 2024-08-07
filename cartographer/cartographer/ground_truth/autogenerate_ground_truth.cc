@@ -19,8 +19,8 @@
 #include <string>
 #include <vector>
 
-#include "cartographer/mapping/proto/trajectory.pb.h"
 #include "cartographer/transform/transform.h"
+#include "cartographer_proto/mapping/trajectory.pb.h"
 #include "glog/logging.h"
 
 namespace cartographer {
@@ -28,7 +28,7 @@ namespace ground_truth {
 namespace {
 
 std::vector<double> ComputeCoveredDistance(
-    const mapping::proto::Trajectory& trajectory) {
+    const cartographer_proto::mapping::Trajectory& trajectory) {
   std::vector<double> covered_distance;
   covered_distance.push_back(0.);
   CHECK_GT(trajectory.node_size(), 0)
@@ -48,11 +48,11 @@ std::vector<double> ComputeCoveredDistance(
 // TODO(whess): Should we consider all nodes inserted into the submap and
 // exclude, e.g. based on large relative linear or angular distance?
 std::vector<int> ComputeSubmapRepresentativeNode(
-    const mapping::proto::PoseGraph& pose_graph) {
+    const cartographer_proto::mapping::PoseGraph& pose_graph) {
   std::vector<int> submap_to_node_index;
   for (const auto& constraint : pose_graph.constraint()) {
     if (constraint.tag() !=
-        mapping::proto::PoseGraph::Constraint::INTRA_SUBMAP) {
+        cartographer_proto::mapping::PoseGraph::Constraint::INTRA_SUBMAP) {
       continue;
     }
     CHECK_EQ(constraint.submap_id().trajectory_id(), 0);
@@ -72,11 +72,12 @@ std::vector<int> ComputeSubmapRepresentativeNode(
 
 }  // namespace
 
-proto::GroundTruth GenerateGroundTruth(
-    const mapping::proto::PoseGraph& pose_graph,
+cartographer_proto::ground_truth::GroundTruth GenerateGroundTruth(
+    const cartographer_proto::mapping::PoseGraph& pose_graph,
     const double min_covered_distance, const double outlier_threshold_meters,
     const double outlier_threshold_radians) {
-  const mapping::proto::Trajectory& trajectory = pose_graph.trajectory(0);
+  const cartographer_proto::mapping::Trajectory& trajectory =
+      pose_graph.trajectory(0);
   const std::vector<double> covered_distance =
       ComputeCoveredDistance(trajectory);
 
@@ -84,11 +85,11 @@ proto::GroundTruth GenerateGroundTruth(
       ComputeSubmapRepresentativeNode(pose_graph);
 
   int num_outliers = 0;
-  proto::GroundTruth ground_truth;
+  cartographer_proto::ground_truth::GroundTruth ground_truth;
   for (const auto& constraint : pose_graph.constraint()) {
     // We're only interested in loop closure constraints.
     if (constraint.tag() ==
-        mapping::proto::PoseGraph::Constraint::INTRA_SUBMAP) {
+        cartographer_proto::mapping::PoseGraph::Constraint::INTRA_SUBMAP) {
       continue;
     }
 

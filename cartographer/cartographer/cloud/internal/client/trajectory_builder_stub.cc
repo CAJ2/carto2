@@ -17,9 +17,9 @@
 #include "cartographer/cloud/internal/client/trajectory_builder_stub.h"
 
 #include "cartographer/cloud/internal/sensor/serialization.h"
-#include "cartographer/cloud/proto/map_builder_service.pb.h"
 #include "cartographer/mapping/internal/local_slam_result_data.h"
 #include "cartographer/transform/transform.h"
+#include "cartographer_proto/cloud/map_builder_service.pb.h"
 #include "glog/logging.h"
 
 namespace cartographer {
@@ -34,7 +34,7 @@ TrajectoryBuilderStub::TrajectoryBuilderStub(
       client_id_(client_id),
       receive_local_slam_results_client_(client_channel_) {
   if (local_slam_result_callback) {
-    proto::ReceiveLocalSlamResultsRequest request;
+    cartographer_proto::cloud::ReceiveLocalSlamResultsRequest request;
     request.set_trajectory_id(trajectory_id);
     receive_local_slam_results_client_.Write(request);
     auto* receive_local_slam_results_client_ptr =
@@ -81,7 +81,7 @@ void TrajectoryBuilderStub::AddSensorData(
         async_grpc::Client<handlers::AddRangefinderDataSignature>>(
         client_channel_);
   }
-  proto::AddRangefinderDataRequest request;
+  cartographer_proto::cloud::AddRangefinderDataRequest request;
   CreateAddRangeFinderDataRequest(sensor_id, trajectory_id_, client_id_,
                                   sensor::ToProto(timed_point_cloud_data),
                                   &request);
@@ -95,7 +95,7 @@ void TrajectoryBuilderStub::AddSensorData(const std::string& sensor_id,
         absl::make_unique<async_grpc::Client<handlers::AddImuDataSignature>>(
             client_channel_);
   }
-  proto::AddImuDataRequest request;
+  cartographer_proto::cloud::AddImuDataRequest request;
   CreateAddImuDataRequest(sensor_id, trajectory_id_, client_id_,
                           sensor::ToProto(imu_data), &request);
   add_imu_client_->Write(request);
@@ -108,7 +108,7 @@ void TrajectoryBuilderStub::AddSensorData(
         async_grpc::Client<handlers::AddOdometryDataSignature>>(
         client_channel_);
   }
-  proto::AddOdometryDataRequest request;
+  cartographer_proto::cloud::AddOdometryDataRequest request;
   CreateAddOdometryDataRequest(sensor_id, trajectory_id_, client_id_,
                                sensor::ToProto(odometry_data), &request);
   add_odometry_client_->Write(request);
@@ -122,7 +122,7 @@ void TrajectoryBuilderStub::AddSensorData(
         async_grpc::Client<handlers::AddFixedFramePoseDataSignature>>(
         client_channel_);
   }
-  proto::AddFixedFramePoseDataRequest request;
+  cartographer_proto::cloud::AddFixedFramePoseDataRequest request;
   CreateAddFixedFramePoseDataRequest(sensor_id, trajectory_id_, client_id_,
                                      sensor::ToProto(fixed_frame_pose),
                                      &request);
@@ -136,7 +136,7 @@ void TrajectoryBuilderStub::AddSensorData(
         async_grpc::Client<handlers::AddLandmarkDataSignature>>(
         client_channel_);
   }
-  proto::AddLandmarkDataRequest request;
+  cartographer_proto::cloud::AddLandmarkDataRequest request;
   CreateAddLandmarkDataRequest(sensor_id, trajectory_id_, client_id_,
                                sensor::ToProto(landmark_data), &request);
   add_landmark_client_->Write(request);
@@ -150,7 +150,7 @@ void TrajectoryBuilderStub::AddLocalSlamResultData(
 void TrajectoryBuilderStub::RunLocalSlamResultsReader(
     async_grpc::Client<handlers::ReceiveLocalSlamResultsSignature>* client,
     LocalSlamResultCallback local_slam_result_callback) {
-  proto::ReceiveLocalSlamResultsResponse response;
+  cartographer_proto::cloud::ReceiveLocalSlamResultsResponse response;
   while (client->StreamRead(&response)) {
     int trajectory_id = response.trajectory_id();
     common::Time time = common::FromUniversal(response.timestamp());

@@ -185,12 +185,13 @@ class ClientServerTestBase : public T {
         ->mutable_submaps_options()
         ->mutable_range_data_inserter_options()
         ->set_range_data_inserter_type(
-            ::cartographer::mapping::proto::RangeDataInserterOptions::
+            ::cartographer_proto::cloud::mapping::RangeDataInserterOptions::
                 TSDF_INSERTER_2D);
     trajectory_builder_options_.mutable_trajectory_builder_2d_options()
         ->mutable_submaps_options()
         ->mutable_grid_options_2d()
-        ->set_grid_type(::cartographer::mapping::proto::GridOptions2D::TSDF);
+        ->set_grid_type(
+            ::cartographer_proto::cloud::mapping::GridOptions2D::TSDF);
     trajectory_builder_options_.mutable_trajectory_builder_2d_options()
         ->mutable_ceres_scan_matcher_options()
         ->set_occupied_space_weight(10.0);
@@ -218,12 +219,14 @@ class ClientServerTestBase : public T {
     }
   }
 
-  proto::MapBuilderServerOptions map_builder_server_options_;
-  proto::MapBuilderServerOptions uploading_map_builder_server_options_;
+  cartographer_proto::cloud::MapBuilderServerOptions
+      map_builder_server_options_;
+  cartographer_proto::cloud::MapBuilderServerOptions
+      uploading_map_builder_server_options_;
   MockMapBuilder* mock_map_builder_;
   std::unique_ptr<MockPoseGraph> mock_pose_graph_;
   std::unique_ptr<MockTrajectoryBuilder> mock_trajectory_builder_;
-  ::cartographer::mapping::proto::TrajectoryBuilderOptions
+  ::cartographer_proto::cloud::mapping::TrajectoryBuilderOptions
       trajectory_builder_options_;
   std::unique_ptr<MapBuilderServer> server_;
   std::unique_ptr<MapBuilderServer> uploading_server_;
@@ -745,7 +748,8 @@ TEST_P(ClientServerTestByGridType, LocalSlam2DHandlesInvalidRequests) {
   stub_->FinishTrajectory(kInvalidTrajectoryId);
   const mapping::SubmapId kInvalidSubmapId0{kInvalidTrajectoryId, 0},
       kInvalidSubmapId1{trajectory_id, 424242};
-  mapping::proto::SubmapQuery::Response submap_query_response;
+  cartographer_proto::cloud::mapping::SubmapQuery::Response
+      submap_query_response;
   // Expect that it returns non-empty error string.
   EXPECT_NE("",
             stub_->SubmapToProto(kInvalidSubmapId0, &submap_query_response));

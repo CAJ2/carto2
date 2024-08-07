@@ -25,9 +25,9 @@
 #include "cartographer/common/port.h"
 #include "cartographer/mapping/id.h"
 #include "cartographer/mapping/probability_values.h"
-#include "cartographer/mapping/proto/serialization.pb.h"
-#include "cartographer/mapping/proto/submap_visualization.pb.h"
 #include "cartographer/mapping/trajectory_node.h"
+#include "cartographer_proto/mapping/serialization.pb.h"
+#include "cartographer_proto/mapping/submap_visualization.pb.h"
 #include "glog/logging.h"
 
 namespace cartographer {
@@ -62,13 +62,15 @@ class Submap {
       : local_pose_(local_submap_pose) {}
   virtual ~Submap() {}
 
-  virtual proto::Submap ToProto(bool include_grid_data) const = 0;
-  virtual void UpdateFromProto(const proto::Submap& proto) = 0;
+  virtual cartographer_proto::mapping::Submap ToProto(
+      bool include_grid_data) const = 0;
+  virtual void UpdateFromProto(
+      const cartographer_proto::mapping::Submap& proto) = 0;
 
   // Fills data into the 'response'.
   virtual void ToResponseProto(
       const transform::Rigid3d& global_submap_pose,
-      proto::SubmapQuery::Response* response) const = 0;
+      cartographer_proto::mapping::SubmapQuery::Response* response) const = 0;
 
   // Pose of this submap in the local map frame.
   transform::Rigid3d local_pose() const { return local_pose_; }

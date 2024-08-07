@@ -21,9 +21,9 @@
 #include <set>
 #include <string>
 
-#include "cartographer/cloud/proto/map_builder_service.pb.h"
-#include "cartographer/mapping/proto/trajectory_builder_options.pb.h"
 #include "cartographer/mapping/trajectory_builder_interface.h"
+#include "cartographer_proto/cloud/map_builder_service.pb.h"
+#include "cartographer_proto/mapping/trajectory_builder_options.pb.h"
 #include "grpc++/support/status.h"
 
 namespace cartographer {
@@ -46,14 +46,15 @@ class LocalTrajectoryUploaderInterface {
 
   // Enqueue an Add*DataRequest message to be uploaded.
   virtual void EnqueueSensorData(
-      std::unique_ptr<proto::SensorData> sensor_data) = 0;
+      std::unique_ptr<cartographer_proto::cloud::SensorData> sensor_data) = 0;
 
   // Creates a new trajectory with the specified settings in the uplink. A
   // return 'value' with '!value.ok()' indicates that the creation failed.
   virtual grpc::Status AddTrajectory(
       const std::string& client_id, int local_trajectory_id,
       const std::set<SensorId>& expected_sensor_ids,
-      const mapping::proto::TrajectoryBuilderOptions& trajectory_options) = 0;
+      const cartographer_proto::cloud::mapping::TrajectoryBuilderOptions&
+          trajectory_options) = 0;
 
   virtual grpc::Status FinishTrajectory(const std::string& client_id,
                                         int local_trajectory_id) = 0;

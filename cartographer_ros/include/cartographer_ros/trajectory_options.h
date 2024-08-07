@@ -21,12 +21,12 @@
 
 #include "cartographer/common/lua_parameter_dictionary.h"
 #include "cartographer/common/port.h"
-#include "cartographer/mapping/proto/trajectory_builder_options.pb.h"
+#include "cartographer_proto/mapping/trajectory_builder_options.pb.h"
 
 namespace cartographer_ros {
 
 struct TrajectoryOptions {
-  ::cartographer::mapping::proto::TrajectoryBuilderOptions
+  ::cartographer_proto::mapping::TrajectoryBuilderOptions
       trajectory_builder_options;
   std::string tracking_frame;
   std::string published_frame;

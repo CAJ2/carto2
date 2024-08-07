@@ -61,7 +61,8 @@ class RangeDataInserterTest2D : public ::testing::Test {
   ValueConversionTables conversion_tables_;
   ProbabilityGrid probability_grid_;
   std::unique_ptr<ProbabilityGridRangeDataInserter2D> range_data_inserter_;
-  proto::ProbabilityGridRangeDataInserterOptions2D options_;
+  cartographer_proto::mapping::ProbabilityGridRangeDataInserterOptions2D
+      options_;
 };
 
 TEST_F(RangeDataInserterTest2D, InsertPointCloud) {

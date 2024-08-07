@@ -20,7 +20,7 @@
 #include <string>
 
 #include "cartographer/common/port.h"
-#include "cartographer/ground_truth/proto/relations.pb.h"
+#include "cartographer_proto/ground_truth/relations.pb.h"
 
 namespace cartographer {
 namespace ground_truth {
@@ -33,7 +33,8 @@ namespace ground_truth {
 // R. Kuemmerle, B. Steder, C. Dornhege, M. Ruhnke, G. Grisetti, C. Stachniss,
 // and A. Kleiner, "On measuring the accuracy of SLAM algorithms," Autonomous
 // Robots, vol. 27, no. 4, pp. 387–407, 2009.
-proto::GroundTruth ReadRelationsTextFile(const std::string& relations_filename);
+cartographer_proto::ground_truth::GroundTruth ReadRelationsTextFile(
+    const std::string& relations_filename);
 
 }  // namespace ground_truth
 }  // namespace cartographer

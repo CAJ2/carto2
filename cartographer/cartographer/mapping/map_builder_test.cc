@@ -77,11 +77,12 @@ class MapBuilderTestBase : public T {
         ->mutable_submaps_options()
         ->mutable_range_data_inserter_options()
         ->set_range_data_inserter_type(
-            proto::RangeDataInserterOptions::TSDF_INSERTER_2D);
+            cartographer_proto::mapping::RangeDataInserterOptions::
+                TSDF_INSERTER_2D);
     trajectory_builder_options_.mutable_trajectory_builder_2d_options()
         ->mutable_submaps_options()
         ->mutable_grid_options_2d()
-        ->set_grid_type(proto::GridOptions2D::TSDF);
+        ->set_grid_type(cartographer_proto::mapping::GridOptions2D::TSDF);
     trajectory_builder_options_.mutable_trajectory_builder_2d_options()
         ->mutable_ceres_scan_matcher_options()
         ->set_occupied_space_weight(10.0);
@@ -127,8 +128,9 @@ class MapBuilderTestBase : public T {
   }
 
   std::unique_ptr<MapBuilderInterface> map_builder_;
-  proto::MapBuilderOptions map_builder_options_;
-  proto::TrajectoryBuilderOptions trajectory_builder_options_;
+  cartographer_proto::mapping::MapBuilderOptions map_builder_options_;
+  cartographer_proto::mapping::TrajectoryBuilderOptions
+      trajectory_builder_options_;
   std::vector<::cartographer::transform::Rigid3d> local_slam_result_poses_;
 };
 

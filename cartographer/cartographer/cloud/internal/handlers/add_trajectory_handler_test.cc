@@ -85,7 +85,7 @@ class AddTrajectoryHandlerTest
 
  protected:
   std::set<mapping::TrajectoryBuilderInterface::SensorId> ParseSensorIds(
-      const proto::AddTrajectoryRequest &request) {
+      const cartographer_proto::cloud::AddTrajectoryRequest& request) {
     std::set<mapping::TrajectoryBuilderInterface::SensorId> expected_sensor_ids;
     for (const auto &sensor_id : request.expected_sensor_ids()) {
       expected_sensor_ids.insert(cloud::FromProto(sensor_id));
@@ -98,7 +98,7 @@ class AddTrajectoryHandlerTest
 
 TEST_F(AddTrajectoryHandlerTest, NoLocalSlamUploader) {
   SetNoLocalTrajectoryUploader();
-  proto::AddTrajectoryRequest request;
+  cartographer_proto::cloud::AddTrajectoryRequest request;
   EXPECT_TRUE(
       google::protobuf::TextFormat::ParseFromString(kMessage, &request));
   EXPECT_CALL(*mock_map_builder_,
@@ -115,7 +115,7 @@ TEST_F(AddTrajectoryHandlerTest, NoLocalSlamUploader) {
 
 TEST_F(AddTrajectoryHandlerTest, WithLocalSlamUploader) {
   SetMockLocalTrajectoryUploader();
-  proto::AddTrajectoryRequest request;
+  cartographer_proto::cloud::AddTrajectoryRequest request;
   EXPECT_TRUE(
       google::protobuf::TextFormat::ParseFromString(kMessage, &request));
   EXPECT_CALL(*mock_map_builder_,

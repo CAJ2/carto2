@@ -25,8 +25,8 @@
 #include "cartographer/io/points_processor.h"
 #include "cartographer/mapping/3d/hybrid_grid.h"
 #include "cartographer/mapping/detect_floors.h"
-#include "cartographer/mapping/proto/trajectory.pb.h"
 #include "cartographer/transform/rigid_transform.h"
+#include "cartographer_proto/mapping/trajectory.pb.h"
 
 namespace cartographer {
 namespace io {
@@ -43,11 +43,11 @@ class XRayPointsProcessor : public PointsProcessor {
       const std::vector<mapping::Floor>& floors,
       const DrawTrajectories& draw_trajectories,
       const std::string& output_filename,
-      const std::vector<mapping::proto::Trajectory>& trajectories,
+      const std::vector<cartographer_proto::mapping::Trajectory>& trajectories,
       FileWriterFactory file_writer_factory, PointsProcessor* next);
 
   static std::unique_ptr<XRayPointsProcessor> FromDictionary(
-      const std::vector<mapping::proto::Trajectory>& trajectories,
+      const std::vector<cartographer_proto::mapping::Trajectory>& trajectories,
       FileWriterFactory file_writer_factory,
       common::LuaParameterDictionary* dictionary, PointsProcessor* next);
 
@@ -76,7 +76,7 @@ class XRayPointsProcessor : public PointsProcessor {
   void Insert(const PointsBatch& batch, Aggregation* aggregation);
 
   const DrawTrajectories draw_trajectories_;
-  const std::vector<mapping::proto::Trajectory> trajectories_;
+  const std::vector<cartographer_proto::mapping::Trajectory> trajectories_;
   FileWriterFactory file_writer_factory_;
   PointsProcessor* const next_;
 

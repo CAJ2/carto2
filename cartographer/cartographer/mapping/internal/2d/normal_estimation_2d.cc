@@ -61,9 +61,10 @@ float EstimateNormal(const sensor::PointCloud& returns,
 }
 }  // namespace
 
-proto::NormalEstimationOptions2D CreateNormalEstimationOptions2D(
+cartographer_proto::mapping::NormalEstimationOptions2D
+CreateNormalEstimationOptions2D(
     common::LuaParameterDictionary* parameter_dictionary) {
-  proto::NormalEstimationOptions2D options;
+  cartographer_proto::mapping::NormalEstimationOptions2D options;
   options.set_num_normal_samples(
       parameter_dictionary->GetInt("num_normal_samples"));
   options.set_sample_radius(parameter_dictionary->GetDouble("sample_radius"));
@@ -77,7 +78,8 @@ proto::NormalEstimationOptions2D CreateNormalEstimationOptions2D(
 // the orientation of the vector from 'origin' to 'return'.
 std::vector<float> EstimateNormals(
     const sensor::RangeData& range_data,
-    const proto::NormalEstimationOptions2D& normal_estimation_options) {
+    const cartographer_proto::mapping::NormalEstimationOptions2D&
+        normal_estimation_options) {
   std::vector<float> normals;
   normals.reserve(range_data.returns.size());
   const size_t max_num_samples = normal_estimation_options.num_normal_samples();

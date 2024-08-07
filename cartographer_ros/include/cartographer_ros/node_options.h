@@ -22,14 +22,14 @@
 
 #include "cartographer/common/lua_parameter_dictionary.h"
 #include "cartographer/common/port.h"
-#include "cartographer/mapping/proto/map_builder_options.pb.h"
+#include "cartographer_proto/mapping/map_builder_options.pb.h"
 #include "cartographer_ros/trajectory_options.h"
 
 namespace cartographer_ros {
 
 // Top-level options of Cartographer's ROS integration.
 struct NodeOptions {
-  ::cartographer::mapping::proto::MapBuilderOptions map_builder_options;
+  ::cartographer_proto::mapping::MapBuilderOptions map_builder_options;
   std::string map_frame;
   double lookup_transform_timeout_sec;
   double submap_publish_period_sec;

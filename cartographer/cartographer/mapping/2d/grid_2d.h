@@ -22,15 +22,15 @@
 #include "cartographer/mapping/2d/map_limits.h"
 #include "cartographer/mapping/grid_interface.h"
 #include "cartographer/mapping/probability_values.h"
-#include "cartographer/mapping/proto/grid_2d.pb.h"
-#include "cartographer/mapping/proto/submap_visualization.pb.h"
-#include "cartographer/mapping/proto/submaps_options_2d.pb.h"
 #include "cartographer/mapping/value_conversion_tables.h"
+#include "cartographer_proto/mapping/grid_2d.pb.h"
+#include "cartographer_proto/mapping/submap_visualization.pb.h"
+#include "cartographer_proto/mapping/submaps_options_2d.pb.h"
 
 namespace cartographer {
 namespace mapping {
 
-proto::GridOptions2D CreateGridOptions2D(
+cartographer_proto::mapping::GridOptions2D CreateGridOptions2D(
     common::LuaParameterDictionary* const parameter_dictionary);
 
 enum class GridType { PROBABILITY_GRID, TSDF };
@@ -40,7 +40,7 @@ class Grid2D : public GridInterface {
   Grid2D(const MapLimits& limits, float min_correspondence_cost,
          float max_correspondence_cost,
          ValueConversionTables* conversion_tables);
-  explicit Grid2D(const proto::Grid2D& proto,
+  explicit Grid2D(const cartographer_proto::mapping::Grid2D& proto,
                   ValueConversionTables* conversion_tables);
 
   // Returns the limits of this Grid2D.
@@ -83,10 +83,11 @@ class Grid2D : public GridInterface {
 
   virtual std::unique_ptr<Grid2D> ComputeCroppedGrid() const = 0;
 
-  virtual proto::Grid2D ToProto() const;
+  virtual cartographer_proto::mapping::Grid2D ToProto() const;
 
   virtual bool DrawToSubmapTexture(
-      proto::SubmapQuery::Response::SubmapTexture* const texture,
+      cartographer_proto::mapping::SubmapQuery::Response::SubmapTexture* const
+          texture,
       transform::Rigid3d local_pose) const = 0;
 
  protected:

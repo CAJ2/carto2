@@ -41,7 +41,8 @@ class CollatedTrajectoryBuilder : public TrajectoryBuilderInterface {
   using SensorId = TrajectoryBuilderInterface::SensorId;
 
   CollatedTrajectoryBuilder(
-      const proto::TrajectoryBuilderOptions& trajectory_options,
+      const cartographer_proto::mapping::TrajectoryBuilderOptions&
+          trajectory_options,
       sensor::CollatorInterface* sensor_collator, int trajectory_id,
       const std::set<SensorId>& expected_sensor_ids,
       std::unique_ptr<TrajectoryBuilderInterface> wrapped_trajectory_builder);

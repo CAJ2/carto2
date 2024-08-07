@@ -26,18 +26,18 @@
 #include "cartographer/mapping/3d/hybrid_grid.h"
 #include "cartographer/mapping/3d/range_data_inserter_3d.h"
 #include "cartographer/mapping/id.h"
-#include "cartographer/mapping/proto/serialization.pb.h"
-#include "cartographer/mapping/proto/submap_visualization.pb.h"
-#include "cartographer/mapping/proto/submaps_options_3d.pb.h"
 #include "cartographer/mapping/submaps.h"
 #include "cartographer/sensor/range_data.h"
 #include "cartographer/transform/rigid_transform.h"
 #include "cartographer/transform/transform.h"
+#include "cartographer_proto/mapping/serialization.pb.h"
+#include "cartographer_proto/mapping/submap_visualization.pb.h"
+#include "cartographer_proto/mapping/submaps_options_3d.pb.h"
 
 namespace cartographer {
 namespace mapping {
 
-proto::SubmapsOptions3D CreateSubmapsOptions3D(
+cartographer_proto::mapping::SubmapsOptions3D CreateSubmapsOptions3D(
     common::LuaParameterDictionary* parameter_dictionary);
 
 class Submap3D : public Submap {
@@ -46,13 +46,16 @@ class Submap3D : public Submap {
            const transform::Rigid3d& local_submap_pose,
            const Eigen::VectorXf& rotational_scan_matcher_histogram);
 
-  explicit Submap3D(const proto::Submap3D& proto);
+  explicit Submap3D(const cartographer_proto::mapping::Submap3D& proto);
 
-  proto::Submap ToProto(bool include_probability_grid_data) const override;
-  void UpdateFromProto(const proto::Submap& proto) override;
+  cartographer_proto::mapping::Submap ToProto(
+      bool include_probability_grid_data) const override;
+  void UpdateFromProto(
+      const cartographer_proto::mapping::Submap& proto) override;
 
   void ToResponseProto(const transform::Rigid3d& global_submap_pose,
-                       proto::SubmapQuery::Response* response) const override;
+                       cartographer_proto::mapping::SubmapQuery::Response*
+                           response) const override;
 
   const HybridGrid& high_resolution_hybrid_grid() const {
     return *high_resolution_hybrid_grid_;
@@ -83,7 +86,7 @@ class Submap3D : public Submap {
   void Finish();
 
  private:
-  void UpdateFromProto(const proto::Submap3D& submap_3d);
+  void UpdateFromProto(const cartographer_proto::mapping::Submap3D& submap_3d);
 
   std::unique_ptr<HybridGrid> high_resolution_hybrid_grid_;
   std::unique_ptr<HybridGrid> low_resolution_hybrid_grid_;
@@ -103,7 +106,8 @@ class Submap3D : public Submap {
 // "new" submap gets created. The "old" submap is forgotten by this object.
 class ActiveSubmaps3D {
  public:
-  explicit ActiveSubmaps3D(const proto::SubmapsOptions3D& options);
+  explicit ActiveSubmaps3D(
+      const cartographer_proto::mapping::SubmapsOptions3D& options);
 
   ActiveSubmaps3D(const ActiveSubmaps3D&) = delete;
   ActiveSubmaps3D& operator=(const ActiveSubmaps3D&) = delete;
@@ -124,7 +128,7 @@ class ActiveSubmaps3D {
   void AddSubmap(const transform::Rigid3d& local_submap_pose,
                  int rotational_scan_matcher_histogram_size);
 
-  const proto::SubmapsOptions3D options_;
+  const cartographer_proto::mapping::SubmapsOptions3D options_;
   std::vector<std::shared_ptr<Submap3D>> submaps_;
   RangeDataInserter3D range_data_inserter_;
 };

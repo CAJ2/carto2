@@ -21,8 +21,8 @@
 
 #include "Eigen/Core"
 #include "cartographer/mapping/3d/hybrid_grid.h"
-#include "cartographer/mapping/proto/scan_matching/real_time_correlative_scan_matcher_options.pb.h"
 #include "cartographer/sensor/point_cloud.h"
+#include "cartographer_proto/mapping/scan_matching/real_time_correlative_scan_matcher_options.pb.h"
 
 namespace cartographer {
 namespace mapping {
@@ -33,8 +33,8 @@ namespace scan_matching {
 class RealTimeCorrelativeScanMatcher3D {
  public:
   explicit RealTimeCorrelativeScanMatcher3D(
-      const scan_matching::proto::RealTimeCorrelativeScanMatcherOptions&
-          options);
+      const cartographer_proto::mapping::scan_matching::
+          RealTimeCorrelativeScanMatcherOptions& options);
 
   RealTimeCorrelativeScanMatcher3D(const RealTimeCorrelativeScanMatcher3D&) =
       delete;
@@ -56,7 +56,8 @@ class RealTimeCorrelativeScanMatcher3D {
                        const sensor::PointCloud& transformed_point_cloud,
                        const transform::Rigid3f& transform) const;
 
-  const proto::RealTimeCorrelativeScanMatcherOptions options_;
+  const cartographer_proto::mapping::scan_matching::
+      RealTimeCorrelativeScanMatcherOptions options_;
 };
 
 }  // namespace scan_matching

@@ -19,11 +19,11 @@
 #include "absl/memory/memory.h"
 #include "async_grpc/rpc_handler.h"
 #include "cartographer/cloud/internal/map_builder_context_interface.h"
-#include "cartographer/cloud/proto/map_builder_service.pb.h"
 #include "cartographer/mapping/internal/local_slam_result_data.h"
 #include "cartographer/metrics/counter.h"
 #include "cartographer/sensor/internal/dispatchable.h"
 #include "cartographer/sensor/timed_point_cloud_data.h"
+#include "cartographer_proto/cloud/map_builder_service.pb.h"
 #include "google/protobuf/empty.pb.h"
 
 namespace cartographer {
@@ -35,8 +35,9 @@ metrics::Family<metrics::Counter>*
         metrics::Family<metrics::Counter>::Null();
 
 void AddSensorDataBatchHandler::OnRequest(
-    const proto::AddSensorDataBatchRequest& request) {
-  for (const proto::SensorData& sensor_data : request.sensor_data()) {
+    const cartographer_proto::cloud::AddSensorDataBatchRequest& request) {
+  for (const cartographer_proto::cloud::SensorData& sensor_data :
+       request.sensor_data()) {
     if (!GetContext<MapBuilderContextInterface>()->CheckClientIdForTrajectory(
             sensor_data.sensor_metadata().client_id(),
             sensor_data.sensor_metadata().trajectory_id())) {
@@ -51,7 +52,7 @@ void AddSensorDataBatchHandler::OnRequest(
         GetOrCreateClientMetrics(sensor_data.sensor_metadata().client_id(),
                                  sensor_data.sensor_metadata().trajectory_id());
     switch (sensor_data.sensor_data_case()) {
-      case proto::SensorData::kOdometryData:
+      case cartographer_proto::cloud::SensorData::kOdometryData:
         GetUnsynchronizedContext<MapBuilderContextInterface>()
             ->EnqueueSensorData(
                 sensor_data.sensor_metadata().trajectory_id(),
@@ -60,7 +61,7 @@ void AddSensorDataBatchHandler::OnRequest(
                     sensor::FromProto(sensor_data.odometry_data())));
         metrics->odometry_sensor_counter->Increment();
         break;
-      case proto::SensorData::kImuData:
+      case cartographer_proto::cloud::SensorData::kImuData:
         GetUnsynchronizedContext<MapBuilderContextInterface>()
             ->EnqueueSensorData(sensor_data.sensor_metadata().trajectory_id(),
                                 sensor::MakeDispatchable(
@@ -68,7 +69,7 @@ void AddSensorDataBatchHandler::OnRequest(
                                     sensor::FromProto(sensor_data.imu_data())));
         metrics->imu_sensor_counter->Increment();
         break;
-      case proto::SensorData::kTimedPointCloudData:
+      case cartographer_proto::cloud::SensorData::kTimedPointCloudData:
         GetUnsynchronizedContext<MapBuilderContextInterface>()
             ->EnqueueSensorData(
                 sensor_data.sensor_metadata().trajectory_id(),
@@ -77,7 +78,7 @@ void AddSensorDataBatchHandler::OnRequest(
                     sensor::FromProto(sensor_data.timed_point_cloud_data())));
         metrics->timed_point_cloud_counter->Increment();
         break;
-      case proto::SensorData::kFixedFramePoseData:
+      case cartographer_proto::cloud::SensorData::kFixedFramePoseData:
         GetUnsynchronizedContext<MapBuilderContextInterface>()
             ->EnqueueSensorData(
                 sensor_data.sensor_metadata().trajectory_id(),
@@ -86,7 +87,7 @@ void AddSensorDataBatchHandler::OnRequest(
                     sensor::FromProto(sensor_data.fixed_frame_pose_data())));
         metrics->fixed_frame_pose_counter->Increment();
         break;
-      case proto::SensorData::kLandmarkData:
+      case cartographer_proto::cloud::SensorData::kLandmarkData:
         GetUnsynchronizedContext<MapBuilderContextInterface>()
             ->EnqueueSensorData(
                 sensor_data.sensor_metadata().trajectory_id(),
@@ -95,7 +96,7 @@ void AddSensorDataBatchHandler::OnRequest(
                     sensor::FromProto(sensor_data.landmark_data())));
         metrics->landmark_counter->Increment();
         break;
-      case proto::SensorData::kLocalSlamResultData:
+      case cartographer_proto::cloud::SensorData::kLocalSlamResultData:
         GetContext<MapBuilderContextInterface>()->EnqueueLocalSlamResultData(
             sensor_data.sensor_metadata().trajectory_id(),
             sensor_data.sensor_metadata().sensor_id(),

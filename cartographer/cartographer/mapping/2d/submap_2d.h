@@ -24,34 +24,37 @@
 #include "cartographer/common/lua_parameter_dictionary.h"
 #include "cartographer/mapping/2d/grid_2d.h"
 #include "cartographer/mapping/2d/map_limits.h"
-#include "cartographer/mapping/proto/serialization.pb.h"
-#include "cartographer/mapping/proto/submap_visualization.pb.h"
-#include "cartographer/mapping/proto/submaps_options_2d.pb.h"
 #include "cartographer/mapping/range_data_inserter_interface.h"
 #include "cartographer/mapping/submaps.h"
 #include "cartographer/mapping/trajectory_node.h"
 #include "cartographer/mapping/value_conversion_tables.h"
 #include "cartographer/sensor/range_data.h"
 #include "cartographer/transform/rigid_transform.h"
+#include "cartographer_proto/mapping/serialization.pb.h"
+#include "cartographer_proto/mapping/submap_visualization.pb.h"
+#include "cartographer_proto/mapping/submaps_options_2d.pb.h"
 
 namespace cartographer {
 namespace mapping {
 
-proto::SubmapsOptions2D CreateSubmapsOptions2D(
+cartographer_proto::mapping::SubmapsOptions2D CreateSubmapsOptions2D(
     common::LuaParameterDictionary* parameter_dictionary);
 
 class Submap2D : public Submap {
  public:
   Submap2D(const Eigen::Vector2f& origin, std::unique_ptr<Grid2D> grid,
            ValueConversionTables* conversion_tables);
-  explicit Submap2D(const proto::Submap2D& proto,
+  explicit Submap2D(const cartographer_proto::mapping::Submap2D& proto,
                     ValueConversionTables* conversion_tables);
 
-  proto::Submap ToProto(bool include_grid_data) const override;
-  void UpdateFromProto(const proto::Submap& proto) override;
+  cartographer_proto::mapping::Submap ToProto(
+      bool include_grid_data) const override;
+  void UpdateFromProto(
+      const cartographer_proto::mapping::Submap& proto) override;
 
   void ToResponseProto(const transform::Rigid3d& global_submap_pose,
-                       proto::SubmapQuery::Response* response) const override;
+                       cartographer_proto::mapping::SubmapQuery::Response*
+                           response) const override;
 
   const Grid2D* grid() const { return grid_.get(); }
 
@@ -78,7 +81,8 @@ class Submap2D : public Submap {
 // "new" submap gets created. The "old" submap is forgotten by this object.
 class ActiveSubmaps2D {
  public:
-  explicit ActiveSubmaps2D(const proto::SubmapsOptions2D& options);
+  explicit ActiveSubmaps2D(
+      const cartographer_proto::mapping::SubmapsOptions2D& options);
 
   ActiveSubmaps2D(const ActiveSubmaps2D&) = delete;
   ActiveSubmaps2D& operator=(const ActiveSubmaps2D&) = delete;
@@ -95,7 +99,7 @@ class ActiveSubmaps2D {
   void FinishSubmap();
   void AddSubmap(const Eigen::Vector2f& origin);
 
-  const proto::SubmapsOptions2D options_;
+  const cartographer_proto::mapping::SubmapsOptions2D options_;
   std::vector<std::shared_ptr<Submap2D>> submaps_;
   std::unique_ptr<RangeDataInserterInterface> range_data_inserter_;
   ValueConversionTables conversion_tables_;

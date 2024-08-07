@@ -21,8 +21,8 @@
 namespace cartographer {
 namespace sensor {
 
-proto::ImuData ToProto(const ImuData& imu_data) {
-  proto::ImuData proto;
+cartographer_proto::sensor::ImuData ToProto(const ImuData& imu_data) {
+  cartographer_proto::sensor::ImuData proto;
   proto.set_timestamp(common::ToUniversal(imu_data.time));
   *proto.mutable_linear_acceleration() =
       transform::ToProto(imu_data.linear_acceleration);
@@ -31,7 +31,7 @@ proto::ImuData ToProto(const ImuData& imu_data) {
   return proto;
 }
 
-ImuData FromProto(const proto::ImuData& proto) {
+ImuData FromProto(const cartographer_proto::sensor::ImuData& proto) {
   return ImuData{common::FromUniversal(proto.timestamp()),
                  transform::ToEigen(proto.linear_acceleration()),
                  transform::ToEigen(proto.angular_velocity())};

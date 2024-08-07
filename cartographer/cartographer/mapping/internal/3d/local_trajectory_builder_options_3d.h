@@ -18,12 +18,13 @@
 #define CARTOGRAPHER_MAPPING_INTERNAL_3D_LOCAL_TRAJECTORY_BUILDER_OPTIONS_3D_H_
 
 #include "cartographer/common/lua_parameter_dictionary.h"
-#include "cartographer/mapping/proto/local_trajectory_builder_options_3d.pb.h"
+#include "cartographer_proto/mapping/local_trajectory_builder_options_3d.pb.h"
 
 namespace cartographer {
 namespace mapping {
 
-proto::LocalTrajectoryBuilderOptions3D CreateLocalTrajectoryBuilderOptions3D(
+cartographer_proto::mapping::LocalTrajectoryBuilderOptions3D
+CreateLocalTrajectoryBuilderOptions3D(
     common::LuaParameterDictionary* parameter_dictionary);
 
 }  // namespace mapping

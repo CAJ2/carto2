@@ -20,7 +20,7 @@
 #include "async_grpc/rpc_handler.h"
 #include "cartographer/cloud/internal/map_builder_context_interface.h"
 #include "cartographer/cloud/internal/mapping/serialization.h"
-#include "cartographer/cloud/proto/map_builder_service.pb.h"
+#include "cartographer_proto/cloud/map_builder_service.pb.h"
 #include "google/protobuf/empty.pb.h"
 
 namespace cartographer {
@@ -33,7 +33,8 @@ void GetTrajectoryStatesHandler::OnRequest(
                                 ->map_builder()
                                 .pose_graph()
                                 ->GetTrajectoryStates();
-  auto response = absl::make_unique<proto::GetTrajectoryStatesResponse>();
+  auto response = absl::make_unique<
+      cartographer_proto::cloud::GetTrajectoryStatesResponse>();
   for (const auto& entry : trajectories_state) {
     (*response->mutable_trajectories_state())[entry.first] =
         ToProto(entry.second);

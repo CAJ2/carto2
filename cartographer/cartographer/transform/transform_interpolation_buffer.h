@@ -21,9 +21,9 @@
 #include <limits>
 
 #include "cartographer/common/time.h"
-#include "cartographer/mapping/proto/trajectory.pb.h"
 #include "cartographer/transform/rigid_transform.h"
 #include "cartographer/transform/timestamped_transform.h"
+#include "cartographer_proto/mapping/trajectory.pb.h"
 
 namespace cartographer {
 namespace transform {
@@ -36,7 +36,7 @@ class TransformInterpolationBuffer {
  public:
   TransformInterpolationBuffer() = default;
   explicit TransformInterpolationBuffer(
-      const mapping::proto::Trajectory& trajectory);
+      const cartographer_proto::mapping::Trajectory& trajectory);
 
   // Sets the transform buffer size limit and removes old transforms
   // if it is exceeded.

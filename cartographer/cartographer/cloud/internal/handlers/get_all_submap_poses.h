@@ -18,7 +18,7 @@
 #define CARTOGRAPHER_CLOUD_INTERNAL_HANDLERS_GET_ALL_SUBMAP_POSES_H
 
 #include "async_grpc/rpc_handler.h"
-#include "cartographer/cloud/proto/map_builder_service.pb.h"
+#include "cartographer_proto/cloud/map_builder_service.pb.h"
 #include "google/protobuf/empty.pb.h"
 
 namespace cartographer {
@@ -27,7 +27,7 @@ namespace handlers {
 
 DEFINE_HANDLER_SIGNATURE(
     GetAllSubmapPosesSignature, google::protobuf::Empty,
-    proto::GetAllSubmapPosesResponse,
+    cartographer_proto::cloud::GetAllSubmapPosesResponse,
     "/cartographer.cloud.proto.MapBuilderService/GetAllSubmapPoses")
 
 class GetAllSubmapPosesHandler

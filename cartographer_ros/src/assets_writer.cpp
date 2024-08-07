@@ -19,8 +19,11 @@
 #include <algorithm>
 #include <fstream>
 #include <iostream>
+#include <rosbag2_cpp/reader.hpp>
+#include <rosbag2_cpp/readers/sequential_reader.hpp>
 
 #include "absl/memory/memory.h"
+#include "builtin_interfaces/msg/time.hpp"
 #include "cartographer/common/configuration_file_resolver.h"
 #include "cartographer/common/math.h"
 #include "cartographer/io/file_writer.h"
@@ -28,20 +31,17 @@
 #include "cartographer/io/points_processor_pipeline_builder.h"
 #include "cartographer/io/proto_stream.h"
 #include "cartographer/io/proto_stream_deserializer.h"
-#include "cartographer/mapping/proto/pose_graph.pb.h"
-#include "cartographer/mapping/proto/trajectory_builder_options.pb.h"
 #include "cartographer/sensor/point_cloud.h"
 #include "cartographer/sensor/range_data.h"
 #include "cartographer/transform/transform_interpolation_buffer.h"
+#include "cartographer_proto/mapping/pose_graph.pb.h"
+#include "cartographer_proto/mapping/trajectory_builder_options.pb.h"
 #include "cartographer_ros/msg_conversion.h"
 #include "cartographer_ros/ros_map_writing_points_processor.h"
 #include "cartographer_ros/time_conversion.h"
 #include "cartographer_ros/urdf_reader.h"
 #include "gflags/gflags.h"
 #include "glog/logging.h"
-#include "builtin_interfaces/msg/time.hpp"
-#include <rosbag2_cpp/reader.hpp>
-#include <rosbag2_cpp/readers/sequential_reader.hpp>
 #include "tf2_eigen/tf2_eigen.hpp"
 #include "tf2_msgs/msg/tf_message.hpp"
 #include "tf2_ros/buffer.h"
@@ -55,7 +55,7 @@ namespace carto = ::cartographer;
 
 std::unique_ptr<carto::io::PointsProcessorPipelineBuilder>
 CreatePipelineBuilder(
-    const std::vector<carto::mapping::proto::Trajectory>& trajectories,
+    const std::vector<::cartographer_proto::mapping::Trajectory>& trajectories,
     const std::string file_prefix) {
   const auto file_writer_factory =
       AssetsWriter::CreateFileWriterFactory(file_prefix);
@@ -149,7 +149,7 @@ AssetsWriter::AssetsWriter(const std::string& pose_graph_filename,
          "pose graph proto.";
 
   // This vector must outlive the pipeline.
-  all_trajectories_ = std::vector<::cartographer::mapping::proto::Trajectory>(
+  all_trajectories_ = std::vector<::cartographer_proto::mapping::Trajectory>(
       pose_graph_.trajectory().begin(), pose_graph_.trajectory().end());
 
   const std::string file_prefix = !output_file_prefix.empty()
@@ -182,7 +182,7 @@ void AssetsWriter::Run(const std::string& configuration_directory,
   do {
     for (size_t trajectory_id = 0; trajectory_id < bag_filenames_.size();
          ++trajectory_id) {
-      const carto::mapping::proto::Trajectory& trajectory_proto =
+      const ::cartographer_proto::mapping::Trajectory& trajectory_proto =
           pose_graph_.trajectory(trajectory_id);
       const std::string& bag_filename = bag_filenames_[trajectory_id];
       LOG(INFO) << "Processing " << bag_filename << "...";

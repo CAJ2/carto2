@@ -18,7 +18,7 @@
 #define CARTOGRAPHER_CLOUD_INTERNAL_HANDLERS_GET_CONSTRAINTS_HANDLER_H
 
 #include "async_grpc/rpc_handler.h"
-#include "cartographer/cloud/proto/map_builder_service.pb.h"
+#include "cartographer_proto/cloud/map_builder_service.pb.h"
 #include "google/protobuf/empty.pb.h"
 
 namespace cartographer {
@@ -27,7 +27,7 @@ namespace handlers {
 
 DEFINE_HANDLER_SIGNATURE(
     GetConstraintsSignature, google::protobuf::Empty,
-    proto::GetConstraintsResponse,
+    cartographer_proto::cloud::GetConstraintsResponse,
     "/cartographer.cloud.proto.MapBuilderService/GetConstraints")
 
 class GetConstraintsHandler

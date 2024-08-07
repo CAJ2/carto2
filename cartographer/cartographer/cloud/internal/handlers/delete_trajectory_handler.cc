@@ -19,7 +19,7 @@
 #include "absl/memory/memory.h"
 #include "async_grpc/rpc_handler.h"
 #include "cartographer/cloud/internal/map_builder_context_interface.h"
-#include "cartographer/cloud/proto/map_builder_service.pb.h"
+#include "cartographer_proto/cloud/map_builder_service.pb.h"
 #include "google/protobuf/empty.pb.h"
 
 namespace cartographer {
@@ -27,7 +27,7 @@ namespace cloud {
 namespace handlers {
 
 void DeleteTrajectoryHandler::OnRequest(
-    const proto::DeleteTrajectoryRequest& request) {
+    const cartographer_proto::cloud::DeleteTrajectoryRequest& request) {
   if (!GetContext<MapBuilderContextInterface>()->CheckClientIdForTrajectory(
           request.client_id(), request.trajectory_id())) {
     LOG(ERROR) << "Unknown trajectory with ID " << request.trajectory_id()

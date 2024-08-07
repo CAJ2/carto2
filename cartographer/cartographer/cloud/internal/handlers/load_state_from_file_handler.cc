@@ -20,14 +20,14 @@
 #include "async_grpc/rpc_handler.h"
 #include "cartographer/cloud/internal/map_builder_context_interface.h"
 #include "cartographer/cloud/internal/mapping/serialization.h"
-#include "cartographer/cloud/proto/map_builder_service.pb.h"
+#include "cartographer_proto/cloud/map_builder_service.pb.h"
 
 namespace cartographer {
 namespace cloud {
 namespace handlers {
 
 void LoadStateFromFileHandler::OnRequest(
-    const proto::LoadStateFromFileRequest& request) {
+    const cartographer_proto::cloud::LoadStateFromFileRequest& request) {
   // TODO(gaschler): This blocks a handler thread, consider working in
   // background.
   auto trajectory_remapping =
@@ -37,7 +37,8 @@ void LoadStateFromFileHandler::OnRequest(
     GetContext<MapBuilderContextInterface>()->RegisterClientIdForTrajectory(
         request.client_id(), entry.second);
   }
-  auto response = absl::make_unique<proto::LoadStateFromFileResponse>();
+  auto response =
+      absl::make_unique<cartographer_proto::cloud::LoadStateFromFileResponse>();
   *response->mutable_trajectory_remapping() = ToProto(trajectory_remapping);
   Send(std::move(response));
 }

@@ -37,9 +37,9 @@ common::Time UnixToCommonTime(double unix_time) {
 
 }  // namespace
 
-proto::GroundTruth ReadRelationsTextFile(
+cartographer_proto::ground_truth::GroundTruth ReadRelationsTextFile(
     const std::string& relations_filename) {
-  proto::GroundTruth ground_truth;
+  cartographer_proto::ground_truth::GroundTruth ground_truth;
   std::ifstream relations_stream(relations_filename.c_str());
   double unix_time_1, unix_time_2, x, y, z, roll, pitch, yaw;
   while (relations_stream >> unix_time_1 >> unix_time_2 >> x >> y >> z >>

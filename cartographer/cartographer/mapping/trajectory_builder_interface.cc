@@ -25,7 +25,8 @@ namespace mapping {
 namespace {
 
 void PopulatePureLocalizationTrimmerOptions(
-    proto::TrajectoryBuilderOptions* const trajectory_builder_options,
+    cartographer_proto::mapping::TrajectoryBuilderOptions* const
+        trajectory_builder_options,
     common::LuaParameterDictionary* const parameter_dictionary) {
   constexpr char kDictionaryKey[] = "pure_localization_trimmer";
   if (!parameter_dictionary->HasKey(kDictionaryKey)) return;
@@ -38,7 +39,8 @@ void PopulatePureLocalizationTrimmerOptions(
 }
 
 void PopulatePoseGraphOdometryMotionFilterOptions(
-    proto::TrajectoryBuilderOptions* const trajectory_builder_options,
+    cartographer_proto::mapping::TrajectoryBuilderOptions* const
+        trajectory_builder_options,
     common::LuaParameterDictionary* const parameter_dictionary) {
   constexpr char kDictionaryKey[] = "pose_graph_odometry_motion_filter";
   if (!parameter_dictionary->HasKey(kDictionaryKey)) return;
@@ -56,9 +58,10 @@ void PopulatePoseGraphOdometryMotionFilterOptions(
 
 }  // namespace
 
-proto::TrajectoryBuilderOptions CreateTrajectoryBuilderOptions(
+cartographer_proto::mapping::TrajectoryBuilderOptions
+CreateTrajectoryBuilderOptions(
     common::LuaParameterDictionary* const parameter_dictionary) {
-  proto::TrajectoryBuilderOptions options;
+  cartographer_proto::mapping::TrajectoryBuilderOptions options;
   *options.mutable_trajectory_builder_2d_options() =
       CreateLocalTrajectoryBuilderOptions2D(
           parameter_dictionary->GetDictionary("trajectory_builder_2d").get());
@@ -74,26 +77,29 @@ proto::TrajectoryBuilderOptions CreateTrajectoryBuilderOptions(
   return options;
 }
 
-proto::SensorId ToProto(const TrajectoryBuilderInterface::SensorId& sensor_id) {
-  proto::SensorId sensor_id_proto;
+cartographer_proto::mapping::SensorId ToProto(
+    const TrajectoryBuilderInterface::SensorId& sensor_id) {
+  cartographer_proto::mapping::SensorId sensor_id_proto;
   switch (sensor_id.type) {
     case TrajectoryBuilderInterface::SensorId::SensorType::RANGE:
-      sensor_id_proto.set_type(proto::SensorId::RANGE);
+      sensor_id_proto.set_type(cartographer_proto::mapping::SensorId::RANGE);
       break;
     case TrajectoryBuilderInterface::SensorId::SensorType::IMU:
-      sensor_id_proto.set_type(proto::SensorId::IMU);
+      sensor_id_proto.set_type(cartographer_proto::mapping::SensorId::IMU);
       break;
     case TrajectoryBuilderInterface::SensorId::SensorType::ODOMETRY:
-      sensor_id_proto.set_type(proto::SensorId::ODOMETRY);
+      sensor_id_proto.set_type(cartographer_proto::mapping::SensorId::ODOMETRY);
       break;
     case TrajectoryBuilderInterface::SensorId::SensorType::FIXED_FRAME_POSE:
-      sensor_id_proto.set_type(proto::SensorId::FIXED_FRAME_POSE);
+      sensor_id_proto.set_type(
+          cartographer_proto::mapping::SensorId::FIXED_FRAME_POSE);
       break;
     case TrajectoryBuilderInterface::SensorId::SensorType::LANDMARK:
-      sensor_id_proto.set_type(proto::SensorId::LANDMARK);
+      sensor_id_proto.set_type(cartographer_proto::mapping::SensorId::LANDMARK);
       break;
     case TrajectoryBuilderInterface::SensorId::SensorType::LOCAL_SLAM_RESULT:
-      sensor_id_proto.set_type(proto::SensorId::LOCAL_SLAM_RESULT);
+      sensor_id_proto.set_type(
+          cartographer_proto::mapping::SensorId::LOCAL_SLAM_RESULT);
       break;
     default:
       LOG(FATAL) << "Unsupported sensor type.";
@@ -103,28 +109,28 @@ proto::SensorId ToProto(const TrajectoryBuilderInterface::SensorId& sensor_id) {
 }
 
 TrajectoryBuilderInterface::SensorId FromProto(
-    const proto::SensorId& sensor_id_proto) {
+    const cartographer_proto::mapping::SensorId& sensor_id_proto) {
   TrajectoryBuilderInterface::SensorId sensor_id;
   switch (sensor_id_proto.type()) {
-    case proto::SensorId::RANGE:
+    case cartographer_proto::mapping::SensorId::RANGE:
       sensor_id.type = TrajectoryBuilderInterface::SensorId::SensorType::RANGE;
       break;
-    case proto::SensorId::IMU:
+    case cartographer_proto::mapping::SensorId::IMU:
       sensor_id.type = TrajectoryBuilderInterface::SensorId::SensorType::IMU;
       break;
-    case proto::SensorId::ODOMETRY:
+    case cartographer_proto::mapping::SensorId::ODOMETRY:
       sensor_id.type =
           TrajectoryBuilderInterface::SensorId::SensorType::ODOMETRY;
       break;
-    case proto::SensorId::FIXED_FRAME_POSE:
+    case cartographer_proto::mapping::SensorId::FIXED_FRAME_POSE:
       sensor_id.type =
           TrajectoryBuilderInterface::SensorId::SensorType::FIXED_FRAME_POSE;
       break;
-    case proto::SensorId::LANDMARK:
+    case cartographer_proto::mapping::SensorId::LANDMARK:
       sensor_id.type =
           TrajectoryBuilderInterface::SensorId::SensorType::LANDMARK;
       break;
-    case proto::SensorId::LOCAL_SLAM_RESULT:
+    case cartographer_proto::mapping::SensorId::LOCAL_SLAM_RESULT:
       sensor_id.type =
           TrajectoryBuilderInterface::SensorId::SensorType::LOCAL_SLAM_RESULT;
       break;

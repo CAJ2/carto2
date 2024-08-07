@@ -18,20 +18,21 @@
 #define CARTOGRAPHER_MAPPING_3D_RANGE_DATA_INSERTER_3D_H_
 
 #include "cartographer/mapping/3d/hybrid_grid.h"
-#include "cartographer/mapping/proto/range_data_inserter_options_3d.pb.h"
 #include "cartographer/sensor/point_cloud.h"
 #include "cartographer/sensor/range_data.h"
+#include "cartographer_proto/mapping/range_data_inserter_options_3d.pb.h"
 
 namespace cartographer {
 namespace mapping {
 
-proto::RangeDataInserterOptions3D CreateRangeDataInserterOptions3D(
+cartographer_proto::mapping::RangeDataInserterOptions3D
+CreateRangeDataInserterOptions3D(
     common::LuaParameterDictionary* parameter_dictionary);
 
 class RangeDataInserter3D {
  public:
   explicit RangeDataInserter3D(
-      const proto::RangeDataInserterOptions3D& options);
+      const cartographer_proto::mapping::RangeDataInserterOptions3D& options);
 
   RangeDataInserter3D(const RangeDataInserter3D&) = delete;
   RangeDataInserter3D& operator=(const RangeDataInserter3D&) = delete;
@@ -42,7 +43,7 @@ class RangeDataInserter3D {
               IntensityHybridGrid* intensity_hybrid_grid) const;
 
  private:
-  const proto::RangeDataInserterOptions3D options_;
+  const cartographer_proto::mapping::RangeDataInserterOptions3D options_;
   const std::vector<uint16> hit_table_;
   const std::vector<uint16> miss_table_;
 };
