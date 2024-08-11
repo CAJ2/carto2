@@ -1,2 +1,5 @@
 build
 bazel-*
+log
+install
+.DS_Store

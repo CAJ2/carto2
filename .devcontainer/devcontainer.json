@@ -1,0 +1,53 @@
+// See https://aka.ms/vscode-remote/devcontainer.json for format details.
+{
+    "name": "cartographer-dev",
+    "build": {
+        "dockerfile": "../docker/Dockerfile.ros",
+        "context": ".."
+    },
+    "runArgs": [
+        // "--ipc=host", // shared memory transport with host, e.g. rviz GUIs
+        // "--network=host", // network access to host interfaces, e.g. eth0
+        // "--pid=host", // DDS discovery with host, without --network=host
+        // "--privileged", // device access to host peripherals, e.g. USB
+        // "--security-opt=seccomp=unconfined", // enable debugging, e.g. gdb
+    ],
+    "workspaceFolder": "/ros_ws",
+    "workspaceMount": "source=${localWorkspaceFolder},target=${containerWorkspaceFolder},type=bind",
+    // This will launch the container as a non-root user
+    "remoteUser": "ros",
+    // This will allow you to use a ptrace-based debugger like C++, Go, and Rust.
+    "capAdd": [
+        "SYS_PTRACE"
+    ],
+    "securityOpt": [
+        "seccomp=unconfined"
+    ],
+    "features": {
+        "ghcr.io/devcontainers/features/common-utils:2": {
+            "username": "ros"
+        },
+        "ghcr.io/devcontainers/features/github-cli:1": {}
+    },
+    "customizations": {
+        "vscode": {
+            "settings": {
+                "terminal.integrated.defaultProfile.linux": "zsh"
+            },
+            "extensions": [
+                "ms-azuretools.vscode-docker",
+                "ms-vscode.cpptools",
+                "zachflower.uncrustify",
+                "ms-python.python",
+                "ms-python.black-formatter",
+                "twxs.cmake",
+                "ms-vscode.cmake-tools",
+                "ms-iot.vscode-ros",
+                "yzhang.markdown-all-in-one",
+                "redhat.vscode-yaml",
+                "redhat.vscode-xml",
+                "zxh404.vscode-proto3"
+            ]
+        }
+    }
+}
