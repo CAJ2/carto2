@@ -2,9 +2,9 @@ name: Ubuntu 22.04 CI
 
 on:
     push:
-        branches: ["master"]
+        branches: ["main"]
     pull_request:
-        branches: ["master"]
+        branches: ["main"]
 
 jobs:
     build:
@@ -12,4 +12,4 @@ jobs:
         steps:
         - uses: actions/checkout@v3
         - name: Run the Dockerfile
-          run: docker build . -f Dockerfile.jammy
+          run: docker build . -f docker/Dockerfile.jammy
