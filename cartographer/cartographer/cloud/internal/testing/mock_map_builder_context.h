@@ -59,7 +59,7 @@ class MockMapBuilderContext : public MapBuilderContextInterface {
   MOCK_METHOD3(
       EnqueueLocalSlamResultData,
       void(int, const std::string&,
-           const cartographer_proto::cloud::mapping::LocalSlamResultData&));
+           const cartographer_proto::mapping::LocalSlamResultData&));
   MOCK_METHOD2(RegisterClientIdForTrajectory, void(const std::string &, int));
   MOCK_METHOD2(CheckClientIdForTrajectory, bool(const std::string &, int));
 };

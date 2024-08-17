@@ -53,7 +53,7 @@ class LocalTrajectoryUploaderInterface {
   virtual grpc::Status AddTrajectory(
       const std::string& client_id, int local_trajectory_id,
       const std::set<SensorId>& expected_sensor_ids,
-      const cartographer_proto::cloud::mapping::TrajectoryBuilderOptions&
+      const cartographer_proto::mapping::TrajectoryBuilderOptions&
           trajectory_options) = 0;
 
   virtual grpc::Status FinishTrajectory(const std::string& client_id,

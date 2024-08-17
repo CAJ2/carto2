@@ -126,12 +126,12 @@ bool MapBuilderContext<SubmapType>::CheckClientIdForTrajectory(
 template <>
 void MapBuilderContext<mapping::Submap2D>::EnqueueLocalSlamResultData(
     int trajectory_id, const std::string& sensor_id,
-    const cartographer_proto::cloud::mapping::LocalSlamResultData&
+    const cartographer_proto::mapping::LocalSlamResultData&
         local_slam_result_data);
 template <>
 void MapBuilderContext<mapping::Submap3D>::EnqueueLocalSlamResultData(
     int trajectory_id, const std::string& sensor_id,
-    const cartographer_proto::cloud::mapping::LocalSlamResultData&
+    const cartographer_proto::mapping::LocalSlamResultData&
         local_slam_result_data);
 
 }  // namespace cloud

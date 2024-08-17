@@ -40,7 +40,7 @@ class MockLocalTrajectoryUploader : public LocalTrajectoryUploaderInterface {
       AddTrajectory,
       grpc::Status(
           const std::string&, int, const std::set<SensorId>&,
-          const cartographer_proto::cloud::mapping::TrajectoryBuilderOptions&));
+          const cartographer_proto::mapping::TrajectoryBuilderOptions&));
   MOCK_METHOD2(FinishTrajectory, grpc::Status(const std::string &, int));
   MOCK_CONST_METHOD1(GetLocalSlamResultSensorId, SensorId(int));
 };

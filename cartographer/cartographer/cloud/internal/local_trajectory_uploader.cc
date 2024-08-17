@@ -49,7 +49,7 @@ const std::set<::grpc::StatusCode> kUnrecoverableStatusCodes = {
     ::grpc::UNKNOWN,
 };
 
-bool IsNewSubmap(const cartographer_proto::cloud::mapping::Submap& submap) {
+bool IsNewSubmap(const cartographer_proto::mapping::Submap& submap) {
   return (submap.has_submap_2d() && submap.submap_2d().num_range_data() == 1) ||
          (submap.has_submap_3d() && submap.submap_3d().num_range_data() == 1);
 }
@@ -60,7 +60,7 @@ class LocalTrajectoryUploader : public LocalTrajectoryUploaderInterface {
     // nullopt if uplink has not yet responded to AddTrajectoryRequest.
     absl::optional<int> uplink_trajectory_id;
     const std::set<SensorId> expected_sensor_ids;
-    const cartographer_proto::cloud::mapping::TrajectoryBuilderOptions
+    const cartographer_proto::mapping::TrajectoryBuilderOptions
         trajectory_options;
     const std::string client_id;
   };
@@ -81,7 +81,7 @@ class LocalTrajectoryUploader : public LocalTrajectoryUploaderInterface {
   grpc::Status AddTrajectory(
       const std::string& client_id, int local_trajectory_id,
       const std::set<SensorId>& expected_sensor_ids,
-      const cartographer_proto::cloud::mapping::TrajectoryBuilderOptions&
+      const cartographer_proto::mapping::TrajectoryBuilderOptions&
           trajectory_options) final;
   grpc::Status FinishTrajectory(const std::string& client_id,
                                 int local_trajectory_id) final;
@@ -222,7 +222,7 @@ void LocalTrajectoryUploader::ProcessSendQueue() {
       // A submap also holds a trajectory id that must be translated to uplink's
       // trajectory id.
       if (added_sensor_data->has_local_slam_result_data()) {
-        for (cartographer_proto::cloud::mapping::Submap& mutable_submap :
+        for (cartographer_proto::mapping::Submap& mutable_submap :
              *added_sensor_data->mutable_local_slam_result_data()
                   ->mutable_submaps()) {
           mutable_submap.mutable_submap_id()->set_trajectory_id(
@@ -268,7 +268,7 @@ bool LocalTrajectoryUploader::TranslateTrajectoryId(
 grpc::Status LocalTrajectoryUploader::AddTrajectory(
     const std::string& client_id, int local_trajectory_id,
     const std::set<SensorId>& expected_sensor_ids,
-    const cartographer_proto::cloud::mapping::TrajectoryBuilderOptions&
+    const cartographer_proto::mapping::TrajectoryBuilderOptions&
         trajectory_options) {
   CHECK_EQ(local_trajectory_id_to_trajectory_info_.count(local_trajectory_id),
            0);

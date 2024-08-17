@@ -61,7 +61,7 @@ MapBuilderStub::MapBuilderStub(const std::string& server_address,
 
 int MapBuilderStub::AddTrajectoryBuilder(
     const std::set<SensorId>& expected_sensor_ids,
-    const cartographer_proto::cloud::mapping::TrajectoryBuilderOptions&
+    const cartographer_proto::mapping::TrajectoryBuilderOptions&
         trajectory_options,
     LocalSlamResultCallback local_slam_result_callback) {
   cartographer_proto::cloud::AddTrajectoryRequest request;
@@ -88,7 +88,7 @@ int MapBuilderStub::AddTrajectoryBuilder(
 }
 
 int MapBuilderStub::AddTrajectoryForDeserialization(
-    const cartographer_proto::cloud::mapping::
+    const cartographer_proto::mapping::
         TrajectoryBuilderOptionsWithSensorIds& options_with_sensor_ids_proto) {
   LOG(FATAL) << "Not implemented";
 }
@@ -121,7 +121,7 @@ void MapBuilderStub::FinishTrajectory(int trajectory_id) {
 
 std::string MapBuilderStub::SubmapToProto(
     const mapping::SubmapId& submap_id,
-    cartographer_proto::cloud::mapping::SubmapQuery::Response*
+    cartographer_proto::mapping::SubmapQuery::Response*
         submap_query_response) {
   cartographer_proto::cloud::GetSubmapRequest request;
   submap_id.ToProto(request.mutable_submap_id());
@@ -243,7 +243,7 @@ mapping::PoseGraphInterface* MapBuilderStub::pose_graph() {
 }
 
 const std::vector<
-    cartographer_proto::cloud::mapping::TrajectoryBuilderOptionsWithSensorIds>&
+    cartographer_proto::mapping::TrajectoryBuilderOptionsWithSensorIds>&
 MapBuilderStub::GetAllTrajectoryBuilderOptions() const {
   LOG(FATAL) << "Not implemented";
 }

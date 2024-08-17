@@ -24,7 +24,7 @@ namespace cloud {
 template <>
 void MapBuilderContext<mapping::Submap2D>::EnqueueLocalSlamResultData(
     int trajectory_id, const std::string& sensor_id,
-    const cartographer_proto::cloud::mapping::LocalSlamResultData&
+    const cartographer_proto::mapping::LocalSlamResultData&
         local_slam_result_data) {
   map_builder_server_->incoming_data_queue_.Push(absl::make_unique<Data>(
       Data{trajectory_id,
@@ -35,7 +35,7 @@ void MapBuilderContext<mapping::Submap2D>::EnqueueLocalSlamResultData(
 template <>
 void MapBuilderContext<mapping::Submap3D>::EnqueueLocalSlamResultData(
     int trajectory_id, const std::string& sensor_id,
-    const cartographer_proto::cloud::mapping::LocalSlamResultData&
+    const cartographer_proto::mapping::LocalSlamResultData&
         local_slam_result_data) {
   map_builder_server_->incoming_data_queue_.Push(absl::make_unique<Data>(
       Data{trajectory_id,

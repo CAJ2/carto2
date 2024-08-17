@@ -209,7 +209,7 @@ PoseGraphStub::constraints() const {
   return mapping::FromProto(client.response().constraints());
 }
 
-cartographer_proto::cloud::mapping::PoseGraph PoseGraphStub::ToProto(
+cartographer_proto::mapping::PoseGraph PoseGraphStub::ToProto(
     bool include_unfinished_submaps) const {
   LOG(FATAL) << "Not implemented";
 }

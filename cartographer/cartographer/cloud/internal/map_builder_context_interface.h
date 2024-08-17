@@ -91,7 +91,7 @@ class MapBuilderContextInterface : public async_grpc::ExecutionContext {
                                  std::unique_ptr<sensor::Data> data) = 0;
   virtual void EnqueueLocalSlamResultData(
       int trajectory_id, const std::string& sensor_id,
-      const cartographer_proto::cloud::mapping::LocalSlamResultData&
+      const cartographer_proto::mapping::LocalSlamResultData&
           local_slam_result_data) = 0;
   virtual void RegisterClientIdForTrajectory(const std::string& client_id,
                                              int trajectory_id) = 0;

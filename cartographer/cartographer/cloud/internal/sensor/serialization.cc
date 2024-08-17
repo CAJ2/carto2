@@ -30,7 +30,7 @@ void CreateSensorMetadata(const std::string& sensor_id, const int trajectory_id,
 void CreateAddFixedFramePoseDataRequest(
     const std::string& sensor_id, int trajectory_id,
     const std::string& client_id,
-    const cartographer_proto::cloud::sensor::FixedFramePoseData&
+    const cartographer_proto::sensor::FixedFramePoseData&
         fixed_frame_pose_data,
     cartographer_proto::cloud::AddFixedFramePoseDataRequest* proto) {
   CreateSensorMetadata(sensor_id, trajectory_id, client_id,
@@ -41,7 +41,7 @@ void CreateAddFixedFramePoseDataRequest(
 void CreateAddImuDataRequest(
     const std::string& sensor_id, const int trajectory_id,
     const std::string& client_id,
-    const cartographer_proto::cloud::sensor::ImuData& imu_data,
+    const cartographer_proto::sensor::ImuData& imu_data,
     cartographer_proto::cloud::AddImuDataRequest* proto) {
   CreateSensorMetadata(sensor_id, trajectory_id, client_id,
                        proto->mutable_sensor_metadata());
@@ -51,7 +51,7 @@ void CreateAddImuDataRequest(
 void CreateAddOdometryDataRequest(
     const std::string& sensor_id, int trajectory_id,
     const std::string& client_id,
-    const cartographer_proto::cloud::sensor::OdometryData& odometry_data,
+    const cartographer_proto::sensor::OdometryData& odometry_data,
     cartographer_proto::cloud::AddOdometryDataRequest* proto) {
   CreateSensorMetadata(sensor_id, trajectory_id, client_id,
                        proto->mutable_sensor_metadata());
@@ -61,7 +61,7 @@ void CreateAddOdometryDataRequest(
 void CreateAddRangeFinderDataRequest(
     const std::string& sensor_id, int trajectory_id,
     const std::string& client_id,
-    const cartographer_proto::cloud::sensor::TimedPointCloudData&
+    const cartographer_proto::sensor::TimedPointCloudData&
         timed_point_cloud_data,
     cartographer_proto::cloud::AddRangefinderDataRequest* proto) {
   CreateSensorMetadata(sensor_id, trajectory_id, client_id,
@@ -72,7 +72,7 @@ void CreateAddRangeFinderDataRequest(
 void CreateAddLandmarkDataRequest(
     const std::string& sensor_id, int trajectory_id,
     const std::string& client_id,
-    const cartographer_proto::cloud::sensor::LandmarkData& landmark_data,
+    const cartographer_proto::sensor::LandmarkData& landmark_data,
     cartographer_proto::cloud::AddLandmarkDataRequest* proto) {
   CreateSensorMetadata(sensor_id, trajectory_id, client_id,
                        proto->mutable_sensor_metadata());
